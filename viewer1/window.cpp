@@ -33,16 +33,10 @@ void Window::onCreate() {
                                  {.source = assetsPath + "depth.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
 
-  body.create(m_program);
+  m_model.loadObj(assetsPath + "bunny.obj");
+  m_model.setupVAO(m_program);
 
-  m_trianglesToDraw = body.getNumTriangles();
-  fmt::print("{}\n",m_trianglesToDraw);
-  fmt::print("{}\n",body.m_vertices.size());
-
-  for(auto i: iter::range(body.m_vertices.size())){
-    fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",body.m_vertices[i].position[0],body.m_vertices[i].position[1],body.m_vertices[i].position[2]);
-  }
-
+  m_trianglesToDraw = m_model.getNumTriangles();
 }
 
 void Window::onUpdate() {
@@ -75,13 +69,32 @@ void Window::onPaint() {
   abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
   abcg::glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); // White
 
-  body.render(m_trianglesToDraw);
+  m_model.render(m_trianglesToDraw);
 
   abcg::glUseProgram(0);
 }
 
 void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
+
+  // Create window for slider
+  {
+    ImGui::SetNextWindowPos(ImVec2(5, m_viewportSize.y - 94));
+    ImGui::SetNextWindowSize(ImVec2(m_viewportSize.x - 10, -1));
+    ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
+
+    // Create a slider to control the number of rendered triangles
+    {
+      // Slider will fill the space of the window
+      ImGui::PushItemWidth(m_viewportSize.x - 25);
+      ImGui::SliderInt(" ", &m_trianglesToDraw, 0, m_model.getNumTriangles(),
+                       "%d triangles");
+      ImGui::PopItemWidth();
+    }
+
+    ImGui::End();
+  }
+
   // Create a window for the other widgets
   {
     auto const widgetSize{ImVec2(222, 90)};
@@ -163,5 +176,6 @@ void Window::onResize(glm::ivec2 const &size) {
 }
 
 void Window::onDestroy() {
+  m_model.destroy();
   abcg::glDeleteProgram(m_program);
 }

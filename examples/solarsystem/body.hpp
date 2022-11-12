@@ -4,13 +4,26 @@
 #include "abcgOpenGL.hpp"
 #include "path.hpp"
 
+struct Vertex {
+  glm::vec3 position{};
+
+  friend bool operator==(Vertex const &, Vertex const &) = default;
+};
+
 class Body {
 public:
   void create(GLuint program);
   void paint();
   void destroy();
   void update();
+  void createBuffers();
+  void render(int numTriangles = -1) const;
 
+  [[nodiscard]] int getNumTriangles() const {
+    return gsl::narrow<int>(m_indices.size()) / 3;
+  }
+  std::vector<Vertex> m_vertices;
+  std::vector<GLuint> m_indices;
 
 protected:
   GLuint m_VAO{};
@@ -29,6 +42,8 @@ protected:
   glm::vec3 rotation_axis{};
   glm::vec3 translation_axis{};
   glm::vec3 distance{};
+
+
   
 };
 

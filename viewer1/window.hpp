@@ -2,7 +2,7 @@
 #define WINDOW_HPP_
 
 #include "abcgOpenGL.hpp"
-#include "body.hpp"
+#include "model.hpp"
 #include "trackball.hpp"
 
 class Window : public abcg::OpenGLWindow {
@@ -18,12 +18,12 @@ protected:
 private:
   glm::ivec2 m_viewportSize{};
 
-  Body body;
-  int m_trianglesToDraw;
+  Model m_model;
+  int m_trianglesToDraw{};
 
   TrackBall m_trackBall;
   float m_zoom{};
-  
+
   glm::mat4 m_modelMatrix{1.0f};
   glm::mat4 m_viewMatrix{1.0f};
   glm::mat4 m_projMatrix{1.0f};
