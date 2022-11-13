@@ -17,7 +17,7 @@ public:
   void destroy();
   void update();
   void createBuffers();
-  void render(int numTriangles = -1) const;
+  void render() const;
 
   [[nodiscard]] int getNumTriangles() const {
     return gsl::narrow<int>(m_indices.size()) / 3;
@@ -25,7 +25,6 @@ public:
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
 
-protected:
   GLuint m_VAO{};
   GLuint m_VBO{};
   GLuint m_EBO{};
@@ -36,13 +35,16 @@ protected:
   Path path;
 
   float scale{1.0f};
+  glm::vec3 position{};
 
-  glm::vec3 initial_posisiton{0.0f};
-  
   glm::vec3 rotation_axis{};
   glm::vec3 translation_axis{};
-  glm::vec3 distance{};
+  float distance{};
+  glm::vec4 color{};
 
+
+  GLint m_modelMatrixLoc{};
+  GLint m_colorLoc{};
 
   
 };

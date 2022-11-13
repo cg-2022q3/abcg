@@ -4,8 +4,8 @@
 #include "abcgOpenGL.hpp"
 #include "body.hpp"
 
-class Moon: protected Body {
-protected:
+class Moon: public Body {
+public:
   std::string name{""};
 
 };

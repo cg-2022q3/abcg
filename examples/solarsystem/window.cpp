@@ -17,7 +17,6 @@ void Window::onEvent(SDL_Event const &event) {
   }
   if (event.type == SDL_MOUSEWHEEL) {
     m_zoom += (event.wheel.y > 0 ? -1.0f : 1.0f) / 5.0f;
-    m_zoom = glm::clamp(m_zoom, -1.5f, 1.0f);
   }
 }
 
@@ -26,6 +25,7 @@ void Window::onCreate() {
 
   abcg::glClearColor(0, 0, 0, 1);
   abcg::glEnable(GL_DEPTH_TEST);
+  
 
   m_program =
       abcg::createOpenGLProgram({{.source = assetsPath + "depth.vert",
@@ -33,15 +33,41 @@ void Window::onCreate() {
                                  {.source = assetsPath + "depth.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
 
-  body.create(m_program);
 
-  m_trianglesToDraw = body.getNumTriangles();
-  fmt::print("{}\n",m_trianglesToDraw);
-  fmt::print("{}\n",body.m_vertices.size());
+  // create sun
+  sun.create(m_program);
+  sun.scale = 0.2f;
+  sun.position = {0.0f,0.0f, 0.0f};
 
-  for(auto i: iter::range(body.m_vertices.size())){
-    fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",body.m_vertices[i].position[0],body.m_vertices[i].position[1],body.m_vertices[i].position[2]);
+  // create mercury
+  Planet mercury;
+  mercury.scale = 0.1f;
+  mercury.distance = 3.0f;
+  mercury.satellite_of = &sun;
+  sun.planets.push_back(mercury);
+
+  // create venus
+  Planet venus;
+  venus.scale = 0.1f;
+  venus.distance = 6.0f;
+  venus.satellite_of = &sun;
+  sun.planets.push_back(venus);
+
+  float centerx = venus.satellite_of->position[0];
+  float centery = venus.satellite_of->position[1];
+  float centerz = venus.satellite_of->position[2];
+
+  fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",centerx,centery,centerz);
+
+  for (auto &pnt : sun.planets){
+    pnt.create(m_program);
   }
+
+  // fmt::print("{}\n",sun.m_vertices.size());
+
+  // for(auto i: iter::range(sun.m_vertices.size())){
+  //   fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",sun.m_vertices[i].position[0],sun.m_vertices[i].position[1],sun.m_vertices[i].position[2]);
+  // }
 
 }
 
@@ -63,19 +89,17 @@ void Window::onPaint() {
   // Get location of uniform variables
   auto const viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
   auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
-  auto const modelMatrixLoc{
-      abcg::glGetUniformLocation(m_program, "modelMatrix")};
-  auto const colorLoc{abcg::glGetUniformLocation(m_program, "color")};
 
   // Set uniform variables that have the same value for every model
   abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_viewMatrix[0][0]);
   abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_projMatrix[0][0]);
 
-  // Set uniform variables for the current model
-  abcg::glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, &m_modelMatrix[0][0]);
-  abcg::glUniform4f(colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); // White
+  
+  sun.render();
+  for (auto &pnt : sun.planets){
+    pnt.render();
+  }
 
-  body.render(m_trianglesToDraw);
 
   abcg::glUseProgram(0);
 }
@@ -147,9 +171,9 @@ void Window::onPaintUI() {
         auto const aspect{gsl::narrow<float>(m_viewportSize.x) /
                           gsl::narrow<float>(m_viewportSize.y)};
         m_projMatrix =
-            glm::perspective(glm::radians(45.0f), aspect, 0.1f, 5.0f);
+            glm::perspective(glm::radians(45.0f), aspect, 0.1f, 25.0f);
       } else {
-        m_projMatrix = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 5.0f);
+        m_projMatrix = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 25.0f);
       }
     }
 

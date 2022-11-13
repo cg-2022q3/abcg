@@ -2,13 +2,13 @@
 #define PLANET_HPP_
 
 #include "abcgOpenGL.hpp"
-#include "body.hpp"
+#include "moon.hpp"
 
-class Planet: protected Body {
-protected:
+class Planet: public Body {
+public:
   std::string name{""};
 
-  std::list<Body> satellites{};
+  std::vector<Moon> moons{};
 };
 
 #endif

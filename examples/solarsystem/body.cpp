@@ -4,6 +4,11 @@
 void Body::create(GLuint program){
   generateUVSphere(20,24);
   createBuffers();
+  
+  m_modelMatrixLoc = abcg::glGetUniformLocation(program, "modelMatrix");
+  m_colorLoc = abcg::glGetUniformLocation(program, "color");
+
+
   // Release previous VAO
   abcg::glDeleteVertexArrays(1, &m_VAO);
 
@@ -27,6 +32,12 @@ void Body::create(GLuint program){
   // End of binding
   abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
   abcg::glBindVertexArray(0);
+
+  if (satellite_of){
+    
+    position = satellite_of->position + glm::vec3{0.0f, distance, 0.0f};
+
+  }
 
 }
 
@@ -117,13 +128,20 @@ void Body::createBuffers() {
   abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-void Body::render(int numTriangles) const {
+void Body::render() const {
+
+  glm::mat4 modelMatrix{1.0f};
+
+  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
+  modelMatrix = glm::translate(modelMatrix, position);
+  
+  // Set uniform variables for the current model
+  abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
+  abcg::glUniform4f(m_colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); // White
+
   abcg::glBindVertexArray(m_VAO);
 
-  auto const numIndices{(numTriangles < 0) ? m_indices.size()
-                                           : numTriangles * 3};
-
-  abcg::glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, nullptr);
+  abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
   abcg::glBindVertexArray(0);
 }
