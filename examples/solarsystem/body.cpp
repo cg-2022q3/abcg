@@ -2,7 +2,7 @@
 
 
 void Body::create(GLuint program){
-  generateUVSphere(20,20);
+  generateUVSphere(20,24);
   createBuffers();
   // Release previous VAO
   abcg::glDeleteVertexArrays(1, &m_VAO);
