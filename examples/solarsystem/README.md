@@ -139,7 +139,23 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 * Possui 14 satélites naturais e possuí discretos anéis.
 
 
-## O Código do Projeto
+## O Projeto
+Para esse projeto foi criada uma simulação do Sistema Solar (descrito acima). 
+
+## Os Códigos
+
+#### main.cpp
+Semelhante aos main.cpp todos projetos apresentados em sala de aula, somente sofrendo alteração no título da janela
+
+~~~C++
+    Window window;
+    window.setOpenGLSettings({.samples = 4});
+    window.setWindowSettings({
+        .width = 600,
+        .height = 600,
+        .title = "Solar System Simulation",
+    });
+~~~
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
