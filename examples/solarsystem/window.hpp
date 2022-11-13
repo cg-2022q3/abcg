@@ -1,6 +1,5 @@
 #ifndef WINDOW_HPP_
 #define WINDOW_HPP_
-
 #include "abcgOpenGL.hpp"
 #include "sun.hpp"
 #include "trackball.hpp"
