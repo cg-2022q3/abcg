@@ -21,7 +21,6 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 * Com um diâmetro equatorial de 1.391.016 km.
 * 98% da sua composição é dos gases hélio e hidrogênio.
 * Sua temperatura de seu núcleo chega aproximadamente 15,7 milhoes de graus Celsius, em sua superfície a temperatura pode chegar a 5.500°C.
-* 
 
 ## Os Planetas do Sistema Solar
 
