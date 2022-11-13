@@ -11,6 +11,18 @@ Localizado na Via Láctea, o Sistema Solar é formado por 8 planetas (Mercúrio,
 
 Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutão perdeu o posto de planeta para planeta anão, deixando muitas discussões em relação ao seu rebaixamento.
 
+## O Sol
+<div align="center">
+<img src="https://user-images.githubusercontent.com/47281465/201503735-62ad1cd4-d01e-4fdc-b18c-e4f0301c6cac.jpg" width="300px" />
+</div>
+
+* A maior estrela do Sistema Solar, detem aproximadamente 99,8% da massa total do conjunto de corpos celestes, porém não é a maior da Via Láctea, por esse motivo é chamada de estrela anã amarela.
+* Sua circunferência mede 4,3 milhoes de quilômetros.
+* Com um diâmetro equatorial de 1.391.016 km.
+* 98% da sua composição é dos gases hélio e hidrogênio.
+* Sua temperatura de seu núcleo chega aproximadamente 15,7 milhoes de graus Celsius, em sua superfície a temperatura pode chegar a 5.500°C.
+* 
+
 ## Os Planetas do Sistema Solar
 
 ### Mercúrio
