@@ -161,7 +161,7 @@ Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofre
 Semelhante ao apresentado em aula (Visualizado 3D), essa é uma classe que simula um trackball virtual, onde o usuário pode interagir com o sistema solar, dado ou retirando zoom (para aproximar ou afastar) e movimentar o sistema solar.
 
 #### TrackBall.cpp
-Semelhante ao apresentado em aula (Visualizado 3D), aqui temos as implementações das funções apresentadas no 
+Semelhante ao apresentado em aula (Visualizado 3D), aqui temos as implementações das funções apresentadas no `TrackBall.hpp
 
 
 
