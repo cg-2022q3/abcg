@@ -20,6 +20,7 @@ void Window::onEvent(SDL_Event const &event) {
   }
 }
 
+
 void Window::onCreate() {
   auto const assetsPath{abcg::Application::getAssetsPath()};
 
