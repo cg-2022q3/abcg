@@ -145,24 +145,24 @@ Para esse projeto foi criada uma simulação do Sistema Solar (descrito acima).
 ## Os Códigos
 
 #### main.cpp
-Semelhante aos main.cpp todos projetos apresentados em sala de aula, somente sofrendo alteração no título da janela, Solar System Simulation.
+Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofrendo alteração no título da janela, Solar System Simulation.
 
-```cpp
-1    Window window;
-2    window.setOpenGLSettings({.samples = 4});
-3    window.setWindowSettings({
-4        .width = 600,
-5        .height = 600,
-6        .title = "Solar System Simulation",
-7    });
+```C++
+    Window window;
+    window.setOpenGLSettings({.samples = 4});
+    window.setWindowSettings({
+        .width = 600,
+        .height = 600,
+        .title = "Solar System Simulation",
+    });
 ```
 
 #### TrackBall.hpp
-Semelhante ao apresentado em aula, essa é uma classe que simula um trackball virtual, onde o usuário pode interagir com o sistema solar, dado ou retirando zoom (para aproximar ou afastar) e movimentar o sistema solar.
+Semelhante ao apresentado em aula (Visualizado 3D), essa é uma classe que simula um trackball virtual, onde o usuário pode interagir com o sistema solar, dado ou retirando zoom (para aproximar ou afastar) e movimentar o sistema solar.
 
-```cpp
+#### TrackBall.cpp
+Semelhante ao apresentado em aula (Visualizado 3D), aqui temos as implementações das funções apresentadas no 
 
-```
 
 
 ### Referências
