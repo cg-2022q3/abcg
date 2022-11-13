@@ -47,7 +47,7 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 </div>
 
 * Com 149,6 milhões de quilômetros de proximidade do Sol, o planeta Terra é o terceiro nesse sistema.
-* Possuí um diâmetro equatorial de 12.756,2 Km (o sexto maior planeta do Sistema Solar).
+* Possuí um diâmetro equatorial de 12.756,2 Km.
 * Seu movimento de translação é executado ao uma velocidade de aproximadamente 29,8 km/s.
 * Sua atmosfera é composta de 78% de nitrogênio, 21% de oxigênio e 1% de outros compostos. Sua superfície é 71% coberta por água. Possui um satélite natural, a Lua.
 * O único planeta que não recebeu o nome de um deus.
@@ -60,7 +60,7 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 </div>
 
 * O quarto planeta do Sistema Solar (com 227,94 milhões de quilômetros de proximidade).
-* Possuí um diâmetro equatorial de 6.794,4 Km (o sexto maior planeta do Sistema Solar).
+* Possuí um diâmetro equatorial de 6.794,4 Km.
 * Seu movimento de translação é executado ao uma velocidade de aproximadamente 24,1 km/s.
 * O dia em Marte tem duração de 24 horas e 37 minutos terrestre (movimento de rotação) e o ano 687 dias terrestres (movimento de translação).
 * Sua atmosfera é composta basicamente por gás carbônico (cerca de 95%), dióxido de carbono, nitrogênio, argônio, néon e oxigênio.
@@ -71,16 +71,16 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 
 
 
-### Jupíter
+### Júpiter
 <div align="center">
 <img src="https://user-images.githubusercontent.com/47281465/201501849-aa2c1338-b76a-46b8-bba7-6ddcb1cccb04.jpg" width="300px" />
 </div>
 
-* O maior planeta do Sistema Solar, o quinto planeta possuí uma distância de 778,33 milhões de quilômetros até o Sol.
-* Possuí um diâmetro equatorial de 142.984 Km (o sexto maior planeta do Sistema Solar).
+* É o maior planeta do Sistema Solar, o quinto planeta possuí uma distância de 778,33 milhões de quilômetros até o Sol.
+* Possuí um diâmetro equatorial de 142.984 Km.
 * Seu movimento de translação é executado ao uma velocidade de aproximadamente 13,1 km/s.
 * O dia em Júpiter tem duração de aproximadamente 10 horas terrestre (movimento de rotação) e o ano tem duração de aproximadamente 12 anos terrestres (movimento de translação).
-* Sua atmosfera é composta principalmente de hidrogênio e hélio
+* Júpiter compõe o quarteto dos planetas gasosos, onde sua atmosfera é composta principalmente de hidrogênio e hélio
 * A média de temperatura nesse planeta é de -110°C.
 * Possui 79 luas, e possuí um discreto sistema de anéis (que é inperceptível da Terra).
 
@@ -88,16 +88,46 @@ Até 2006, o Sistema Solar era composto por 9 planetas, porém nesse ano, Plutã
 
 ### Saturno
 <div align="center">
-<img src="https://user-images.githubusercontent.com/47281465/201501849-aa2c1338-b76a-46b8-bba7-6ddcb1cccb04.jpg" width="300px" />
+<img src="https://user-images.githubusercontent.com/47281465/201502456-f6ad998d-6fda-478a-853e-639e273a9b56.jpg" width="300px" />
 </div>
 
-* O maior planeta do Sistema Solar, o quinto planeta possuí uma distância de 778,33 milhões de quilômetros até o Sol.
-* Possuí um diâmetro equatorial de 142.984 Km (o sexto maior planeta do Sistema Solar).
-* Seu movimento de translação é executado ao uma velocidade de aproximadamente 13,1 km/s.
-* O dia em Júpiter tem duração de aproximadamente 10 horas terrestre (movimento de rotação) e o ano tem duração de aproximadamente 12 anos terrestres (movimento de translação).
-* Sua atmosfera é composta principalmente de hidrogênio e hélio
-* A média de temperatura nesse planeta é de -110°C.
-* Possui 79 luas, e possuí um discreto sistema de anéis (que é inperceptível da Terra).
+* É o segundo maior planeta do Sistema Solar, o sexto planeta (um dos planetas gasossos) possuí uma distância de 1.429,4 milhões de quilômetros até o Sol.
+* Possuí um diâmetro equatorial de 120.536 Km (cerca de 9 vezes o tamanho da Terra).
+* Seu movimento de translação é executado ao uma velocidade de aproximadamente 9,7 km/s.
+* O dia em Júpiter tem duração de aproximadamente 10 horas e 39 minutos terrestre (movimento de rotação) e o ano tem duração de aproximadamente 29 anos, 167 dias e 6 horas terrestres (movimento de translação).
+* Saturno é um planeta gasoso, sendo basicamente composto de hidrogênio.
+* Possui 20 satélites naturais, e possuí um complexo sistema de anéis em sua volta (estima-se que 30% seja composto por água).
+
+
+
+### Urano
+<div align="center">
+<img src="https://user-images.githubusercontent.com/47281465/201502757-c5118446-a002-4fee-91d5-dfd2b37712f1.jpg" width="300px" />
+</div>
+
+* É o terceiro maior planeta do Sistema Solar, o sétimo planeta possuí uma distância de 2.870,99 milhões de quilômetros até o Sol.
+* Possuí um diâmetro equatorial de 51.118 Km.
+* Seu movimento de translação é executado ao uma velocidade de aproximadamente 6,8 km/s.
+* O dia em Júpiter tem duração de aproximadamente 18 horas terrestre (movimento de rotação) e o ano tem duração de aproximadamente 84 anos terrestres (movimento de translação).
+* Urano é um planeta gasosso, onde sua atmosfera é composta basicamente de 83% de hidrogênio, 15% hélio e 2% metano.
+* A temperatura média nesse planeta é de -195°C.
+* Possui 27 satélites naturaise e possuí 13 anéis.
+
+
+
+### Netuno
+<div align="center">
+<img src="https://user-images.githubusercontent.com/47281465/201503266-f2f560ca-f72b-4633-95bc-fa907c4b2cb0.jpg" width="300px" />
+</div>
+
+* O oitavo planeta possuí uma distância de 4.504,3 milhões de quilômetros até o Sol.
+* Possuí um diâmetro equatorial de 49.538 Km.
+* Seu movimento de translação é executado ao uma velocidade de aproximadamente 5,4 km/s.
+* O dia em Júpiter tem duração de aproximadamente 16 horas e 11 minutos terrestre (movimento de rotação) e o ano tem duração de aproximadamente 164,8 anos terrestres (movimento de translação).
+* Netuno é um dos planetas gasosos, onde sua atmosfera é composta de hidrogênio, hélio, água e metano (que o fornece a cor azulada).
+* Possui 14 satélites naturais e possuí discretos anéis.
+
+
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
