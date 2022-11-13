@@ -147,7 +147,7 @@ Para esse projeto foi criada uma simulação do Sistema Solar (descrito acima).
 #### main.cpp
 Semelhante aos main.cpp todos projetos apresentados em sala de aula, somente sofrendo alteração no título da janela
 
-~~~C++
+```cpp
     Window window;
     window.setOpenGLSettings({.samples = 4});
     window.setWindowSettings({
@@ -155,7 +155,7 @@ Semelhante aos main.cpp todos projetos apresentados em sala de aula, somente sof
         .height = 600,
         .title = "Solar System Simulation",
     });
-~~~
+```
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
