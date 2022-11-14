@@ -34,8 +34,9 @@ void Body::create(GLuint program){
   abcg::glBindVertexArray(0);
 
   if (satellite_of){
-    
     position = satellite_of->position + glm::vec3{0.0f, distance, 0.0f};
+    fmt::print("satellite of: :{}\n", satellite_of->name);
+    fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
 
   }
 
@@ -48,10 +49,13 @@ void Body::destroy(){
 }
 
 void Body::update(){
-
+  if (satellite_of){
+    position = satellite_of->position + glm::vec3{0.0f, distance, 0.0f};
+  }
 }
 
 void Body::generateUVSphere(int stacks, int sectors){
+  // geneterates a UV sphere with radius 1.0f
   float sectorAngle, stackAngle, x, y, z, xy;
   float sectorStep = 2 * M_PI / sectors;
   float stackStep = M_PI / stacks;
@@ -129,15 +133,15 @@ void Body::createBuffers() {
 }
 
 void Body::render() const {
-
+  // fmt::print("{}",name);
   glm::mat4 modelMatrix{1.0f};
 
-  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
   modelMatrix = glm::translate(modelMatrix, position);
+  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
   
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
-  abcg::glUniform4f(m_colorLoc, 1.0f, 1.0f, 1.0f, 1.0f); // White
+  abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 
 
   abcg::glBindVertexArray(m_VAO);
 

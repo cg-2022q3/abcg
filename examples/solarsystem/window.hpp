@@ -1,7 +1,7 @@
 #ifndef WINDOW_HPP_
 #define WINDOW_HPP_
 #include "abcgOpenGL.hpp"
-#include "sun.hpp"
+#include "body.hpp"
 #include "trackball.hpp"
 
 class Window : public abcg::OpenGLWindow {
@@ -17,10 +17,10 @@ protected:
 private:
   glm::ivec2 m_viewportSize{};
 
-  Sun sun;
-  Planet planet;
-  int m_trianglesToDraw;
-
+  Body sun;
+  std::vector<Body> planets;
+  std::vector<Body> moons;
+  
   TrackBall m_trackBall;
   float m_zoom{};
 

@@ -4,17 +4,6 @@ void Window::onEvent(SDL_Event const &event) {
   glm::ivec2 mousePosition;
   SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 
-  if (event.type == SDL_MOUSEMOTION) {
-    m_trackBall.mouseMove(mousePosition);
-  }
-  if (event.type == SDL_MOUSEBUTTONDOWN &&
-      event.button.button == SDL_BUTTON_LEFT) {
-    m_trackBall.mousePress(mousePosition);
-  }
-  if (event.type == SDL_MOUSEBUTTONUP &&
-      event.button.button == SDL_BUTTON_LEFT) {
-    m_trackBall.mouseRelease(mousePosition);
-  }
   if (event.type == SDL_MOUSEWHEEL) {
     m_zoom += (event.wheel.y > 0 ? -1.0f : 1.0f) / 5.0f;
   }
@@ -36,32 +25,101 @@ void Window::onCreate() {
 
 
   // create sun
-  sun.create(m_program);
-  sun.scale = 0.2f;
+  sun.name = "Sun";
+  sun.scale = 0.3f;
+  sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
   sun.position = {0.0f,0.0f, 0.0f};
+  sun.create(m_program);
 
   // create mercury
-  Planet mercury;
+  Body mercury;
+  mercury.name = "Mercury";
   mercury.scale = 0.1f;
-  mercury.distance = 3.0f;
+  mercury.color = {0.33f, 0.33f, 0.34f, 1.0f};
+  mercury.distance = 0.5f;
   mercury.satellite_of = &sun;
-  sun.planets.push_back(mercury);
+  planets.push_back(std::move(mercury));
 
   // create venus
-  Planet venus;
+  Body venus;
+  venus.name = "Venus";
   venus.scale = 0.1f;
-  venus.distance = 6.0f;
+  venus.color = {0.48f, 0.38f, 0.14f, 1.0f};
+  venus.distance = 1.0f;
   venus.satellite_of = &sun;
-  sun.planets.push_back(venus);
+  planets.push_back(std::move(venus));
 
-  float centerx = venus.satellite_of->position[0];
-  float centery = venus.satellite_of->position[1];
-  float centerz = venus.satellite_of->position[2];
+  // create earth
+  Body earth;
+  earth.name = "Earth";
+  earth.scale = 0.1f;
+  earth.color = {0.12f, 0.35f, 0.53f, 1.0f};
+  earth.distance = 1.5f;
+  earth.satellite_of = &sun;
+  planets.push_back(std::move(earth));
 
-  fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",centerx,centery,centerz);
+  // create Mars
+  Body mars;
+  mars.name = "Mars";
+  mars.scale = 0.1f;
+  mars.color = {0.61f, 0.18, 0.21, 1.0f};
+  mars.distance = 2.0f;
+  mars.satellite_of = &sun;
+  planets.push_back(std::move(mars));
 
-  for (auto &pnt : sun.planets){
-    pnt.create(m_program);
+  // create Jupiter
+  Body jupiter;
+  jupiter.name = "Jupiter";
+  jupiter.scale = 0.2f;
+  jupiter.color = {0.61f, 0.18, 0.21, 1.0f};
+  jupiter.distance = 2.5f;
+  jupiter.satellite_of = &sun;
+  planets.push_back(std::move(jupiter));
+
+  // create Saturn
+  Body saturn;
+  saturn.name = "Saturn";
+  saturn.scale = 0.1f;
+  saturn.color = {0.61f, 0.18, 0.21, 1.0f};
+  saturn.distance = 3.0f;
+  saturn.satellite_of = &sun;
+  planets.push_back(std::move(saturn));
+
+  // create Uranus
+  Body uranus;
+  uranus.name = "Uranus";
+  uranus.scale = 0.1f;
+  uranus.color = {0.29f, 0.35f, 0.36f, 1.0f};
+  uranus.distance = 3.5f;
+  uranus.satellite_of = &sun;
+  planets.push_back(std::move(uranus));
+
+  // create Neptune
+  Body neptune;
+  neptune.name = "Uranus";
+  neptune.scale = 0.1f;
+  neptune.color = {0.16f, 0.31f, 0.53f, 1.0f};
+  neptune.distance = 4.0f;
+  neptune.satellite_of = &sun;
+  planets.push_back(std::move(neptune));
+
+  for (auto &planet : planets){
+    planet.create(m_program);
+  }
+  
+
+  // create Moon
+  Body moon;
+  moon.name = "Moon";
+  moon.scale = 0.1f;
+  moon.color = {1.0f,1.0f,1.0f,1.0f};
+  moon.distance = 0.3f;
+  moon.satellite_of = &earth;
+  moons.push_back(std::move(moon));
+
+
+  for (auto &moon : moons){
+    moon.create(m_program);
   }
 
   // fmt::print("{}\n",sun.m_vertices.size());
@@ -73,11 +131,17 @@ void Window::onCreate() {
 }
 
 void Window::onUpdate() {
-  m_modelMatrix = m_trackBall.getRotation();
-
   m_viewMatrix =
       glm::lookAt(glm::vec3(0.0f, 0.0f, 2.0f + m_zoom),
                   glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+  sun.update();
+  for (auto &planet : planets){
+    planet.update();
+  }                
+  // for (auto &moon : moons){
+  //   moon.update();
+  // }
 }
 
 void Window::onPaint() {
@@ -97,8 +161,11 @@ void Window::onPaint() {
 
   
   sun.render();
-  for (auto &pnt : sun.planets){
-    pnt.render();
+  for (auto &planet : planets){
+    planet.render();
+  }
+  for (auto &moon : moons){
+    moon.render();
   }
 
 
@@ -114,77 +181,14 @@ void Window::onPaintUI() {
     ImGui::SetNextWindowSize(widgetSize);
     ImGui::Begin("Widget window", nullptr, ImGuiWindowFlags_NoDecoration);
 
-    static bool faceCulling{};
-    ImGui::Checkbox("Back-face culling", &faceCulling);
-
-    if (faceCulling) {
-      abcg::glEnable(GL_CULL_FACE);
-    } else {
-      abcg::glDisable(GL_CULL_FACE);
-    }
-
-    // CW/CCW combo box
-    {
-      static std::size_t currentIndex{};
-      std::vector<std::string> const comboItems{"CCW", "CW"};
-
-      ImGui::PushItemWidth(120);
-      if (ImGui::BeginCombo("Front face",
-                            comboItems.at(currentIndex).c_str())) {
-        for (auto const index : iter::range(comboItems.size())) {
-          auto const isSelected{currentIndex == index};
-          if (ImGui::Selectable(comboItems.at(index).c_str(), isSelected))
-            currentIndex = index;
-          if (isSelected)
-            ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-      }
-      ImGui::PopItemWidth();
-
-      if (currentIndex == 0) {
-        abcg::glFrontFace(GL_CCW);
-      } else {
-        abcg::glFrontFace(GL_CW);
-      }
-    }
-
-    // Projection combo box
-    {
-      static std::size_t currentIndex{};
-      std::vector<std::string> comboItems{"Perspective", "Orthographic"};
-
-      ImGui::PushItemWidth(120);
-      if (ImGui::BeginCombo("Projection",
-                            comboItems.at(currentIndex).c_str())) {
-        for (auto const index : iter::range(comboItems.size())) {
-          auto const isSelected{currentIndex == index};
-          if (ImGui::Selectable(comboItems.at(index).c_str(), isSelected))
-            currentIndex = index;
-          if (isSelected)
-            ImGui::SetItemDefaultFocus();
-        }
-        ImGui::EndCombo();
-      }
-      ImGui::PopItemWidth();
-
-      if (currentIndex == 0) {
-        auto const aspect{gsl::narrow<float>(m_viewportSize.x) /
-                          gsl::narrow<float>(m_viewportSize.y)};
-        m_projMatrix =
-            glm::perspective(glm::radians(45.0f), aspect, 0.1f, 25.0f);
-      } else {
-        m_projMatrix = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, 0.1f, 25.0f);
-      }
-    }
-
+    auto const aspect{gsl::narrow<float>(m_viewportSize.x) / gsl::narrow<float>(m_viewportSize.y)};
+    m_projMatrix = glm::perspective(glm::radians(45.0f), aspect, 1.0f, 100.0f);
     ImGui::End();
   }
 }
 
 void Window::onResize(glm::ivec2 const &size) {
   m_viewportSize = size;
-  m_trackBall.resizeViewport(size);
 }
 
 void Window::onDestroy() {

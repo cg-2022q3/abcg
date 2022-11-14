@@ -18,6 +18,7 @@ public:
   void update();
   void createBuffers();
   void render() const;
+  std::string name{""};
 
   [[nodiscard]] int getNumTriangles() const {
     return gsl::narrow<int>(m_indices.size()) / 3;
@@ -32,6 +33,7 @@ public:
   void generateUVSphere(int stacks, int slices);
 
   Body *satellite_of;
+
   Path path;
 
   float scale{1.0f};
