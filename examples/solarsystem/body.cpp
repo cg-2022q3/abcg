@@ -34,8 +34,8 @@ void Body::create(GLuint program){
   abcg::glBindVertexArray(0);
 
   if (satellite_of){
-    position = satellite_of->position + glm::vec3{0.0f, distance, 0.0f};
-    fmt::print("satellite of: :{}\n", satellite_of->name);
+    position = satellite_of->position + glm::vec3{distance, 0.0f, 0.0f};
+    fmt::print("satellite of: {}\n", satellite_of->name);
     fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
 
   }
@@ -50,7 +50,7 @@ void Body::destroy(){
 
 void Body::update(){
   if (satellite_of){
-    position = satellite_of->position + glm::vec3{0.0f, distance, 0.0f};
+    position = satellite_of->position + glm::vec3{distance, 0.0f, 0.0f};
   }
 }
 

@@ -4,9 +4,41 @@ void Window::onEvent(SDL_Event const &event) {
   glm::ivec2 mousePosition;
   SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
 
-  if (event.type == SDL_MOUSEWHEEL) {
-    m_zoom += (event.wheel.y > 0 ? -1.0f : 1.0f) / 5.0f;
+  if (event.type == SDL_KEYDOWN) {
+    if (event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w)
+      m_dollySpeed = 1.0f;
+    if (event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s)
+      m_dollySpeed = -1.0f;
+    if (event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a)
+      m_truckSpeed = -1.0f;
+    if (event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d)
+      m_truckSpeed = 1.0f;
   }
+  if (event.type == SDL_KEYUP) {
+    if ((event.key.keysym.sym == SDLK_UP || event.key.keysym.sym == SDLK_w) && m_dollySpeed > 0)
+      m_dollySpeed = 0.0f;
+    if ((event.key.keysym.sym == SDLK_DOWN || event.key.keysym.sym == SDLK_s) && m_dollySpeed < 0)
+      m_dollySpeed = 0.0f;
+    if ((event.key.keysym.sym == SDLK_LEFT || event.key.keysym.sym == SDLK_a) && m_truckSpeed < 0)
+      m_truckSpeed = 0.0f;
+    if ((event.key.keysym.sym == SDLK_RIGHT || event.key.keysym.sym == SDLK_d) && m_truckSpeed > 0)
+      m_truckSpeed = 0.0f;
+  }
+
+
+  if (event.type == SDL_MOUSEMOTION) {
+    m_camera.mouseMove(mousePosition);
+  }
+  if (event.type == SDL_MOUSEBUTTONDOWN &&
+      event.button.button == SDL_BUTTON_LEFT) {
+    m_camera.mousePress(mousePosition);
+  }
+  if (event.type == SDL_MOUSEBUTTONUP &&
+      event.button.button == SDL_BUTTON_LEFT) {
+    m_camera.mouseRelease(mousePosition);
+  }
+
+
 }
 
 
@@ -131,10 +163,8 @@ void Window::onCreate() {
 }
 
 void Window::onUpdate() {
-  m_viewMatrix =
-      glm::lookAt(glm::vec3(0.0f, 0.0f, 2.0f + m_zoom),
-                  glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
+  auto const deltaTime{gsl::narrow_cast<float>(getDeltaTime())};
+  
   sun.update();
   for (auto &planet : planets){
     planet.update();
@@ -142,6 +172,10 @@ void Window::onUpdate() {
   // for (auto &moon : moons){
   //   moon.update();
   // }
+
+  // Update LookAt camera
+  m_camera.dolly(m_dollySpeed * deltaTime);
+  m_camera.truck(m_truckSpeed * deltaTime);
 }
 
 void Window::onPaint() {
@@ -156,8 +190,8 @@ void Window::onPaint() {
   auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
 
   // Set uniform variables that have the same value for every model
-  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_viewMatrix[0][0]);
-  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_projMatrix[0][0]);
+  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.getViewMatrix()[0][0]);
+  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.getProjMatrix()[0][0]);
 
   
   sun.render();
@@ -189,6 +223,7 @@ void Window::onPaintUI() {
 
 void Window::onResize(glm::ivec2 const &size) {
   m_viewportSize = size;
+  m_camera.computeProjectionMatrix(size);
 }
 
 void Window::onDestroy() {

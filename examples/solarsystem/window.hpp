@@ -1,8 +1,9 @@
 #ifndef WINDOW_HPP_
 #define WINDOW_HPP_
+
 #include "abcgOpenGL.hpp"
 #include "body.hpp"
-#include "trackball.hpp"
+#include "camera.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -17,12 +18,14 @@ protected:
 private:
   glm::ivec2 m_viewportSize{};
 
+  Camera m_camera;
+
   Body sun;
   std::vector<Body> planets;
   std::vector<Body> moons;
   
-  TrackBall m_trackBall;
-  float m_zoom{};
+  float m_dollySpeed{};
+  float m_truckSpeed{};
 
   glm::mat4 m_modelMatrix{1.0f};
   glm::mat4 m_viewMatrix{1.0f};

@@ -9,12 +9,6 @@ void TrackBall::mouseMove(glm::ivec2 const &position) {
 
   auto const currentPosition{project(position)};
 
-  if (m_lastPosition == currentPosition) {
-    // Scale velocity to zero if time since last event > 10ms
-    m_velocity *= m_lastTime.elapsed() > 0.01 ? 0.0 : 1.0;
-    return;
-  }
-
   // Rotation axis
   m_axis = glm::cross(m_lastPosition, currentPosition);
 
@@ -22,12 +16,6 @@ void TrackBall::mouseMove(glm::ivec2 const &position) {
   auto const angle{glm::length(m_axis)};
 
   m_axis = glm::normalize(m_axis);
-
-  // Compute an angle velocity that will be used as a constant rotation angle
-  // when the mouse is not being tracked.
-  m_velocity = angle / (gsl::narrow_cast<float>(m_lastTime.restart()) +
-                        std::numeric_limits<float>::epsilon());
-  m_velocity = glm::clamp(m_velocity, 0.0f, m_maxVelocity);
 
   // Concatenate rotation: R_old = R_new * R_old
   m_rotation = glm::rotate(glm::mat4(1.0f), angle, m_axis) * m_rotation;
@@ -46,6 +34,7 @@ void TrackBall::mousePress(glm::ivec2 const &position) {
 void TrackBall::mouseRelease(glm::ivec2 const &position) {
   mouseMove(position);
   m_mouseTracking = false;
+  m_velocity = 0.0f;
 }
 
 void TrackBall::resizeViewport(glm::ivec2 const &size) {
