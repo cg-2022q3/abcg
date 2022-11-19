@@ -20,12 +20,12 @@ private:
 
   Camera m_camera;
 
-  Body sun;
+  Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
   std::vector<Body> planets;
-  std::vector<Body> moons;
   
-  float m_dollySpeed{};
+  float m_pedestalSpeed{};
   float m_truckSpeed{};
+  float speed{1.0f};
 
   glm::mat4 m_modelMatrix{1.0f};
   glm::mat4 m_viewMatrix{1.0f};

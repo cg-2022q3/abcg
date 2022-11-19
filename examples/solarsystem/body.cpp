@@ -37,8 +37,11 @@ void Body::create(GLuint program){
     position = satellite_of->position + glm::vec3{distance, 0.0f, 0.0f};
     fmt::print("satellite of: {}\n", satellite_of->name);
     fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
-
+    fmt::print("x:{} y:{} z:{}\n", position[0],position[1],position[2]);
   }
+
+  computeModelMatrix();
+
 
 }
 
@@ -48,10 +51,20 @@ void Body::destroy(){
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Body::update(){
+void Body::update(float deltaTime, float speed){
   if (satellite_of){
-    position = satellite_of->position + glm::vec3{distance, 0.0f, 0.0f};
+    // translation
+    auto angle = deltaTime * translation_speed * speed;
+    translation_angle += angle;
+    position.x = satellite_of->position.x + sin(2 * M_PI * translation_angle) * distance;
+    position.z = satellite_of->position.z + cos(2 * M_PI * translation_angle) * distance;
+    // auto translation = glm::rotate(glm::mat4(1.0f),glm::radians(angle),glm::vec3(0.0f,1.0f,0.0f));
+    // position = glm::vec3 ((glm::vec4(position, 1.0) - glm::vec4(satellite_of->position, 1.0)) * translation + glm::vec4(satellite_of->position, 1.0));
+  
   }
+
+  computeModelMatrix();
+  
 }
 
 void Body::generateUVSphere(int stacks, int sectors){
@@ -110,6 +123,12 @@ void Body::generateUVSphere(int stacks, int sectors){
 
 }
 
+void Body::computeModelMatrix(){
+  modelMatrix = glm::mat4(1.0f);
+  modelMatrix = glm::translate(modelMatrix, position);
+  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
+}
+
 void Body::createBuffers() {
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_EBO);
@@ -134,11 +153,6 @@ void Body::createBuffers() {
 
 void Body::render() const {
   // fmt::print("{}",name);
-  glm::mat4 modelMatrix{1.0f};
-
-  modelMatrix = glm::translate(modelMatrix, position);
-  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
-  
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
   abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 

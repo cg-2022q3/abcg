@@ -15,8 +15,9 @@ public:
   void create(GLuint program);
   void paint();
   void destroy();
-  void update();
+  void update(float deltaTime,float speed);
   void createBuffers();
+  void computeModelMatrix();
   void render() const;
   std::string name{""};
 
@@ -37,12 +38,16 @@ public:
   Path path;
 
   float scale{1.0f};
-  glm::vec3 position{};
+  glm::vec3 position{0.0f};
 
   glm::vec3 rotation_axis{};
-  glm::vec3 translation_axis{};
+  float translation_angle{0.0f};
+  float translation_speed{1.0f};
   float distance{};
   glm::vec4 color{};
+
+
+  glm::mat4 modelMatrix{1.0f};
 
 
   GLint m_modelMatrixLoc{};
