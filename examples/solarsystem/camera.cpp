@@ -49,9 +49,6 @@ void Camera::computeProjectionMatrix(glm::vec2 const &size) {
 }
 
 void Camera::computeViewMatrix() {
-
-  // m_up = m_up_old * (glm::mat3) m_rotation;
-
   m_viewMatrix = glm::lookAt(m_eye, m_at, m_up);
 }
 
@@ -79,16 +76,6 @@ void Camera::truck(float speed) {
   computeViewMatrix();
 }
 
-
-// glm::mat4 Camera::getRotation() const {
-//   if (m_mouseTracking)
-//     return m_rotation;
-
-//   // Rotate by velocity when not tracking to simulate an inertia-free rotation
-//   auto const angle{m_velocity * gsl::narrow_cast<float>(m_lastTime.elapsed())};
-
-//   return glm::rotate(glm::mat4(1.0f), angle, m_axis) * m_rotation;
-// }
 
 glm::vec3 Camera::project(glm::vec2 const &position) const {
   // Convert from window coordinates to NDC

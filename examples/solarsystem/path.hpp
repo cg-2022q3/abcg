@@ -5,13 +5,13 @@
 
 class Path {
 public:
-  void create(GLuint program);
+  void create(GLuint program, float orbit_radius);
   void paint();
   void destroy();
-  void update(float deltaTime,float speed);
+  void update(glm::vec3 pos);
   void computeModelMatrix();
   void render() const;
-  void generateCircle(int num_vertices);
+  void generateCircle(int num_vertices, float orbit_radius);
 
 
 private:

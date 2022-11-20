@@ -1,8 +1,8 @@
 #include "path.hpp"
 
 
-void Path::create(GLuint program){
-  generateCircle(50);
+void Path::create(GLuint program, float orbit_radius){
+  generateCircle(200, orbit_radius);
 
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_VBO);
@@ -55,27 +55,25 @@ void Path::destroy(){
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Path::update(float deltaTime, float speed){
-  computeModelMatrix();
-  
+void Path::update(glm::vec3 pos){
+  position = pos;
+
+  computeModelMatrix();  
 }
 void Path::computeModelMatrix(){
   modelMatrix = glm::mat4(1.0f);
   modelMatrix = glm::translate(modelMatrix, position);
 }
 
-void Path::generateCircle(int num_vertices){
+void Path::generateCircle(int num_vertices,float orbit_radius){
   float x,z;
-  float angle_step = 2 * M_PI / num_vertices;
+  float angle_step = 2 * M_PI / (num_vertices-1);
   for(auto i : iter::range(num_vertices)){
     auto vertice_angle = i * angle_step;
-    x = std::cos(vertice_angle);
-    z = std::sin(vertice_angle);
+    x = std::cos(vertice_angle) * orbit_radius;
+    z = std::sin(vertice_angle) * orbit_radius;
     m_vertices.push_back(glm::vec3(x,0.0f,z));
   }
-
-
-
 }
 
 void Path::render() const {
@@ -88,11 +86,9 @@ void Path::render() const {
 
   // abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
-  glm::vec4 line_color = color * 0.5f;
+  glm::vec4 line_color = {1.0f,1.0f,1.0f,1.0f};
   abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
-  abcg::glDrawArrays(GL_LINES,3,2);
+  abcg::glDrawArrays(GL_LINES,0,m_vertices.size());
 
   abcg::glBindVertexArray(0);
 }
-
-

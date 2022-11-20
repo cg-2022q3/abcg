@@ -27,20 +27,13 @@ private:
   glm::vec3 m_at{0.0f, 0.0f, 0.0f};  // Look-at point
   glm::vec3 m_up{0.0f, 1.0f, 0.0f};  // "up" direction
 
-  glm::vec3 m_at_old{0.0f, 0.0f, 0.0f};  // Look-at point
-  glm::vec3 m_up_old{0.0f, 1.0f, 0.0f};  // "up" direction
-
-
   glm::vec3 m_axis{1.0f};
   glm::mat4 m_rotation{1.0f};
-
-  bool update_camera{false};
 
 
   bool m_mouseTracking{};
   glm::vec3 m_lastPosition{};
   abcg::Timer m_lastTime{};
-  float m_velocity{};
 
 
   glm::ivec2 m_viewportSize{};

@@ -60,7 +60,7 @@ void Body::create(GLuint program){
   }
 
   computeModelMatrix();
-  path.create(program);
+  path.create(program,orbit_radius);
 
 
 }
@@ -83,8 +83,8 @@ void Body::update(float deltaTime, float speed){
     angle = 10.0f * deltaTime * rotation_speed * speed;
     rotation_angle += angle;
   
+    path.update(satellite_of->position);
   }
-  path.update(deltaTime,speed);
   computeModelMatrix();
   
 }
