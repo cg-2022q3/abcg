@@ -239,7 +239,7 @@ No `Window::onCreate()` temos a criação dos planetas. São passados para cada 
 
 No `Window::onPaintUI()`é criado um slider para dar a possibilidade ao usuário de aumentar as velocidades de translação dos planetas, levando em consideração a velocidade inicial multiplicada pelo valor do slider.
 
-
+No `Window::onPaintUI()`
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
