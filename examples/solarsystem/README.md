@@ -157,6 +157,20 @@ Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofre
     });
 ```
 
+#### camera.hpp
+Aqui utilizamos conceitos aprendidos nas aulas práticas de Matrizes e Transformações, através do exemplo LookAt na prática. Semelhante ao camera.hpp vista em aula, porém aqui criamos alguns novos médotos para ser utilizados no `camera.cpp`. Onde temos métodos quando o mouse e pressionado, movido, dar um zoom.
+
+```C++
+    class Camera {
+    public:
+      void mouseMove(glm::ivec2 const &position);
+      void mousePress(glm::ivec2 const &position);
+      void mouseRelease(glm::ivec2 const &position);
+      void resizeViewport(glm::ivec2 const &size);
+```
+
+#### camera.cpp
+
 #### TrackBall.hpp
 Semelhante ao apresentado em aula (Visualizado 3D), essa é uma classe que simula um trackball virtual, onde o usuário pode interagir com o sistema solar, dado ou retirando zoom (para aproximar ou afastar) e movimentar o sistema solar.
 
