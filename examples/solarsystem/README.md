@@ -226,6 +226,20 @@ As outras funções são semelhantes as utilizadas em projetos apresentados em s
   void onDestroy() override;
 ```
 
+No .cpp são estruturadas todos as funções mencionadas a cima.
+
+No `Window::onCreate()` temos a criação dos planetas. São passados para cada planeta, sol e lua os seguintes parametros:
+* nome;
+* escala;
+* cor;
+* velocidade de translação;
+* velocidade de rotação;
+* raio orbital;
+* referencia de translação.
+
+No `Window::onPaintUI()`é criado um slider para dar a possibilidade ao usuário de aumentar as velocidades de translação dos planetas, levando em consideração a velocidade inicial multiplicada pelo valor do slider.
+
+
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
