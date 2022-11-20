@@ -72,7 +72,6 @@ void Window::onCreate() {
   mercury.orbit_radius = 1.5f;
   mercury.satellite_of = &sun;  
   mercury.create(m_program);
-  // planets.push_back(std::move(mercury));
 
   // create venus
   venus.name = "Venus";
@@ -83,7 +82,6 @@ void Window::onCreate() {
   venus.orbit_radius = 2.0f;
   venus.satellite_of = &sun;
   venus.create(m_program);
-  // planets.push_back(std::move(venus));
 
   // create earth
   earth.name = "Earth";
@@ -94,7 +92,6 @@ void Window::onCreate() {
   earth.orbit_radius = 2.5f;
   earth.satellite_of = &sun;
   earth.create(m_program);
-  // planets.push_back(std::move(earth));
 
   // create Mars
   mars.name = "Mars";
@@ -105,7 +102,6 @@ void Window::onCreate() {
   mars.orbit_radius = 3.0f;
   mars.satellite_of = &sun;
   mars.create(m_program);
-  // planets.push_back(std::move(mars));
 
   // create Jupiter
   jupiter.name = "Jupiter";
@@ -116,7 +112,6 @@ void Window::onCreate() {
   jupiter.orbit_radius = 5.5f;
   jupiter.satellite_of = &sun;
   jupiter.create(m_program);
-  // planets.push_back(std::move(jupiter));
 
   // create Saturn
   saturn.name = "Saturn";
@@ -127,7 +122,6 @@ void Window::onCreate() {
   saturn.orbit_radius = 7.5f;
   saturn.satellite_of = &sun;
   saturn.create(m_program);
-  // planets.push_back(std::move(saturn));
 
   // create Uranus
   uranus.name = "Uranus";
@@ -138,7 +132,6 @@ void Window::onCreate() {
   uranus.orbit_radius = 8.5f;
   uranus.satellite_of = &sun;
   uranus.create(m_program);
-  // planets.push_back(std::move(uranus));
 
   // create Neptune
   neptune.name = "Uranus";
@@ -149,7 +142,6 @@ void Window::onCreate() {
   neptune.orbit_radius = 9.0f;
   neptune.satellite_of = &sun;
   neptune.create(m_program);
-  // planets.push_back(std::move(neptune));
 
   
   // create Moon
@@ -161,14 +153,6 @@ void Window::onCreate() {
   moon.orbit_radius = 0.1f;
   moon.satellite_of = &earth;
   moon.create(m_program);
-  // moons.push_back(std::move(moon));
-
-  // fmt::print("{}\n",sun.m_vertices.size());
-
-  // for(auto i: iter::range(sun.m_vertices.size())){
-  //   fmt::print("x: {:.2f} y: {:.2f} z: {:.2f}\n",sun.m_vertices[i].position[0],sun.m_vertices[i].position[1],sun.m_vertices[i].position[2]);
-  // }
-
 }
 
 void Window::onUpdate() {

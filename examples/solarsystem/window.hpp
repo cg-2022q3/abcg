@@ -21,13 +21,11 @@ private:
   Camera m_camera;
 
   Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
-  
+
   float m_pedestalSpeed{};
   float m_truckSpeed{};
   float speed{1.0f};
-
-  glm::mat4 m_projMatrix{1.0f};
-
+  
   GLuint m_program{};
 };
 
