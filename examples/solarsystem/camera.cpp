@@ -5,6 +5,8 @@
 #include <limits>
 
 void Camera::mouseMove(glm::ivec2 const &position) {
+  // Rotates camera by dragging mouse on the window 
+
   if (!m_mouseTracking) return;
 
   auto const currentPosition{project(position)};
@@ -29,11 +31,13 @@ void Camera::mouseMove(glm::ivec2 const &position) {
 } 
 
 void Camera::mousePress(glm::ivec2 const &position) {  
+  // start tracking the mouse movement when left button is pressed
   m_lastPosition = project(position);
   m_mouseTracking = true;
 }
 
 void Camera::mouseRelease(glm::ivec2 const &position) {
+  // stop tracking the mouse moovement when left buttom is released
   mouseMove(position);
   m_mouseTracking = false;
 }
@@ -45,7 +49,7 @@ void Camera::resizeViewport(glm::ivec2 const &size) {
 void Camera::computeProjectionMatrix(glm::vec2 const &size) {
   m_projMatrix = glm::mat4(1.0f);
   auto const aspect{size.x / size.y};
-  m_projMatrix = glm::perspective(glm::radians(45.0f), aspect, 1.0f, 100.0f);
+  m_projMatrix = glm::perspective(glm::radians(45.0f), aspect, 0.1f, 100.0f);
 }
 
 void Camera::computeViewMatrix() {
@@ -53,6 +57,7 @@ void Camera::computeViewMatrix() {
 }
 
 void Camera::pedestal(float speed) {
+  // Moves the camera vertically
   // Compute up vector
   auto const up{glm::normalize(m_up)};
 
@@ -64,6 +69,8 @@ void Camera::pedestal(float speed) {
 }
 
 void Camera::truck(float speed) {
+  // Moves the camera horizontally to the sides
+
   // Compute forward vector (view direction)
   auto const forward{glm::normalize(m_at - m_eye)};
   // Compute vector to the left
@@ -95,3 +102,14 @@ glm::vec3 Camera::project(glm::vec2 const &position) const {
 
   return projected;
 }
+
+void Camera::mouseScroll(float scroll){
+  // Moves the camera horizontally forwards and backwards
+
+  // Compute forward vector (view direction)
+  auto const forward{glm::normalize(m_at - m_eye)};
+
+  m_eye += forward * scroll / 10.0f;
+  m_at  += forward * scroll / 10.0f;
+
+} 

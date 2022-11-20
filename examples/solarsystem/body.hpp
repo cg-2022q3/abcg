@@ -18,8 +18,9 @@ public:
   void update(float deltaTime,float speed);
   void computeModelMatrix();
   void render() const;
-  std::string name{""};
+  void generateUVSphere(int stacks, int slices);
 
+  std::string name{""};
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
   std::vector<GLuint> m_lines_indices;
@@ -27,28 +28,22 @@ public:
   GLuint m_VAO{};
   GLuint m_VBO{};
   GLuint m_EBO{};
-
-  void generateUVSphere(int stacks, int slices);
-
+  
+  glm::vec4 color{};
+  float scale{1.0f};
   Body *satellite_of;
+
 
   Path path;
 
-  float scale{1.0f};
   glm::vec3 position{0.0f};
-
-
+  float orbit_radius{};
   float translation_angle{0.0f};
   float translation_speed{0.0f};
   float rotation_angle{0.0f};
   float rotation_speed{1.0f};
 
-  float orbit_radius{};
-  glm::vec4 color{};
-
-
   glm::mat4 modelMatrix{1.0f};
-
 
   GLint m_modelMatrixLoc{};
   GLint m_colorLoc{};

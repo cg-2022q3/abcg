@@ -1,8 +1,8 @@
 #include "path.hpp"
 
 
-void Path::create(GLuint program, float orbit_radius){
-  generateCircle(200, orbit_radius);
+void Path::create(GLuint program){
+  generateCircle(200);
 
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_VBO);
@@ -65,9 +65,9 @@ void Path::computeModelMatrix(){
   modelMatrix = glm::translate(modelMatrix, position);
 }
 
-void Path::generateCircle(int num_vertices,float orbit_radius){
+void Path::generateCircle(int num_vertices){
   float x,z;
-  float angle_step = 2 * M_PI / (num_vertices-1);
+  float angle_step = 2 * M_PI / (num_vertices);
   for(auto i : iter::range(num_vertices)){
     auto vertice_angle = i * angle_step;
     x = std::cos(vertice_angle) * orbit_radius;
@@ -86,7 +86,7 @@ void Path::render() const {
 
   // abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
-  glm::vec4 line_color = {1.0f,1.0f,1.0f,1.0f};
+  glm::vec4 line_color = {0.3f,0.3f,0.3f,0.5f} ;
   abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
   abcg::glDrawArrays(GL_LINES,0,m_vertices.size());
 

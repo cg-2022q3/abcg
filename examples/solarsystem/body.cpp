@@ -2,7 +2,7 @@
 
 
 void Body::create(GLuint program){
-  generateUVSphere(15,18);
+  generateUVSphere(36,36);
 
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_EBO);
@@ -54,15 +54,11 @@ void Body::create(GLuint program){
 
   if (satellite_of){
     position = satellite_of->position + glm::vec3{orbit_radius, 0.0f, 0.0f};
-    // fmt::print("satellite of: {}\n", satellite_of->name);
-    // fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
-    // fmt::print("x:{} y:{} z:{}\n", position[0],position[1],position[2]);
   }
 
   computeModelMatrix();
-  path.create(program,orbit_radius);
-
-
+  path.orbit_radius = orbit_radius;
+  path.create(program);
 }
 
 void Body::destroy(){
@@ -72,6 +68,7 @@ void Body::destroy(){
 }
 
 void Body::update(float deltaTime, float speed){
+  // updates position for bodies that are satellites of another body
   if (satellite_of){
     // translation
     auto angle = 10.0f * deltaTime * translation_speed * speed;
@@ -118,8 +115,6 @@ void Body::generateUVSphere(int stacks, int sectors){
 
     }
   }
-
-
   // now we create the indices for the triangles
   int k1, k2;
   for(int i = 0; i < stacks; ++i){
@@ -161,7 +156,6 @@ void Body::generateUVSphere(int stacks, int sectors){
 }
 
 void Body::render() const {
-  // fmt::print("{}",name);
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
   abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 
@@ -173,7 +167,7 @@ void Body::render() const {
 
 
   // Draw body lines in darker color
-  glm::vec4 line_color = color * 0.5f;
+  glm::vec4 line_color = {color[0] * 0.5f,color[1] * 0.5f,color[2] * 0.5f,1.0f};
   abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
   abcg::glDrawElements(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 

@@ -11,6 +11,7 @@ public:
   void mousePress(glm::ivec2 const &position);
   void mouseRelease(glm::ivec2 const &position);
   void resizeViewport(glm::ivec2 const &size);
+  void mouseScroll(float scroll);
   // [[nodiscard]] glm::mat4 getRotation() const;
 
   void computeViewMatrix();
@@ -23,18 +24,17 @@ public:
   glm::mat4 const &getProjMatrix() const { return m_projMatrix; }
 
 private:
-  glm::vec3 m_eye{0.0f, 4.0f, 7.0f}; // Camera position
+  glm::vec3 m_eye{0.0f, 10.0f, 10.0f}; // Camera position
   glm::vec3 m_at{0.0f, 0.0f, 0.0f};  // Look-at point
   glm::vec3 m_up{0.0f, 1.0f, 0.0f};  // "up" direction
 
-  glm::vec3 m_axis{1.0f};
-  glm::mat4 m_rotation{1.0f};
+  glm::vec3 m_axis{1.0f}; // axis for rotating camera when mouse is dragged
+  glm::mat4 m_rotation{1.0f}; // angle for rotating camera when mouse is dragged 
 
 
   bool m_mouseTracking{};
-  glm::vec3 m_lastPosition{};
-  abcg::Timer m_lastTime{};
 
+  glm::vec3 m_lastPosition{};
 
   glm::ivec2 m_viewportSize{};
 

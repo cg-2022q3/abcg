@@ -21,7 +21,6 @@ private:
   Camera m_camera;
 
   Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
-  std::vector<Body> planets;
   
   float m_pedestalSpeed{};
   float m_truckSpeed{};
