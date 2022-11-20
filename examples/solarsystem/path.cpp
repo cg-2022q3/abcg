@@ -77,14 +77,11 @@ void Path::generateCircle(int num_vertices){
 }
 
 void Path::render() const {
-  // fmt::print("{}",name);
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
   abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 
 
   abcg::glBindVertexArray(m_VAO);
-
-  // abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
   glm::vec4 line_color = {0.3f,0.3f,0.3f,0.5f} ;
   abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
