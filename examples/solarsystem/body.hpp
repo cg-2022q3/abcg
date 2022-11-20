@@ -16,16 +16,13 @@ public:
   void paint();
   void destroy();
   void update(float deltaTime,float speed);
-  void createBuffers();
   void computeModelMatrix();
   void render() const;
   std::string name{""};
 
-  [[nodiscard]] int getNumTriangles() const {
-    return gsl::narrow<int>(m_indices.size()) / 3;
-  }
   std::vector<Vertex> m_vertices;
   std::vector<GLuint> m_indices;
+  std::vector<GLuint> m_lines_indices;
 
   GLuint m_VAO{};
   GLuint m_VBO{};
@@ -40,10 +37,13 @@ public:
   float scale{1.0f};
   glm::vec3 position{0.0f};
 
-  glm::vec3 rotation_axis{};
+
   float translation_angle{0.0f};
-  float translation_speed{1.0f};
-  float distance{};
+  float translation_speed{0.0f};
+  float rotation_angle{0.0f};
+  float rotation_speed{1.0f};
+
+  float orbit_radius{};
   glm::vec4 color{};
 
 

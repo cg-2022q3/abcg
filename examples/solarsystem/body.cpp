@@ -2,8 +2,27 @@
 
 
 void Body::create(GLuint program){
-  generateUVSphere(20,24);
-  createBuffers();
+  generateUVSphere(15,18);
+
+  // Delete previous buffers
+  abcg::glDeleteBuffers(1, &m_EBO);
+  abcg::glDeleteBuffers(1, &m_VBO);
+
+  // VBO
+  abcg::glGenBuffers(1, &m_VBO);
+  abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+  abcg::glBufferData(GL_ARRAY_BUFFER,
+                     sizeof(m_vertices.at(0)) * m_vertices.size(),
+                     m_vertices.data(), GL_STATIC_DRAW);
+  abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  // EBO
+  abcg::glGenBuffers(1, &m_EBO);
+  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+  abcg::glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+                     sizeof(m_indices.at(0)) * m_indices.size(),
+                     m_indices.data(), GL_STATIC_DRAW);
+  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
   
   m_modelMatrixLoc = abcg::glGetUniformLocation(program, "modelMatrix");
   m_colorLoc = abcg::glGetUniformLocation(program, "color");
@@ -34,13 +53,14 @@ void Body::create(GLuint program){
   abcg::glBindVertexArray(0);
 
   if (satellite_of){
-    position = satellite_of->position + glm::vec3{distance, 0.0f, 0.0f};
-    fmt::print("satellite of: {}\n", satellite_of->name);
-    fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
-    fmt::print("x:{} y:{} z:{}\n", position[0],position[1],position[2]);
+    position = satellite_of->position + glm::vec3{orbit_radius, 0.0f, 0.0f};
+    // fmt::print("satellite of: {}\n", satellite_of->name);
+    // fmt::print("x:{} y:{} z:{}\n", satellite_of->position[0],satellite_of->position[1],satellite_of->position[2]);
+    // fmt::print("x:{} y:{} z:{}\n", position[0],position[1],position[2]);
   }
 
   computeModelMatrix();
+  path.create(program);
 
 
 }
@@ -54,35 +74,43 @@ void Body::destroy(){
 void Body::update(float deltaTime, float speed){
   if (satellite_of){
     // translation
-    auto angle = deltaTime * translation_speed * speed;
+    auto angle = 10.0f * deltaTime * translation_speed * speed;
     translation_angle += angle;
-    position.x = satellite_of->position.x + sin(2 * M_PI * translation_angle) * distance;
-    position.z = satellite_of->position.z + cos(2 * M_PI * translation_angle) * distance;
-    // auto translation = glm::rotate(glm::mat4(1.0f),glm::radians(angle),glm::vec3(0.0f,1.0f,0.0f));
-    // position = glm::vec3 ((glm::vec4(position, 1.0) - glm::vec4(satellite_of->position, 1.0)) * translation + glm::vec4(satellite_of->position, 1.0));
+    position.x = satellite_of->position.x + cos(translation_angle) * orbit_radius;
+    position.z = satellite_of->position.z - sin(translation_angle) * orbit_radius;
+
+    //rotation
+    angle = 10.0f * deltaTime * rotation_speed * speed;
+    rotation_angle += angle;
   
   }
-
+  path.update(deltaTime,speed);
   computeModelMatrix();
   
+}
+void Body::computeModelMatrix(){
+  modelMatrix = glm::mat4(1.0f);
+  modelMatrix = glm::translate(modelMatrix, position);
+  modelMatrix = glm::rotate(modelMatrix, rotation_angle,glm::vec3(0.0f,1.0f,0.0f));
+  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
 }
 
 void Body::generateUVSphere(int stacks, int sectors){
   // geneterates a UV sphere with radius 1.0f
-  float sectorAngle, stackAngle, x, y, z, xy;
+  float sectorAngle, stackAngle, x, y, z, xz;
   float sectorStep = 2 * M_PI / sectors;
   float stackStep = M_PI / stacks;
 
   for(auto i : iter::range(stacks+1)){
     stackAngle = M_PI / 2 - i * stackStep;
-    xy = std::cos(stackAngle);
-    z = std::sin(stackAngle);
+    xz = std::cos(stackAngle);
+    y = std::sin(stackAngle);
 
     for(auto j: iter::range(sectors+1)){
       sectorAngle = j * sectorStep;
 
-      x = xy * std::cos(sectorAngle);
-      y = xy * std::sin(sectorAngle);
+      x = xz * std::sin(sectorAngle);
+      z = xz * std::cos(sectorAngle);
 
       Vertex const vertex{.position = {x, y, z}};
 
@@ -116,39 +144,20 @@ void Body::generateUVSphere(int stacks, int sectors){
           m_indices.push_back(k2);
           m_indices.push_back(k2 + 1);
       }
-      
+
+      // store indices for lines
+      // vertical lines for all stacks, k1 => k2
+      m_lines_indices.push_back(k1);
+      m_lines_indices.push_back(k2);
+      if(i != 0)  // horizontal lines except 1st stack, k1 => k+1
+      {
+          m_lines_indices.push_back(k1);
+          m_lines_indices.push_back(k1 + 1);
+      }
     }
   }
 
 
-}
-
-void Body::computeModelMatrix(){
-  modelMatrix = glm::mat4(1.0f);
-  modelMatrix = glm::translate(modelMatrix, position);
-  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
-}
-
-void Body::createBuffers() {
-  // Delete previous buffers
-  abcg::glDeleteBuffers(1, &m_EBO);
-  abcg::glDeleteBuffers(1, &m_VBO);
-
-  // VBO
-  abcg::glGenBuffers(1, &m_VBO);
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-  abcg::glBufferData(GL_ARRAY_BUFFER,
-                     sizeof(m_vertices.at(0)) * m_vertices.size(),
-                     m_vertices.data(), GL_STATIC_DRAW);
-  abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  // EBO
-  abcg::glGenBuffers(1, &m_EBO);
-  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-  abcg::glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                     sizeof(m_indices.at(0)) * m_indices.size(),
-                     m_indices.data(), GL_STATIC_DRAW);
-  abcg::glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Body::render() const {
@@ -159,7 +168,18 @@ void Body::render() const {
 
   abcg::glBindVertexArray(m_VAO);
 
+  // Draw body triangles
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
+
+  // Draw body lines in darker color
+  glm::vec4 line_color = color * 0.5f;
+  abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
+  abcg::glDrawElements(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
+
   abcg::glBindVertexArray(0);
+
+  path.render();
 }
+
+

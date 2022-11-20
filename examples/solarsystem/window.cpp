@@ -54,9 +54,8 @@ void Window::onCreate() {
 
   // create sun
   sun.name = "Sun";
-  sun.scale = 0.3f;
+  sun.scale = 1.0f;
   sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
-  sun.position = {0.0f,0.0f, 0.0f};
   sun.satellite_of = nullptr;
   sun.create(m_program);
 
@@ -65,7 +64,8 @@ void Window::onCreate() {
   mercury.scale = 0.1f;
   mercury.color = {0.33f, 0.33f, 0.34f, 1.0f};
   mercury.translation_speed = 1.0f/88.0f;
-  mercury.distance = 0.5f;
+  mercury.rotation_speed = -1.0f/59.0f;
+  mercury.orbit_radius = 1.5f;
   mercury.satellite_of = &sun;
   mercury.create(m_program);
   // planets.push_back(std::move(mercury));
@@ -75,7 +75,8 @@ void Window::onCreate() {
   venus.scale = 0.1f;
   venus.color = {0.48f, 0.38f, 0.14f, 1.0f};
   venus.translation_speed = 1.0f/224.0f;
-  venus.distance = 1.0f;
+  venus.rotation_speed = 1.0f/243.0f;
+  venus.orbit_radius = 2.0f;
   venus.satellite_of = &sun;
   venus.create(m_program);
   // planets.push_back(std::move(venus));
@@ -85,7 +86,8 @@ void Window::onCreate() {
   earth.scale = 0.1f;
   earth.color = {0.12f, 0.35f, 0.53f, 1.0f};
   earth.translation_speed = 1.0f/365.0f;
-  earth.distance = 1.5f;
+  earth.rotation_speed = 1.0f;
+  earth.orbit_radius = 2.5f;
   earth.satellite_of = &sun;
   earth.create(m_program);
   // planets.push_back(std::move(earth));
@@ -95,7 +97,8 @@ void Window::onCreate() {
   mars.scale = 0.1f;
   mars.color = {0.61f, 0.18, 0.21, 1.0f};
   mars.translation_speed = 1.0f/686.0f;
-  mars.distance = 2.0f;
+  mars.rotation_speed = 1.0f/1.03f;
+  mars.orbit_radius = 2.0f;
   mars.satellite_of = &sun;
   mars.create(m_program);
   // planets.push_back(std::move(mars));
@@ -105,7 +108,8 @@ void Window::onCreate() {
   jupiter.scale = 0.2f;
   jupiter.color = {0.61f, 0.18, 0.21, 1.0f};
   jupiter.translation_speed = 1.0f/4344.0f;
-  jupiter.distance = 2.5f;
+  jupiter.rotation_speed = 1.0f/0.41f;
+  jupiter.orbit_radius = 3.5f;
   jupiter.satellite_of = &sun;
   jupiter.create(m_program);
   // planets.push_back(std::move(jupiter));
@@ -115,7 +119,8 @@ void Window::onCreate() {
   saturn.scale = 0.1f;
   saturn.color = {0.61f, 0.18, 0.21, 1.0f};
   saturn.translation_speed = 1.0f/10749.0f;
-  saturn.distance = 3.0f;
+  saturn.rotation_speed = 1.0f/0.45f;
+  saturn.orbit_radius = 4.0f;
   saturn.satellite_of = &sun;
   saturn.create(m_program);
   // planets.push_back(std::move(saturn));
@@ -125,7 +130,8 @@ void Window::onCreate() {
   uranus.scale = 0.1f;
   uranus.color = {0.29f, 0.35f, 0.36f, 1.0f};
   uranus.translation_speed = 1.0f/30660.0f;
-  uranus.distance = 3.5f;
+  uranus.rotation_speed = 1.0f/0.72f;
+  uranus.orbit_radius = 5.5f;
   uranus.satellite_of = &sun;
   uranus.create(m_program);
   // planets.push_back(std::move(uranus));
@@ -135,7 +141,8 @@ void Window::onCreate() {
   neptune.scale = 0.1f;
   neptune.color = {0.16f, 0.31f, 0.53f, 1.0f};
   neptune.translation_speed = 1.0f/60225.0f;
-  neptune.distance = 4.0f;
+  neptune.rotation_speed = 1.0f/0.67f;
+  neptune.orbit_radius = 7.0f;
   neptune.satellite_of = &sun;
   neptune.create(m_program);
   // planets.push_back(std::move(neptune));
@@ -145,8 +152,9 @@ void Window::onCreate() {
   moon.name = "Moon";
   moon.scale = 0.1f;
   moon.color = {1.0f,1.0f,1.0f,1.0f};
-  moon.translation_speed = 1.0f/88.0f;
-  moon.distance = 0.3f;
+  moon.translation_speed = 1.0f/27.3220f;
+  moon.rotation_speed = 1.0f/27.0f;
+  moon.orbit_radius = 0.3f;
   moon.satellite_of = &earth;
   moon.create(m_program);
   // moons.push_back(std::move(moon));
@@ -224,7 +232,7 @@ void Window::onPaintUI() {
     {
       // Slider will fill the space of the window
       ImGui::PushItemWidth(m_viewportSize.x - 25);
-      ImGui::SliderFloat(" ", &speed, 0.0f, 1000.0f,
+      ImGui::SliderFloat(" ", &speed, 0.0f, 100.0f,
                        "%.1fx speed");
       ImGui::PopItemWidth();
     }
