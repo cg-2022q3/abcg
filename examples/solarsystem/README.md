@@ -144,7 +144,7 @@ Para esse projeto foi criada uma simulação do Sistema Solar (descrito acima).
 
 ## Os Códigos
 
-#### main.cpp
+### Main
 Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofrendo alteração no título da janela, Solar System Simulation.
 
 ```C++
@@ -157,8 +157,9 @@ Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofre
     });
 ```
 
-#### camera.hpp
-Aqui utilizamos conceitos aprendidos nas aulas práticas, através dos exemplos LookAt na prática e Visualizado 3D. Semelhante ao camera.hpp e trackball.hpp vista em aula, porém aqui criamos alguns novos médotos para ser utilizados no `camera.cpp`. Onde serão chamadas sempre que ocorrer um evento no mouse, como  a sua movimentação, pressionamento ou liberaçao de botão.
+### Camera
+
+No .hpp utilizamos conceitos aprendidos nas aulas práticas, através dos exemplos LookAt na prática e Visualizado 3D. Semelhante ao camera.hpp e trackball.hpp vista em aula, porém aqui criamos alguns novos médotos para ser utilizados no `camera.cpp`. Onde serão chamadas sempre que ocorrer um evento no mouse, como  a sua movimentação, pressionamento ou liberaçao de botão.
 
 ```C++
     class Camera {
@@ -170,7 +171,7 @@ Aqui utilizamos conceitos aprendidos nas aulas práticas, através dos exemplos 
 ```
 
 #### camera.cpp
-Implementamos as funções que estaram disponíveis através das ações feitas com o mouse, como  a sua movimentação, pressionamento ou liberaçao de botão. Todas as funções de eventos do mouse são passados como parâmetros a posição do mouse.
+Já no .cpp implementamos as funções que estaram disponíveis através das ações feitas com o mouse, como  a sua movimentação, pressionamento ou liberaçao de botão. Todas as funções de eventos do mouse são passados como parâmetros a posição do mouse.
 As funções são:
 
 ```C++
@@ -189,8 +190,41 @@ As funções são:
     void Camera::resizeViewport(glm::ivec2 const &size)
 ```
 
+### Window
+Muito semelhante aos arquivos window, apreendidos em sala de aula. No .hpp criamos as funções que serão chamadas para a realização do sistema.
+incluímos os cabelhaços do body e camera:
 
+```C++
+#include "body.hpp"
+#include "camera.hpp"
+```
 
+Estanciamos os planetas de acordo com a classe body:
+
+```C++
+  Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
+  std::vector<Body> planets;
+```
+
+E criamos três variáveis do tipo float que serão utilizadas no .cpp:
+
+```C++
+  float m_pedestalSpeed{};
+  float m_truckSpeed{};
+  float speed{1.0f};
+```
+
+As outras funções são semelhantes as utilizadas em projetos apresentados em sala de aula:
+
+```C++
+  void onEvent(SDL_Event const &event) override;
+  void onCreate() override;
+  void onUpdate() override;
+  void onPaint() override;
+  void onPaintUI() override;
+  void onResize(glm::ivec2 const &size) override;
+  void onDestroy() override;
+```
 
 
 ### Referências
