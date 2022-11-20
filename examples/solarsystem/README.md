@@ -170,15 +170,26 @@ Aqui utilizamos conceitos aprendidos nas aulas práticas, através dos exemplos 
 ```
 
 #### camera.cpp
-Implementamos as funções que estaram disponíveis através das ações feitas com o mouse, como  a sua movimentação, pressionamento ou liberaçao de botão.
+Implementamos as funções que estaram disponíveis através das ações feitas com o mouse, como  a sua movimentação, pressionamento ou liberaçao de botão. Todas as funções de eventos do mouse são passados como parâmetros a posição do mouse.
+As funções são:
+
+```C++
+    void Camera::mouseMove(glm::ivec2 const &position)
+```
+
+```C++
+    void Camera::mousePress(glm::ivec2 const &position)
+```
+
+```C++
+    void Camera::mouseRelease(glm::ivec2 const &position)
+```
+
+```C++
+    void Camera::resizeViewport(glm::ivec2 const &size)
+```
 
 
-
-#### TrackBall.hpp
-Semelhante ao apresentado em aula (Visualizado 3D), essa é uma classe que simula um trackball virtual, onde o usuário pode interagir com o sistema solar, dado ou retirando zoom (para aproximar ou afastar) e movimentar o sistema solar.
-
-#### TrackBall.cpp
-Semelhante ao apresentado em aula (Visualizado 3D), aqui temos as implementações das funções apresentadas no `TrackBall.hpp`.
 
 
 
