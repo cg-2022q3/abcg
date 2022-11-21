@@ -170,7 +170,6 @@ No .hpp utilizamos conceitos aprendidos nas aulas práticas, através dos exempl
       void resizeViewport(glm::ivec2 const &size);
 ```
 
-#### camera.cpp
 Já no .cpp implementamos as funções que estaram disponíveis através das ações feitas com o mouse, como  a sua movimentação, pressionamento ou liberaçao de botão. Todas as funções de eventos do mouse são passados como parâmetros a posição do mouse.
 As funções são:
 
