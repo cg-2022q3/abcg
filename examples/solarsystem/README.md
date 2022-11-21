@@ -251,7 +251,7 @@ Aqui criamos funções que realizarão a construção das esferas através de tr
 
 ### Path
 
-Para uma melhor visualização, foi criado esse elemento path para plotar as trajetórias de translação dos planetas em torno do Sol.
+Para uma melhor visualização, foi criado esse elemento path para plotar as trajetórias de translação dos planetas em torno do Sol. 
 
 
 ### Referências
