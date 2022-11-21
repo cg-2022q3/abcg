@@ -240,6 +240,8 @@ No `Window::onPaintUI()` é criado um slider para dar a possibilidade ao usuári
 
 No `Window::onPaint()` temos a renderização dos planetas, sol e lua. 
 
+No `Window::onEvent` são convertidos eventos do mouse ou teclado para ações no sistema, como as tecladas direcionais do teclado exercem uma ação no sistema, ou ao pressionar o botão do mouse acontece uma ação do sistema solar.
+
 Nos `Window::onResize` e `Window::onDestroy()` não temos alteração das versões apresentadas no curso.
 
 
