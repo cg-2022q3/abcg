@@ -249,6 +249,11 @@ Nos `Window::onResize` e `Window::onDestroy()` não temos alteração das versõ
 Aqui criamos funções que realizarão a construção das esferas através de triangulos. Ou seja, para cada espera (elemento do sistema solar) presente no sistema, essa função é chamada para a sua criação. Por esse motivo podemos vê-la ser chamada no Window.
 
 
+### Path
+
+Para uma melhor visualização, foi criado esse elemento path para plotar as trajetórias de translação dos planetas em torno do Sol.
+
+
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
 * https://www.tecmundo.com.br/ciencia/243351-velocidade-planetas-sistema-solar-veja-animacao.htm
