@@ -254,6 +254,15 @@ Aqui criamos funções que realizarão a construção das esferas através de tr
 Para uma melhor visualização, foi criado esse elemento path para plotar as trajetórias de translação dos planetas em torno do Sol. 
 
 
+## Melhorias para próxima entrega
+Além de aplicação dos conteúdos de iluminação e textura que são esperados para a quarta entrega, pretendemos melhorar alguns pontos gerais no projeto, como:
+* Anéis ao redor de Saturno;
+* Melhorar os controles de movimentação da câmera;
+* Adicionar mais corpos, como algumas das maiores luas dos outros planetas, e o cinturão de asteròides;
+* Realizar a movimentação dos planetas de acordo com os ângulos reais de inclinação, e não apenas no plano XZ;
+* Aprimorar as proporções de tamanho, distância, e velocidade de movimentação entre os planetas, prezando não pela proximidade com a realizade, mas um melhor resultado visual;
+* Adicionar mais opções de interação na interface gráfica para controle de aspectos da cena.
+
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
 * https://www.tecmundo.com.br/ciencia/243351-velocidade-planetas-sistema-solar-veja-animacao.htm
