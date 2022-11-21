@@ -237,9 +237,12 @@ No `Window::onCreate()` temos a criação dos planetas. São passados para cada 
 * raio orbital;
 * referencia de translação.
 
-No `Window::onPaintUI()`é criado um slider para dar a possibilidade ao usuário de aumentar as velocidades de translação dos planetas, levando em consideração a velocidade inicial multiplicada pelo valor do slider.
+No `Window::onPaintUI()` é criado um slider para dar a possibilidade ao usuário de aumentar as velocidades de translação dos planetas, levando em consideração a velocidade inicial multiplicada pelo valor do slider.
 
-No `Window::onPaintUI()`
+No `Window::onPaint()` temos a renderização dos planetas, sol e lua. 
+
+Nos `Window::onResize` e `Window::onDestroy()` não temos alteração das versões apresentadas no curso.
+
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
