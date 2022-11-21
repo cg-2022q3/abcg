@@ -244,6 +244,10 @@ No `Window::onEvent` são convertidos eventos do mouse ou teclado para ações n
 
 Nos `Window::onResize` e `Window::onDestroy()` não temos alteração das versões apresentadas no curso.
 
+### Body
+
+Aqui criamos funções que realizarão a construção das esferas através de triangulos. Ou seja, para cada espera (elemento do sistema solar) presente no sistema, essa função é chamada para a sua criação. Por esse motivo podemos vê-la ser chamada no Window.
+
 
 ### Referências
 * https://planetario.ufsc.br/o-sistema-solar/
