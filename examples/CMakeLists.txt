@@ -1,2 +1,2 @@
-add_subdirectory(solarsystem)
+add_subdirectory(solarsystem2)
 # add_subdirectory(lookat)
