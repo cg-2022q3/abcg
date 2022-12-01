@@ -94,7 +94,7 @@ void Body::computeModelMatrix(){
 
 void Body::generateUVSphere(int stacks, int sectors){
   // geneterates a UV sphere with radius 1.0f
-  float sectorAngle, stackAngle, x, y, z, xz;
+  float sectorAngle, stackAngle, x, y, z, xz, u, v;
   float sectorStep = 2 * M_PI / sectors;
   float stackStep = M_PI / stacks;
 
@@ -109,7 +109,11 @@ void Body::generateUVSphere(int stacks, int sectors){
       x = xz * std::sin(sectorAngle);
       z = xz * std::cos(sectorAngle);
 
-      Vertex const vertex{.position = {x, y, z}};
+
+      u = gsl::narrow<float>(i / sectors);
+      v = gsl::narrow<float>(j / stacks);
+
+      Vertex const vertex{.position = {x, y, z}, .normal = {x, y, z}, .texCoord = {u,v}};
 
       m_vertices.push_back(vertex);
 
