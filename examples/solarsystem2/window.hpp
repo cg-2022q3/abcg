@@ -24,7 +24,7 @@ private:
 
   float m_pedestalSpeed{};
   float m_truckSpeed{};
-  float speed{1.0f};
+  float speed{0.0f};
   
   GLuint m_program{};
 };

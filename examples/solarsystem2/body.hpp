@@ -19,7 +19,7 @@ public:
   void destroy();
   void update(float deltaTime,float speed);
   void computeModelMatrix();
-  void render() const;
+  void render(glm::mat4 viewMatrix) const;
   void generateUVSphere(int stacks, int slices);
 
   std::string name{""};
@@ -31,10 +31,22 @@ public:
   GLuint m_VBO{};
   GLuint m_EBO{};
   
+  GLuint m_program{};
+
+  std::string texture_path{""};
+  glm::vec4 m_lightDir{0.0f, 0.0f, 0.0f, 0.0f};
+  glm::vec4 m_Ia{1.0f};
+  glm::vec4 m_Id{1.0f};
+  glm::vec4 m_Is{1.0f};
+  glm::vec4 m_Ka{};
+  glm::vec4 m_Kd{};
+  glm::vec4 m_Ks{};
+  float m_shininess{};
+  GLuint m_diffuseTexture{};
+
   glm::vec4 color{};
   float scale{1.0f};
   Body *satellite_of;
-
 
   Path path;
 

@@ -1,9 +1,10 @@
 #include "body.hpp"
+#include <filesystem>
 
 
 void Body::create(GLuint program){
   generateUVSphere(36,36);
-
+  m_program = program;
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);
@@ -40,17 +41,41 @@ void Body::create(GLuint program){
   abcg::glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
 
   // Bind vertex attributes
-  auto const positionAttribute{
-      abcg::glGetAttribLocation(program, "inPosition")};
+  auto const positionAttribute{abcg::glGetAttribLocation(program, "inPosition")};
   if (positionAttribute >= 0) {
     abcg::glEnableVertexAttribArray(positionAttribute);
     abcg::glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, GL_FALSE,
                                 sizeof(Vertex), nullptr);
   }
 
+  auto const normalAttribute{abcg::glGetAttribLocation(program, "inNormal")};
+  if (normalAttribute >= 0) {
+    abcg::glEnableVertexAttribArray(normalAttribute);
+    auto const offset{offsetof(Vertex, normal)};
+    abcg::glVertexAttribPointer(normalAttribute, 3, GL_FLOAT, GL_FALSE,
+                                sizeof(Vertex),
+                                reinterpret_cast<void *>(offset));
+  }
+
+  auto const texCoordAttribute{
+      abcg::glGetAttribLocation(program, "inTexCoord")};
+  if (texCoordAttribute >= 0) {
+    abcg::glEnableVertexAttribArray(texCoordAttribute);
+    auto const offset{offsetof(Vertex, texCoord)};
+    abcg::glVertexAttribPointer(texCoordAttribute, 2, GL_FLOAT, GL_FALSE,
+                                sizeof(Vertex),
+                                reinterpret_cast<void *>(offset));
+  }
+
   // End of binding
   abcg::glBindBuffer(GL_ARRAY_BUFFER, 0);
   abcg::glBindVertexArray(0);
+
+  if (std::filesystem::exists(texture_path)){
+    abcg::glDeleteTextures(1, &m_diffuseTexture);
+    m_diffuseTexture = abcg::loadOpenGLTexture({.path = texture_path});
+  }
+
 
   if (satellite_of){
     position = satellite_of->position + glm::vec3{orbit_radius, 0.0f, 0.0f};
@@ -62,6 +87,7 @@ void Body::create(GLuint program){
 }
 
 void Body::destroy(){
+  abcg::glDeleteTextures(1, &m_diffuseTexture);
   abcg::glDeleteBuffers(1, &m_EBO);
   abcg::glDeleteBuffers(1, &m_VBO);
   abcg::glDeleteVertexArrays(1, &m_VAO);
@@ -110,8 +136,8 @@ void Body::generateUVSphere(int stacks, int sectors){
       z = xz * std::cos(sectorAngle);
 
 
-      u = gsl::narrow<float>(i / sectors);
-      v = gsl::narrow<float>(j / stacks);
+      u = (float) j / sectors;
+      v = 1.0f - (float) i / stacks;
 
       Vertex const vertex{.position = {x, y, z}, .normal = {x, y, z}, .texCoord = {u,v}};
 
@@ -159,12 +185,55 @@ void Body::generateUVSphere(int stacks, int sectors){
 
 }
 
-void Body::render() const {
+void Body::render(glm::mat4 viewMatrix) const {
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
   abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 
 
+    auto const normalMatrixLoc{
+      abcg::glGetUniformLocation(m_program, "normalMatrix")};
+  auto const lightDirLoc{
+      abcg::glGetUniformLocation(m_program, "lightDirWorldSpace")};
+  auto const shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
+  auto const IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
+  auto const IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
+  auto const IsLoc{abcg::glGetUniformLocation(m_program, "Is")};
+  auto const KaLoc{abcg::glGetUniformLocation(m_program, "Ka")};
+  auto const KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
+  auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
+  auto const diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
+  
+  auto const lightDirRotated{m_lightDir};
+  abcg::glUniform4fv(lightDirLoc, 1, &lightDirRotated.x);
+  abcg::glUniform4fv(IaLoc, 1, &m_Ia.x);
+  abcg::glUniform4fv(IdLoc, 1, &m_Id.x);
+  abcg::glUniform4fv(IsLoc, 1, &m_Is.x);
+
+  abcg::glUniform1i(diffuseTexLoc, 0);
+
+  auto const modelViewMatrix{glm::mat3(viewMatrix * modelMatrix)};
+  auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
+  abcg::glUniformMatrix3fv(normalMatrixLoc, 1, GL_FALSE, &normalMatrix[0][0]);
+
+  abcg::glUniform4fv(KaLoc, 1, &m_Ka.x);
+  abcg::glUniform4fv(KdLoc, 1, &m_Kd.x);
+  abcg::glUniform4fv(KsLoc, 1, &m_Ks.x);
+  abcg::glUniform1f(shininessLoc, m_shininess);
+
   abcg::glBindVertexArray(m_VAO);
+
+  abcg::glActiveTexture(GL_TEXTURE0);
+  abcg::glBindTexture(GL_TEXTURE_2D, m_diffuseTexture);
+
+  // Set minification and magnification parameters
+  abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+  abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+  // Set texture wrapping parameters
+  abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+
 
   // Draw body triangles
   abcg::glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
