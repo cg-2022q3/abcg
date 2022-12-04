@@ -57,14 +57,18 @@ void Window::onCreate() {
                                   .stage = abcg::ShaderStage::Fragment}});
 
 
+  glm::vec4 Ka = {0.2f,0.2f,0.2f,0.2f};
+  glm::vec4 Kd = {1.0f,1.0f,1.0f,1.0f};
+  glm::vec4 Ks = {0.1f,0.1f,0.1f,0.1f};
+
   // create sun
   sun.name = "Sun";
   sun.scale = 1.0f;
   sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
   sun.texture_path = assetsPath + "maps/sun.jpg";
-  sun.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  sun.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  sun.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  sun.m_Ka = {1.0f,1.0f,1.0f,1.0f};
+  sun.m_Kd = {1.0f,1.0f,1.0f,1.0f};
+  sun.m_Ks = {1.0f,1.0f,1.0f,1.0f};
   sun.m_shininess = 100.0f;
   sun.satellite_of = nullptr;
   sun.create(m_program);
@@ -74,9 +78,10 @@ void Window::onCreate() {
   mercury.scale = 0.1f;
   mercury.color = {0.33f, 0.33f, 0.34f, 1.0f};
   mercury.texture_path = assetsPath + "maps/mercury.jpg";
-  mercury.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  mercury.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  mercury.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  mercury.m_Ka = Ka;
+  mercury.m_Kd = Kd;
+  mercury.m_Ks = Ks;
+  mercury.m_shininess = 100.0f;
   mercury.translation_speed = 1.0f/88.0f;
   mercury.rotation_speed = -1.0f/59.0f;
   mercury.orbit_radius = 1.5f;
@@ -88,9 +93,10 @@ void Window::onCreate() {
   venus.scale = 0.1f;
   venus.color = {0.48f, 0.38f, 0.14f, 1.0f};
   venus.texture_path = assetsPath + "maps/venus.jpg";
-  venus.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  venus.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  venus.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  venus.m_Ka = Ka;
+  venus.m_Kd = Kd;
+  venus.m_Ks = Ks;
+  venus.m_shininess = 100.0f;
   venus.translation_speed = 1.0f/224.0f;
   venus.rotation_speed = 1.0f/243.0f;
   venus.orbit_radius = 2.0f;
@@ -102,9 +108,10 @@ void Window::onCreate() {
   earth.scale = 0.1f;
   earth.color = {0.12f, 0.35f, 0.53f, 1.0f};
   earth.texture_path = assetsPath + "maps/earth_day.jpg";
-  earth.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  earth.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  earth.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  earth.m_Ka = Ka;
+  earth.m_Kd = Kd;
+  earth.m_Ks = Ks;
+  earth.m_shininess = 100.0f;
   earth.translation_speed = 1.0f/365.0f;
   earth.rotation_speed = 1.0f;
   earth.orbit_radius = 2.5f;
@@ -116,9 +123,10 @@ void Window::onCreate() {
   mars.scale = 0.05f;
   mars.color = {0.61f, 0.18, 0.21, 1.0f};
   mars.texture_path = assetsPath + "maps/mars.jpg";
-  mars.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  mars.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  mars.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  mars.m_Ka = Ka;
+  mars.m_Kd = Kd;
+  mars.m_Ks = Ks;
+  mars.m_shininess = 100.0f;
   mars.translation_speed = 1.0f/686.0f;
   mars.rotation_speed = 1.0f/1.03f;
   mars.orbit_radius = 3.0f;
@@ -130,9 +138,10 @@ void Window::onCreate() {
   jupiter.scale = 0.5f;
   jupiter.color = {0.76f, 0.70f, 0.50f, 1.0f};
   jupiter.texture_path = assetsPath + "maps/jupiter.jpg";
-  jupiter.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  jupiter.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  jupiter.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  jupiter.m_Ka = Ka;
+  jupiter.m_Kd = Kd;
+  jupiter.m_Ks = Ks;
+  jupiter.m_shininess = 100.0f;
   jupiter.translation_speed = 1.0f/4344.0f;
   jupiter.rotation_speed = 1.0f/0.41f;
   jupiter.orbit_radius = 5.5f;
@@ -144,9 +153,10 @@ void Window::onCreate() {
   saturn.scale = 0.4f;
   saturn.color = {0.38f, 0.38f, 0.25f, 1.0f};
   saturn.texture_path = assetsPath + "maps/saturn.jpg";
-  saturn.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  saturn.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  saturn.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  saturn.m_Ka = Ka;
+  saturn.m_Kd = Kd;
+  saturn.m_Ks = Ks;
+  saturn.m_shininess = 100.0f;
   saturn.translation_speed = 1.0f/10749.0f;
   saturn.rotation_speed = 1.0f/0.45f;
   saturn.orbit_radius = 7.5f;
@@ -158,9 +168,10 @@ void Window::onCreate() {
   uranus.scale = 0.15f;
   uranus.color = {0.29f, 0.35f, 0.36f, 1.0f};
   uranus.texture_path = assetsPath + "maps/uranus.jpg";
-  uranus.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  uranus.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  uranus.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  uranus.m_Ka = Ka;
+  uranus.m_Kd = Kd;
+  uranus.m_Ks = Ks;
+  uranus.m_shininess = 100.0f;
   uranus.translation_speed = 1.0f/30660.0f;
   uranus.rotation_speed = 1.0f/0.72f;
   uranus.orbit_radius = 8.5f;
@@ -172,9 +183,10 @@ void Window::onCreate() {
   neptune.scale = 0.15f;
   neptune.color = {0.16f, 0.31f, 0.53f, 1.0f};
   neptune.texture_path = assetsPath + "maps/neptune.jpg";
-  neptune.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  neptune.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  neptune.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  neptune.m_Ka = Ka;
+  neptune.m_Kd = Kd;
+  neptune.m_Ks = Ks;
+  neptune.m_shininess = 100.0f;
   neptune.translation_speed = 1.0f/60225.0f;
   neptune.rotation_speed = 1.0f/0.67f;
   neptune.orbit_radius = 9.0f;
@@ -187,9 +199,10 @@ void Window::onCreate() {
   moon.scale = 0.012f;
   moon.color = {1.0f,1.0f,1.0f,1.0f};
   moon.texture_path = assetsPath + "maps/moon.jpg";
-  moon.m_Ka = {0.5f, 0.5f, 0.5f, 1.0f};
-  moon.m_Kd = {0.7f, 0.7f, 0.7f, 1.0f};
-  moon.m_Ks = {1.0f, 1.0f, 1.0f, 1.0f};
+  moon.m_Ka = Ka;
+  moon.m_Kd = Kd;
+  moon.m_Ks = Ks;
+  moon.m_shininess = 100.0f;
   moon.translation_speed = 1.0f/27.3220f;
   moon.rotation_speed = 1.0f/27.0f;
   moon.orbit_radius = 0.2f;

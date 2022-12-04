@@ -192,8 +192,8 @@ void Body::render(glm::mat4 viewMatrix) const {
 
     auto const normalMatrixLoc{
       abcg::glGetUniformLocation(m_program, "normalMatrix")};
-  auto const lightDirLoc{
-      abcg::glGetUniformLocation(m_program, "lightDirWorldSpace")};
+  auto const lightPosLoc{
+      abcg::glGetUniformLocation(m_program, "lightPosWorldSpace")};
   auto const shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
   auto const IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
   auto const IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
@@ -203,8 +203,7 @@ void Body::render(glm::mat4 viewMatrix) const {
   auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
   auto const diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
   
-  auto const lightDirRotated{m_lightDir};
-  abcg::glUniform4fv(lightDirLoc, 1, &lightDirRotated.x);
+  abcg::glUniform3fv(lightPosLoc, 1, &m_lightPos.x);
   abcg::glUniform4fv(IaLoc, 1, &m_Ia.x);
   abcg::glUniform4fv(IdLoc, 1, &m_Id.x);
   abcg::glUniform4fv(IsLoc, 1, &m_Is.x);
@@ -240,9 +239,9 @@ void Body::render(glm::mat4 viewMatrix) const {
 
 
   // Draw body lines in darker color
-  glm::vec4 line_color = {color[0] * 0.5f,color[1] * 0.5f,color[2] * 0.5f,1.0f};
-  abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
-  abcg::glDrawElements(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
+  // glm::vec4 line_color = {color[0] * 0.5f,color[1] * 0.5f,color[2] * 0.5f,1.0f};
+  // abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
+  // abcg::glDrawElements(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
   abcg::glBindVertexArray(0);
 

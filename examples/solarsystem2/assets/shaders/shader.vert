@@ -10,7 +10,7 @@ uniform mat4 viewMatrix;
 uniform mat4 projMatrix;
 uniform mat3 normalMatrix;
 
-uniform vec4 lightDirWorldSpace;
+uniform vec3 lightPosWorldSpace;
 
 out vec4 fragColor;
 out vec3 fragV;
@@ -23,7 +23,7 @@ out vec3 fragNObj;
 void main() {
   vec3 P = (viewMatrix * modelMatrix * vec4(inPosition, 1.0)).xyz;
   vec3 N = normalMatrix * inNormal;
-  vec3 L = -(viewMatrix * lightDirWorldSpace).xyz;
+  vec3 L = (viewMatrix * vec4(lightPosWorldSpace,1.0)).xyz - P;
 
   fragL = L;
   fragV = -P;
