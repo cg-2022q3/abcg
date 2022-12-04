@@ -5,7 +5,6 @@ precision mediump float;
 in vec3 fragN;
 in vec3 fragL;
 in vec3 fragV;
-in vec2 fragTexCoord;
 
 // Light properties
 uniform vec4 Ia, Id, Is;
@@ -14,13 +13,9 @@ uniform vec4 Ia, Id, Is;
 uniform vec4 Ka, Kd, Ks;
 uniform float shininess;
 
-// Diffuse texture sampler
-uniform sampler2D diffuseTex;
-
 out vec4 outColor;
 
-// Blinn-Phong reflection model
-vec4 BlinnPhong(vec3 N, vec3 L, vec3 V, vec2 texCoord) {
+vec4 Phong(vec3 N, vec3 L, vec3 V) {
   N = normalize(N);
   L = normalize(L);
 
@@ -30,25 +25,22 @@ vec4 BlinnPhong(vec3 N, vec3 L, vec3 V, vec2 texCoord) {
   // Compute specular term
   float specular = 0.0;
   if (lambertian > 0.0) {
+    // vec3 R = normalize(2.0 * dot(N, L) * N - L);
+    vec3 R = reflect(-L, N);
     V = normalize(V);
-    vec3 H = normalize(L + V);
-    float angle = max(dot(H, N), 0.0);
+    float angle = max(dot(R, V), 0.0);
     specular = pow(angle, shininess);
   }
 
-  vec4 map_Kd = texture(diffuseTex, texCoord);
-  vec4 map_Ka = map_Kd;
-
-  vec4 diffuseColor = map_Kd * Kd * Id * lambertian;
+  vec4 diffuseColor = Kd * Id * lambertian;
   vec4 specularColor = Ks * Is * specular;
-  vec4 ambientColor = map_Ka * Ka * Ia;
+  vec4 ambientColor = Ka * Ia;
 
   return ambientColor + diffuseColor + specularColor;
 }
 
 void main() {
-  vec4 color;
-  color = BlinnPhong(fragN, fragL, fragV, fragTexCoord);
+  vec4 color = Phong(fragN, fragL, fragV);
 
   if (gl_FrontFacing) {
     outColor = color;

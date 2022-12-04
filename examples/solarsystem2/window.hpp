@@ -4,6 +4,7 @@
 #include "abcgOpenGL.hpp"
 #include "body.hpp"
 #include "camera.hpp"
+#include "skydome.hpp"
 
 class Window : public abcg::OpenGLWindow {
 protected:
@@ -22,10 +23,14 @@ private:
 
   Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
 
+  Skydome skydome;
+
   float m_pedestalSpeed{};
   float m_truckSpeed{};
-  float speed{0.0f};
   
+  float m_rotation_speed{0.0f};
+  float m_translation_speed{0.0f};
+
   GLuint m_program{};
 };
 

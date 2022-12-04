@@ -7,10 +7,9 @@ int main(int argc, char **argv) {
     Window window;
     window.setOpenGLSettings({.samples = 4});
     window.setWindowSettings({
-        .width = 900,
-        .height = 900,
-        .showFPS = false,
-        .title = "Solar System Simulation",
+        .width = 600,
+        .height = 600,
+        .title = "Model Viewer (version 6)",
     });
 
     app.run(window);

@@ -57,9 +57,9 @@ void Window::onCreate() {
                                   .stage = abcg::ShaderStage::Fragment}});
 
 
-  glm::vec4 Ka = {0.2f,0.2f,0.2f,0.2f};
+  glm::vec4 Ka = {0.2f,0.2f,0.2f,1.0f};
   glm::vec4 Kd = {1.0f,1.0f,1.0f,1.0f};
-  glm::vec4 Ks = {0.1f,0.1f,0.1f,0.1f};
+  glm::vec4 Ks = {0.1f,0.1f,0.1f,1.0f};
 
   // create sun
   sun.name = "Sun";
@@ -208,21 +208,29 @@ void Window::onCreate() {
   moon.orbit_radius = 0.2f;
   moon.satellite_of = &earth;
   moon.create(m_program);
+
+  // create skydome
+  skydome.texture_path = assetsPath + "maps/8k_stars_milky_way.jpg";
+  skydome.create(abcg::createOpenGLProgram({{.source = path + "skydome.vert",
+                                  .stage = abcg::ShaderStage::Vertex},
+                                 {.source = path + "skydome.frag",
+                                  .stage = abcg::ShaderStage::Fragment}}));
+
 }
 
 void Window::onUpdate() {
   auto const deltaTime{gsl::narrow_cast<float>(getDeltaTime())};
   
-  sun.update(deltaTime,speed);
-  mercury.update(deltaTime,speed);
-  venus.update(deltaTime,speed);
-  earth.update(deltaTime,speed);
-  mars.update(deltaTime,speed);
-  jupiter.update(deltaTime,speed);
-  saturn.update(deltaTime,speed);
-  neptune.update(deltaTime,speed);
-  uranus.update(deltaTime,speed);
-  moon.update(deltaTime,speed);
+  sun.update(deltaTime,m_rotation_speed,m_translation_speed);
+  mercury.update(deltaTime,m_rotation_speed,m_translation_speed);
+  venus.update(deltaTime,m_rotation_speed,m_translation_speed);
+  earth.update(deltaTime,m_rotation_speed,m_translation_speed);
+  mars.update(deltaTime,m_rotation_speed,m_translation_speed);
+  jupiter.update(deltaTime,m_rotation_speed,m_translation_speed);
+  saturn.update(deltaTime,m_rotation_speed,m_translation_speed);
+  neptune.update(deltaTime,m_rotation_speed,m_translation_speed);
+  uranus.update(deltaTime,m_rotation_speed,m_translation_speed);
+  moon.update(deltaTime,m_rotation_speed,m_translation_speed);
 
   // Update LookAt camera
   m_camera.pedestal(m_pedestalSpeed * deltaTime);
@@ -255,25 +263,53 @@ void Window::onPaint() {
   uranus.render(m_camera.getViewMatrix());
   moon.render(m_camera.getViewMatrix());
 
-
   abcg::glUseProgram(0);
+
+  skydome.render(m_camera.getViewMatrix(), m_camera.getProjMatrix());
 }
 
 void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
   // Create window for slider
   {
-    ImGui::SetNextWindowPos(ImVec2(5, m_viewportSize.y - 94));
-    ImGui::SetNextWindowSize(ImVec2(m_viewportSize.x - 10, -1));
-    ImGui::Begin("Slider window", nullptr, ImGuiWindowFlags_NoDecoration);
+    ImGui::SetNextWindowPos(ImVec2(5, 100));
+    ImGui::SetNextWindowSize(ImVec2(200, -1));
+  
+    ImGui::Begin("Movement Controls", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
     {
       // Slider will fill the space of the window
-      ImGui::PushItemWidth(m_viewportSize.x - 25);
-      ImGui::SliderFloat(" ", &speed, 0.0f, 100.0f,
-                       "%.1fx speed");
+      ImGui::PushItemWidth(-1);
+      ImGui::PushID(1);
+      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Rotation speed");
+      ImGui::PopID();
+      
+      ImGui::PushID(2);
+      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Translation speed");
+      ImGui::PopID();
       ImGui::PopItemWidth();
+      
+    }
+
+    ImGui::End();
+
+    ImGui::SetNextWindowPos(ImVec2(5, 300));
+    ImGui::SetNextWindowSize(ImVec2(200, 120));
+  
+    ImGui::Begin("Lighting Controls", nullptr,ImGuiWindowFlags_NoResize);
+
+    // Create a slider to control the number of rendered triangles
+    {
+      // Slider will fill the space of the window
+      ImGui::PushID(1);
+      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Rotation speed");
+      ImGui::PopID();
+      
+      ImGui::PushID(2);
+      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Translation speed");
+      ImGui::PopID();
+
     }
 
     ImGui::End();

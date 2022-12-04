@@ -93,17 +93,17 @@ void Body::destroy(){
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Body::update(float deltaTime, float speed){
+void Body::update(float deltaTime, float rot_speed, float trans_speed){
   // updates position for bodies that are satellites of another body
   if (satellite_of){
     // translation
-    auto angle = 10.0f * deltaTime * translation_speed * speed;
+    auto angle = 10.0f * deltaTime * translation_speed * trans_speed;
     translation_angle += angle;
     position.x = satellite_of->position.x + cos(translation_angle) * orbit_radius;
     position.z = satellite_of->position.z - sin(translation_angle) * orbit_radius;
 
     //rotation
-    angle = 10.0f * deltaTime * rotation_speed * speed;
+    angle = 10.0f * deltaTime * rotation_speed * rot_speed;
     rotation_angle += angle;
   
     path.update(satellite_of->position);

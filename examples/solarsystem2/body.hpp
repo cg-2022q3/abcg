@@ -17,7 +17,7 @@ public:
   void create(GLuint program);
   void paint();
   void destroy();
-  void update(float deltaTime,float speed);
+  void update(float deltaTime,float rot_speed, float trans_speed);
   void computeModelMatrix();
   void render(glm::mat4 viewMatrix) const;
   void generateUVSphere(int stacks, int slices);
