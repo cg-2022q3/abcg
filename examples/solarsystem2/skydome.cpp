@@ -65,9 +65,6 @@ void Skydome::create(GLuint program){
     abcg::glDeleteTextures(1, &m_diffuseTexture);
     m_diffuseTexture = abcg::loadOpenGLTexture({.path = texture_path});
   }
-
-
-  computeModelMatrix();
 }
 
 void Skydome::destroy(){
@@ -77,18 +74,9 @@ void Skydome::destroy(){
   abcg::glDeleteVertexArrays(1, &m_VAO);
 }
 
-void Skydome::update(float deltaTime){
-  computeModelMatrix();  
-}
-
-void Skydome::computeModelMatrix(){
-  modelMatrix = glm::mat4(1.0f);
-  modelMatrix = glm::scale(modelMatrix, glm::vec3(scale));
-}
-
 void Skydome::generateUVSphere(int stacks, int sectors){
   // geneterates a UV sphere with radius 1.0f
-  float radius = 20.0f;
+  float radius = 50.0f;
   float sectorAngle, stackAngle, x, y, z, xz, u, v;
   float sectorStep = 2 * M_PI / sectors;
   float stackStep = M_PI / stacks;
