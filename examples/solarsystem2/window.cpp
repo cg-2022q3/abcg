@@ -1,5 +1,7 @@
 #include "window.hpp"
 
+
+
 void Window::onEvent(SDL_Event const &event) {
   glm::ivec2 mousePosition;
   SDL_GetMouseState(&mousePosition.x, &mousePosition.y);
@@ -275,7 +277,7 @@ void Window::onPaintUI() {
     ImGui::SetNextWindowPos(ImVec2(5, 100));
     ImGui::SetNextWindowSize(ImVec2(200, -1));
   
-    ImGui::Begin("Movement Controls", nullptr,ImGuiWindowFlags_NoResize);
+    ImGui::Begin("Controle de Movimentos", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
     {
@@ -294,10 +296,10 @@ void Window::onPaintUI() {
 
     ImGui::End();
 
-    ImGui::SetNextWindowPos(ImVec2(5, 300));
-    ImGui::SetNextWindowSize(ImVec2(200, 120));
+    ImGui::SetNextWindowPos(ImVec2(5, 200));
+    ImGui::SetNextWindowSize(ImVec2(200, -1));
   
-    ImGui::Begin("Lighting Controls", nullptr,ImGuiWindowFlags_NoResize);
+    ImGui::Begin("COntrole de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
     {
@@ -314,6 +316,161 @@ void Window::onPaintUI() {
 
     ImGui::End();
   }
+  
+  ImGui::SetNextWindowPos(ImVec2(5, 300));
+  ImGui::SetNextWindowSize(ImVec2(200, -1));
+
+  ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
+
+  {
+    ImGui::Checkbox("Sol", &cbSol);
+    ImGui::Checkbox("Mercúrio", &cbMer);
+    ImGui::Checkbox("Vênus", &cbVen);
+    ImGui::Checkbox("Terra", &cbTer);
+    ImGui::Checkbox("Marte", &cbMar);
+    ImGui::Checkbox("Júpiter", &cbJup);
+    ImGui::Checkbox("Saturno", &cbSat);
+    ImGui::Checkbox("Urano", &cbUra);
+    ImGui::Checkbox("Neturno", &cbNet);
+  }
+
+  ImGui::End();
+
+  ImGui::SetNextWindowPos(ImVec2(5, 600));
+  ImGui::SetNextWindowSize(ImVec2(375, -1));
+
+  ImGui::Begin("Informações", nullptr,ImGuiWindowFlags_NoResize);
+
+  {
+    if (cbSol == true){
+      ImGui::Text("SOL");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           1.391.016 km");
+      ImGui::Text("Temperature:        5.500°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Gases hélio e hidrogênio");
+    }
+
+    else if (cbMer == true){
+      ImGui::Text("Mercúrio");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           4.879,4 Km");
+      ImGui::Text("Dist. Sol:          57,9 milhões Km");
+      ImGui::Text("Vel. Translação:    47,87 km/s");
+      ImGui::Text("1 Dia:              58,6 dias terrestre");
+      ImGui::Text("1 Ano:              88 dias terrestre");
+      ImGui::Text("Temp. Dia:          430°C");
+      ImGui::Text("Temp. Noite:        -170°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Atomos de argônio, neônio e hélio");
+    }
+
+    else if (cbVen == true){
+      ImGui::Text("Vênus");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           12.103,6 Km");
+      ImGui::Text("Dist. Sol:          108,2 milhões Km");
+      ImGui::Text("Vel. Translação:    35 km/s");
+      ImGui::Text("1 Dia:              243 dias terrestre");
+      ImGui::Text("1 Ano:              224 dias terrestre");
+      ImGui::Text("Temperatura:        Até 480°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * ATM composta por gás carbônico");
+    }
+
+    else if (cbTer == true){
+      ImGui::Text("Terra");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           12.756,2 Km");
+      ImGui::Text("Dist. Sol:          149,6 milhões Km");
+      ImGui::Text("Vel. Translação:    29,8 km/s");
+      ImGui::Text("1 Dia:              24 horas");
+      ImGui::Text("1 Ano:              365 dias");
+      ImGui::Text("Temperatura:        Entre -60° C e 45° C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   *  ATM nitrogênio, oxigênio e outros");
+      ImGui::Text("   *  Superfície é 71 porcento de água");
+    }
+
+    else if (cbMar == true){
+      ImGui::Text("Marte");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           6.794,4 Km");
+      ImGui::Text("Dist. Sol:          227,94 milhões Km");
+      ImGui::Text("Vel. Translação:    24,1 km/s");
+      ImGui::Text("1 Dia:              24 hr e 37 min terrestre");
+      ImGui::Text("1 Ano:              687 dias terrestre");
+      ImGui::Text("Temperatura:        Média regist. -60°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * ATM gás carbônico, dióxido de carbono");
+      ImGui::Text("     nitrogênio, argônio, néon e oxigênio");
+    }
+
+    else if (cbJup == true){
+      ImGui::Text("Júpiter");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           142.984 Km");
+      ImGui::Text("Dist. Sol:          778,33 milhões Km");
+      ImGui::Text("Vel. Translação:    13,1 km/s");
+      ImGui::Text("1 Dia:              10 horas terrestre");
+      ImGui::Text("1 Ano:              12 anos terrestre");
+      ImGui::Text("Temperatura:        Média -110°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * ATM composta de hidrogênio e hélio");
+      ImGui::Text("   * Planeta gasoso");
+    }
+
+    else if (cbSat == true){
+      ImGui::Text("Saturno");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           120.536 Km");
+      ImGui::Text("Dist. Sol:          1.429,4 milhões Km");
+      ImGui::Text("Vel. Translação:    9,7 km/s");
+      ImGui::Text("1 Dia:              10 hr e 39 min terrestre");
+      ImGui::Text("1 Ano:              29 anos, 167 dias e 6 hr");
+      ImGui::Text("                    terrestre");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Composto por hidrogênio");
+      ImGui::Text("   * Planeta gasoso");
+    }
+
+    else if (cbUra == true){
+      ImGui::Text("Urano");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           51.118 Km");
+      ImGui::Text("Dist. Sol:          2.870,99 milhões Km");
+      ImGui::Text("Vel. Translação:    6,8 km/s");
+      ImGui::Text("1 Dia:              18 horas terrestre");
+      ImGui::Text("1 Ano:              84 anos terrestre");
+      ImGui::Text("Temperatura:        Média -195°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Composto hidrogênio, hélio e metano");
+      ImGui::Text("   * Planeta gasoso");
+    }
+
+    else if (cbNet == true){
+      ImGui::Text("Netuno");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           49.538 Km");
+      ImGui::Text("Dist. Sol:          4.504,3 milhões Km");
+      ImGui::Text("Vel. Translação:    5,4 km/s");
+      ImGui::Text("1 Dia:              16 hr e 11 min terrestre");
+      ImGui::Text("1 Ano:              164,8 anos terrestre");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Composto hidrogênio, hélio, água e metano");
+      ImGui::Text("   * Planeta gasoso");
+    }
+
+    else {
+      ImGui::Text("Olá, seja bem vindo ao Modelo Sistema Solar!");
+      ImGui::Text("Selecione um planeta e veja suas informações");
+      ImGui::Text("Divirta-se navegando e explorando o no sistema.");
+    }
+
+  }
+
+  ImGui::End();
+
 
 }
 

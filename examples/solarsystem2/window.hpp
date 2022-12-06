@@ -31,6 +31,16 @@ private:
   float m_rotation_speed{0.0f};
   float m_translation_speed{0.0f};
 
+  bool cbSol = false;
+  bool cbMer = false;
+  bool cbVen = false;
+  bool cbTer = false;
+  bool cbMar = false;
+  bool cbJup = false;
+  bool cbSat = false;
+  bool cbUra = false;
+  bool cbNet = false;
+
   GLuint m_program{};
 };
 
