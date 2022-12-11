@@ -108,7 +108,7 @@ void Window::onCreate() {
   // create earth
   earth.name = "Earth";
   earth.scale = 0.1f;
-  earth.color = {0.12f, 0.35f, 0.53f, 1.0f};
+  earth.color = {0.12f, 0.5f, 0.53f, 1.0f};
   earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
   earth.normal_map_path = assetsPath + "maps/8k_earth_normal_map.tif";
   earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
@@ -298,7 +298,7 @@ void Window::onPaintUI() {
     ImGui::SetNextWindowPos(ImVec2(5, 100));
     ImGui::SetNextWindowSize(ImVec2(300, -1));
   
-    ImGui::SetNextWindowBgAlpha(0.35f);
+    ImGui::SetNextWindowBgAlpha(0.7f);
     ImGui::Begin("Controles de Movimento", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
@@ -306,11 +306,11 @@ void Window::onPaintUI() {
       // Slider will fill the space of the window
       ImGui::PushItemWidth(-1);
       ImGui::PushID(1);
-      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Rotation speed");
+      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Vel. Rotação");
       ImGui::PopID();
       
       ImGui::PushID(2);
-      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Translation speed");
+      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Vel. Translação");
       ImGui::PopID();
       ImGui::PopItemWidth();
       
@@ -320,7 +320,7 @@ void Window::onPaintUI() {
 
     ImGui::SetNextWindowPos(ImVec2(5, 200));
     ImGui::SetNextWindowSize(ImVec2(300, -1));
-    ImGui::SetNextWindowBgAlpha(0.35f);
+    ImGui::SetNextWindowBgAlpha(0.7f);
   
     ImGui::Begin("Controles de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
 
@@ -354,7 +354,7 @@ void Window::onPaintUI() {
   
   ImGui::SetNextWindowPos(ImVec2(5, 400));
   ImGui::SetNextWindowSize(ImVec2(200, -1));
-    ImGui::SetNextWindowBgAlpha(0.35f);
+  ImGui::SetNextWindowBgAlpha(0.7f);
 
   ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
   
@@ -376,13 +376,13 @@ void Window::onPaintUI() {
 
   ImGui::SetNextWindowPos(ImVec2(m_viewportSize.x -505, 5));
   ImGui::SetNextWindowSize(ImVec2(500, -1));
-    ImGui::SetNextWindowBgAlpha(0.35f);
+    ImGui::SetNextWindowBgAlpha(0.7f);
 
   ImGui::Begin("Informações", nullptr,ImGuiWindowFlags_NoResize);
   switch (radio_selected) 
   {
     case 0:{
-      ImGui::Text("SOL");
+      ImGui::Text("Sol");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           1.391.016 km");
       ImGui::Text("Temperature:        5.500°C");

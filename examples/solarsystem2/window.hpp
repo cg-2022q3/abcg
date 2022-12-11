@@ -43,7 +43,7 @@ private:
   float m_Ia{1.0f};
   float m_Id{1.0f};
   float m_Is{1.0f};
-  float m_shininess{30.0f};
+  float m_shininess{50.0f};
   
   ImFont *m_font{};
 
