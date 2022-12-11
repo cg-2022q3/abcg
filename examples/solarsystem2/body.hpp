@@ -34,13 +34,9 @@ public:
   GLuint m_program{};
 
   glm::vec3 m_lightPos{0.0f, 0.0f, 0.0f};
-  glm::vec4 m_Ia{1.0f};
-  glm::vec4 m_Id{1.0f};
-  glm::vec4 m_Is{1.0f};
   glm::vec4 m_Ka{1.0f};
   glm::vec4 m_Kd{1.0f};
   glm::vec4 m_Ks{1.0f};
-  float m_shininess{};
 
 
   std::string texture_path{""};

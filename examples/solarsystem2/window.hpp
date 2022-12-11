@@ -45,16 +45,7 @@ private:
   float m_Is{1.0f};
   float m_shininess{30.0f};
   
-
-  bool cbSol = false;
-  bool cbMer = false;
-  bool cbVen = false;
-  bool cbTer = false;
-  bool cbMar = false;
-  bool cbJup = false;
-  bool cbSat = false;
-  bool cbUra = false;
-  bool cbNet = false;
+  ImFont *m_font{};
 
   GLuint program_body{}, program_path{}, program_skydome{};
 };

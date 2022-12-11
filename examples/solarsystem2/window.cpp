@@ -47,6 +47,9 @@ void Window::onEvent(SDL_Event const &event) {
 void Window::onCreate() {
   auto const assetsPath{abcg::Application::getAssetsPath()};
 
+  auto const filename{assetsPath + "fonts/nasalization.otf"};
+  m_font = ImGui::GetIO().Fonts->AddFontFromFileTTF(filename.c_str(), 20.0f);
+
   abcg::glClearColor(0, 0, 0, 1);
   abcg::glEnable(GL_DEPTH_TEST);
   
@@ -69,22 +72,13 @@ void Window::onCreate() {
                                   .stage = abcg::ShaderStage::Vertex},
                                  {.source = path + "skydome.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
-  
 
-
-  glm::vec4 Ka = {0.2f,0.2f,0.2f,1.0f};
-  glm::vec4 Kd = {1.0f,1.0f,1.0f,1.0f};
-  glm::vec4 Ks = {0.1f,0.1f,0.1f,1.0f};
 
   // create sun
   sun.name = "Sun";
   sun.scale = 1.0f;
   sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
   sun.texture_path = assetsPath + "maps/8k_sun.jpg";
-  sun.m_Ka = {1.0f,1.0f,1.0f,1.0f};
-  sun.m_Kd = {1.0f,1.0f,1.0f,1.0f};
-  sun.m_Ks = {1.0f,1.0f,1.0f,1.0f};
-  sun.m_shininess = 100.0f;
   sun.satellite_of = nullptr;
   sun.create(program_body);
 
@@ -93,10 +87,6 @@ void Window::onCreate() {
   mercury.scale = 0.1f;
   mercury.color = {0.33f, 0.33f, 0.34f, 1.0f};
   mercury.texture_path = assetsPath + "maps/mercury.jpg";
-  mercury.m_Ka = Ka;
-  mercury.m_Kd = Kd;
-  mercury.m_Ks = Ks;
-  mercury.m_shininess = 100.0f;
   mercury.translation_speed = 1.0f/88.0f;
   mercury.rotation_speed = -1.0f/59.0f;
   mercury.orbit_radius = 1.5f;
@@ -108,10 +98,6 @@ void Window::onCreate() {
   venus.scale = 0.1f;
   venus.color = {0.48f, 0.38f, 0.14f, 1.0f};
   venus.texture_path = assetsPath + "maps/venus.jpg";
-  venus.m_Ka = Ka;
-  venus.m_Kd = Kd;
-  venus.m_Ks = Ks;
-  venus.m_shininess = 100.0f;
   venus.translation_speed = 1.0f/224.0f;
   venus.rotation_speed = 1.0f/243.0f;
   venus.orbit_radius = 2.0f;
@@ -127,7 +113,6 @@ void Window::onCreate() {
   earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
   earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.tif";
   earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
-  earth.m_shininess = 100.0f;
   earth.translation_speed = 1.0f/365.0f;
   earth.rotation_speed = 1.0f;
   earth.orbit_radius = 2.5f;
@@ -139,10 +124,6 @@ void Window::onCreate() {
   mars.scale = 0.05f;
   mars.color = {0.61f, 0.18, 0.21, 1.0f};
   mars.texture_path = assetsPath + "maps/mars.jpg";
-  mars.m_Ka = Ka;
-  mars.m_Kd = Kd;
-  mars.m_Ks = Ks;
-  mars.m_shininess = 100.0f;
   mars.translation_speed = 1.0f/686.0f;
   mars.rotation_speed = 1.0f/1.03f;
   mars.orbit_radius = 3.0f;
@@ -154,10 +135,6 @@ void Window::onCreate() {
   jupiter.scale = 0.5f;
   jupiter.color = {0.76f, 0.70f, 0.50f, 1.0f};
   jupiter.texture_path = assetsPath + "maps/jupiter.jpg";
-  jupiter.m_Ka = Ka;
-  jupiter.m_Kd = Kd;
-  jupiter.m_Ks = Ks;
-  jupiter.m_shininess = 100.0f;
   jupiter.translation_speed = 1.0f/4344.0f;
   jupiter.rotation_speed = 1.0f/0.41f;
   jupiter.orbit_radius = 5.5f;
@@ -169,10 +146,6 @@ void Window::onCreate() {
   saturn.scale = 0.4f;
   saturn.color = {0.38f, 0.38f, 0.25f, 1.0f};
   saturn.texture_path = assetsPath + "maps/saturn.jpg";
-  saturn.m_Ka = Ka;
-  saturn.m_Kd = Kd;
-  saturn.m_Ks = Ks;
-  saturn.m_shininess = 100.0f;
   saturn.translation_speed = 1.0f/10749.0f;
   saturn.rotation_speed = 1.0f/0.45f;
   saturn.orbit_radius = 7.5f;
@@ -184,10 +157,6 @@ void Window::onCreate() {
   uranus.scale = 0.15f;
   uranus.color = {0.29f, 0.35f, 0.36f, 1.0f};
   uranus.texture_path = assetsPath + "maps/uranus.jpg";
-  uranus.m_Ka = Ka;
-  uranus.m_Kd = Kd;
-  uranus.m_Ks = Ks;
-  uranus.m_shininess = 100.0f;
   uranus.translation_speed = 1.0f/30660.0f;
   uranus.rotation_speed = 1.0f/0.72f;
   uranus.orbit_radius = 8.5f;
@@ -199,10 +168,6 @@ void Window::onCreate() {
   neptune.scale = 0.15f;
   neptune.color = {0.16f, 0.31f, 0.53f, 1.0f};
   neptune.texture_path = assetsPath + "maps/neptune.jpg";
-  neptune.m_Ka = Ka;
-  neptune.m_Kd = Kd;
-  neptune.m_Ks = Ks;
-  neptune.m_shininess = 100.0f;
   neptune.translation_speed = 1.0f/60225.0f;
   neptune.rotation_speed = 1.0f/0.67f;
   neptune.orbit_radius = 9.0f;
@@ -215,10 +180,6 @@ void Window::onCreate() {
   moon.scale = 0.0120f;
   moon.color = {1.0f,1.0f,1.0f,1.0f};
   moon.texture_path = assetsPath + "maps/moon.jpg";
-  moon.m_Ka = Ka;
-  moon.m_Kd = Kd;
-  moon.m_Ks = Ks;
-  moon.m_shininess = 100.0f;
   moon.translation_speed = 1.0f/27.3220f;
   moon.rotation_speed = 1.0f/27.0f;
   moon.orbit_radius = 0.2f;
@@ -263,6 +224,8 @@ void Window::onUpdate() {
 
 void Window::onPaint() {
   abcg::glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  abcg::glEnable(GL_BLEND);
+  abcg::glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
@@ -330,9 +293,11 @@ void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
   // Create window for slider
   {
+    ImGui::PushFont(m_font);
     ImGui::SetNextWindowPos(ImVec2(5, 100));
-    ImGui::SetNextWindowSize(ImVec2(250, -1));
+    ImGui::SetNextWindowSize(ImVec2(300, -1));
   
+    ImGui::SetNextWindowBgAlpha(0.35f);
     ImGui::Begin("Controles de Movimento", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
@@ -353,7 +318,8 @@ void Window::onPaintUI() {
     ImGui::End();
 
     ImGui::SetNextWindowPos(ImVec2(5, 200));
-    ImGui::SetNextWindowSize(ImVec2(250, -1));
+    ImGui::SetNextWindowSize(ImVec2(300, -1));
+    ImGui::SetNextWindowBgAlpha(0.35f);
   
     ImGui::Begin("Controles de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
 
@@ -387,39 +353,43 @@ void Window::onPaintUI() {
   
   ImGui::SetNextWindowPos(ImVec2(5, 400));
   ImGui::SetNextWindowSize(ImVec2(200, -1));
+    ImGui::SetNextWindowBgAlpha(0.35f);
 
   ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
-
+  
+  static int radio_selected{-1};  
   {
-    ImGui::Checkbox("Sol", &cbSol);
-    ImGui::Checkbox("Mercúrio", &cbMer);
-    ImGui::Checkbox("Vênus", &cbVen);
-    ImGui::Checkbox("Terra", &cbTer);
-    ImGui::Checkbox("Marte", &cbMar);
-    ImGui::Checkbox("Júpiter", &cbJup);
-    ImGui::Checkbox("Saturno", &cbSat);
-    ImGui::Checkbox("Urano", &cbUra);
-    ImGui::Checkbox("Neturno", &cbNet);
+    ImGui::RadioButton("Câmera Livre", &radio_selected, -1);
+    ImGui::RadioButton("Sol", &radio_selected, 0);
+    ImGui::RadioButton("Mercúrio", &radio_selected, 1);
+    ImGui::RadioButton("Vênus", &radio_selected, 2);
+    ImGui::RadioButton("Terra", &radio_selected, 3);
+    ImGui::RadioButton("Marte", &radio_selected, 4);
+    ImGui::RadioButton("Júpiter", &radio_selected, 5); 
+    ImGui::RadioButton("Saturno", &radio_selected, 6);
+    ImGui::RadioButton("Urano", &radio_selected, 7);
+    ImGui::RadioButton("Neturno", &radio_selected, 8);
   }
 
   ImGui::End();
 
-  ImGui::SetNextWindowPos(ImVec2(5, 800));
-  ImGui::SetNextWindowSize(ImVec2(375, -1));
+  ImGui::SetNextWindowPos(ImVec2(m_viewportSize.x -505, 5));
+  ImGui::SetNextWindowSize(ImVec2(500, -1));
+    ImGui::SetNextWindowBgAlpha(0.35f);
 
   ImGui::Begin("Informações", nullptr,ImGuiWindowFlags_NoResize);
-
+  switch (radio_selected) 
   {
-    if (cbSol == true){
+    case 0:{
       ImGui::Text("SOL");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           1.391.016 km");
       ImGui::Text("Temperature:        5.500°C");
       ImGui::Text("Composição:");
       ImGui::Text("   * Gases hélio e hidrogênio");
+      break;
     }
-
-    else if (cbMer == true){
+    case 1:{
       ImGui::Text("Mercúrio");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           4.879,4 Km");
@@ -431,9 +401,10 @@ void Window::onPaintUI() {
       ImGui::Text("Temp. Noite:        -170°C");
       ImGui::Text("Composição:");
       ImGui::Text("   * Atomos de argônio, neônio e hélio");
+      break;
     }
 
-    else if (cbVen == true){
+    case 2:{
       ImGui::Text("Vênus");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           12.103,6 Km");
@@ -444,9 +415,10 @@ void Window::onPaintUI() {
       ImGui::Text("Temperatura:        Até 480°C");
       ImGui::Text("Composição:");
       ImGui::Text("   * ATM composta por gás carbônico");
+      break;
     }
 
-    else if (cbTer == true){
+    case 3:{
       ImGui::Text("Terra");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           12.756,2 Km");
@@ -458,9 +430,10 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   *  ATM nitrogênio, oxigênio e outros");
       ImGui::Text("   *  Superfície é 71 porcento de água");
+      break;
     }
 
-    else if (cbMar == true){
+    case 4:{
       ImGui::Text("Marte");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           6.794,4 Km");
@@ -472,9 +445,10 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   * ATM gás carbônico, dióxido de carbono");
       ImGui::Text("     nitrogênio, argônio, néon e oxigênio");
+      break;
     }
 
-    else if (cbJup == true){
+    case 5:{
       ImGui::Text("Júpiter");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           142.984 Km");
@@ -486,9 +460,10 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   * ATM composta de hidrogênio e hélio");
       ImGui::Text("   * Planeta gasoso");
+      break;
     }
 
-    else if (cbSat == true){
+    case 6:{
       ImGui::Text("Saturno");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           120.536 Km");
@@ -500,9 +475,10 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   * Composto por hidrogênio");
       ImGui::Text("   * Planeta gasoso");
+      break;
     }
 
-    else if (cbUra == true){
+    case 7:{
       ImGui::Text("Urano");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           51.118 Km");
@@ -514,9 +490,10 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   * Composto hidrogênio, hélio e metano");
       ImGui::Text("   * Planeta gasoso");
+      break;
     }
 
-    else if (cbNet == true){
+    case 8:{
       ImGui::Text("Netuno");
       ImGui::Text("********************************************");
       ImGui::Text("Diâmetro:           49.538 Km");
@@ -527,15 +504,18 @@ void Window::onPaintUI() {
       ImGui::Text("Composição:");
       ImGui::Text("   * Composto hidrogênio, hélio, água e metano");
       ImGui::Text("   * Planeta gasoso");
+      break;
     }
 
-    else {
+    case -1:{
       ImGui::Text("Olá, seja bem vindo ao Modelo Sistema Solar!");
       ImGui::Text("Selecione um planeta e veja suas informações");
       ImGui::Text("Divirta-se navegando e explorando o no sistema.");
+      break;
     }
 
   }
+  ImGui::PopFont();
 
   ImGui::End();
 

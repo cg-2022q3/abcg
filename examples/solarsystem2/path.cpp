@@ -87,7 +87,7 @@ void Path::render() const {
 
   abcg::glBindVertexArray(m_VAO);
 
-  glm::vec4 line_color = {0.3f,0.3f,0.3f,0.5f} ;
+  glm::vec4 line_color = {1.0f,1.0f,1.0f,0.2f} ;
   abcg::glUniform4fv(m_colorLoc, 1, &line_color[0]);
   abcg::glDrawArrays(GL_LINES,0,m_vertices.size());
 
