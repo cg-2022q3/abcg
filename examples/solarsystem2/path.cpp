@@ -4,6 +4,8 @@
 void Path::create(GLuint program){
   generateCircle(200);
 
+  m_program = program;
+
   // Delete previous buffers
   abcg::glDeleteBuffers(1, &m_VBO);
 
@@ -77,6 +79,8 @@ void Path::generateCircle(int num_vertices){
 }
 
 void Path::render() const {
+
+  abcg::glUseProgram(m_program);
   // Set uniform variables for the current model
   abcg::glUniformMatrix4fv(m_modelMatrixLoc, 1, GL_FALSE, &modelMatrix[0][0]);
   abcg::glUniform4fv(m_colorLoc, 1, &color[0]); 

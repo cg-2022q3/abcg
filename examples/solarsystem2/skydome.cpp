@@ -27,7 +27,6 @@ void Skydome::create(GLuint program){
   
   m_modelMatrixLoc = abcg::glGetUniformLocation(program, "modelMatrix");
 
-
   // Release previous VAO
   abcg::glDeleteVertexArrays(1, &m_VAO);
 

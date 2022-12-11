@@ -31,6 +31,21 @@ private:
   float m_rotation_speed{0.0f};
   float m_translation_speed{0.0f};
 
+  struct Light
+  {
+    glm::vec4 m_Ia{1.0f};
+    glm::vec4 m_Id{1.0f};
+    glm::vec4 m_Is{1.0f};
+  };
+
+  Light light;
+
+  float m_Ia{1.0f};
+  float m_Id{1.0f};
+  float m_Is{1.0f};
+  float m_shininess{30.0f};
+  
+
   bool cbSol = false;
   bool cbMer = false;
   bool cbVen = false;
@@ -41,7 +56,7 @@ private:
   bool cbUra = false;
   bool cbNet = false;
 
-  GLuint m_program{};
+  GLuint program_body{}, program_path{}, program_skydome{};
 };
 
 #endif

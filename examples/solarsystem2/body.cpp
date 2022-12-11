@@ -75,7 +75,22 @@ void Body::create(GLuint program){
     abcg::glDeleteTextures(1, &m_diffuseTexture);
     m_diffuseTexture = abcg::loadOpenGLTexture({.path = texture_path});
   }
-
+  if (std::filesystem::exists(night_map_path)){
+    abcg::glDeleteTextures(1, &m_diffuseTexture_night);
+    m_diffuseTexture_night = abcg::loadOpenGLTexture({.path = night_map_path});
+  }
+  if (std::filesystem::exists(normal_map_path)){
+    abcg::glDeleteTextures(1, &m_normal_map);
+    m_normal_map = abcg::loadOpenGLTexture({.path = normal_map_path});
+  }
+  if (std::filesystem::exists(cloud_map_path)){
+    abcg::glDeleteTextures(1, &m_clouds_map);
+    m_clouds_map = abcg::loadOpenGLTexture({.path = cloud_map_path});
+  }
+  if (std::filesystem::exists(specular_map_path)){
+    abcg::glDeleteTextures(1, &m_specular_map);
+    m_specular_map = abcg::loadOpenGLTexture({.path = specular_map_path});
+  }
 
   if (satellite_of){
     position = satellite_of->position + glm::vec3{orbit_radius, 0.0f, 0.0f};
@@ -83,7 +98,6 @@ void Body::create(GLuint program){
 
   computeModelMatrix();
   path.orbit_radius = orbit_radius;
-  path.create(program);
 }
 
 void Body::destroy(){
@@ -194,21 +208,25 @@ void Body::render(glm::mat4 viewMatrix) const {
       abcg::glGetUniformLocation(m_program, "normalMatrix")};
   auto const lightPosLoc{
       abcg::glGetUniformLocation(m_program, "lightPosWorldSpace")};
-  auto const shininessLoc{abcg::glGetUniformLocation(m_program, "shininess")};
-  auto const IaLoc{abcg::glGetUniformLocation(m_program, "Ia")};
-  auto const IdLoc{abcg::glGetUniformLocation(m_program, "Id")};
-  auto const IsLoc{abcg::glGetUniformLocation(m_program, "Is")};
+
   auto const KaLoc{abcg::glGetUniformLocation(m_program, "Ka")};
   auto const KdLoc{abcg::glGetUniformLocation(m_program, "Kd")};
   auto const KsLoc{abcg::glGetUniformLocation(m_program, "Ks")};
+
   auto const diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
+  auto const diffuseTexNightLoc{abcg::glGetUniformLocation(m_program, "diffuseTexNight")};
+  auto const normalTexLoc{abcg::glGetUniformLocation(m_program, "normalTex")};
+  auto const specularTexLoc{abcg::glGetUniformLocation(m_program, "specularTex")};
+  auto const cloudsTexLoc{abcg::glGetUniformLocation(m_program, "cloudsTex")};
   
   abcg::glUniform3fv(lightPosLoc, 1, &m_lightPos.x);
-  abcg::glUniform4fv(IaLoc, 1, &m_Ia.x);
-  abcg::glUniform4fv(IdLoc, 1, &m_Id.x);
-  abcg::glUniform4fv(IsLoc, 1, &m_Is.x);
+
 
   abcg::glUniform1i(diffuseTexLoc, 0);
+  abcg::glUniform1i(diffuseTexNightLoc, 1);
+  abcg::glUniform1i(normalTexLoc, 2);
+  abcg::glUniform1i(specularTexLoc, 3);
+  abcg::glUniform1i(cloudsTexLoc, 4);
 
   auto const modelViewMatrix{glm::mat3(viewMatrix * modelMatrix)};
   auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
@@ -217,12 +235,31 @@ void Body::render(glm::mat4 viewMatrix) const {
   abcg::glUniform4fv(KaLoc, 1, &m_Ka.x);
   abcg::glUniform4fv(KdLoc, 1, &m_Kd.x);
   abcg::glUniform4fv(KsLoc, 1, &m_Ks.x);
-  abcg::glUniform1f(shininessLoc, m_shininess);
 
   abcg::glBindVertexArray(m_VAO);
 
   abcg::glActiveTexture(GL_TEXTURE0);
   abcg::glBindTexture(GL_TEXTURE_2D, m_diffuseTexture);
+  
+  auto const hasExtraTexLoc{abcg::glGetUniformLocation(m_program, "hasExtraTex")};
+  abcg::glUniform1i(hasExtraTexLoc, false);
+
+  if (name == "Earth"){
+
+    abcg::glUniform1i(hasExtraTexLoc, true);
+    
+    abcg::glActiveTexture(GL_TEXTURE1);
+    abcg::glBindTexture(GL_TEXTURE_2D, m_diffuseTexture_night);
+
+    abcg::glActiveTexture(GL_TEXTURE2);
+    abcg::glBindTexture(GL_TEXTURE_2D, m_normal_map);
+
+    abcg::glActiveTexture(GL_TEXTURE3);
+    abcg::glBindTexture(GL_TEXTURE_2D, m_specular_map);
+
+    abcg::glActiveTexture(GL_TEXTURE4);
+    abcg::glBindTexture(GL_TEXTURE_2D, m_clouds_map);
+  }
 
   // Set minification and magnification parameters
   abcg::glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -244,8 +281,6 @@ void Body::render(glm::mat4 viewMatrix) const {
   // abcg::glDrawElements(GL_LINES, m_indices.size(), GL_UNSIGNED_INT, nullptr);
 
   abcg::glBindVertexArray(0);
-
-  path.render();
 }
 
 

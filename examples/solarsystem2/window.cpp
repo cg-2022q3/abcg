@@ -52,11 +52,24 @@ void Window::onCreate() {
   
 
   auto const path{assetsPath + "shaders/"};
-  m_program =
-      abcg::createOpenGLProgram({{.source = path + "shader.vert",
+  program_body =
+      abcg::createOpenGLProgram({{.source = path + "body.vert",
                                   .stage = abcg::ShaderStage::Vertex},
-                                 {.source = path + "shader.frag",
+                                 {.source = path + "body.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
+
+  program_path =
+      abcg::createOpenGLProgram({{.source = path + "path.vert",
+                                  .stage = abcg::ShaderStage::Vertex},
+                                 {.source = path + "path.frag",
+                                  .stage = abcg::ShaderStage::Fragment}});
+
+  program_skydome =
+      abcg::createOpenGLProgram({{.source = path + "skydome.vert",
+                                  .stage = abcg::ShaderStage::Vertex},
+                                 {.source = path + "skydome.frag",
+                                  .stage = abcg::ShaderStage::Fragment}});
+  
 
 
   glm::vec4 Ka = {0.2f,0.2f,0.2f,1.0f};
@@ -67,13 +80,13 @@ void Window::onCreate() {
   sun.name = "Sun";
   sun.scale = 1.0f;
   sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
-  sun.texture_path = assetsPath + "maps/sun.jpg";
+  sun.texture_path = assetsPath + "maps/8k_sun.jpg";
   sun.m_Ka = {1.0f,1.0f,1.0f,1.0f};
   sun.m_Kd = {1.0f,1.0f,1.0f,1.0f};
   sun.m_Ks = {1.0f,1.0f,1.0f,1.0f};
   sun.m_shininess = 100.0f;
   sun.satellite_of = nullptr;
-  sun.create(m_program);
+  sun.create(program_body);
 
   // create mercury
   mercury.name = "Mercury";
@@ -88,7 +101,7 @@ void Window::onCreate() {
   mercury.rotation_speed = -1.0f/59.0f;
   mercury.orbit_radius = 1.5f;
   mercury.satellite_of = &sun;  
-  mercury.create(m_program);
+  mercury.create(program_body);
 
   // create venus
   venus.name = "Venus";
@@ -103,22 +116,23 @@ void Window::onCreate() {
   venus.rotation_speed = 1.0f/243.0f;
   venus.orbit_radius = 2.0f;
   venus.satellite_of = &sun;
-  venus.create(m_program);
+  venus.create(program_body);
 
   // create earth
   earth.name = "Earth";
   earth.scale = 0.1f;
   earth.color = {0.12f, 0.35f, 0.53f, 1.0f};
-  earth.texture_path = assetsPath + "maps/earth_day.jpg";
-  earth.m_Ka = Ka;
-  earth.m_Kd = Kd;
-  earth.m_Ks = Ks;
+  earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
+  earth.normal_map_path = assetsPath + "maps/8k_earth_normal_map.tif";
+  earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
+  earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.tif";
+  earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
   earth.m_shininess = 100.0f;
   earth.translation_speed = 1.0f/365.0f;
   earth.rotation_speed = 1.0f;
   earth.orbit_radius = 2.5f;
   earth.satellite_of = &sun;
-  earth.create(m_program);
+  earth.create(program_body);
 
   // create Mars
   mars.name = "Mars";
@@ -133,7 +147,7 @@ void Window::onCreate() {
   mars.rotation_speed = 1.0f/1.03f;
   mars.orbit_radius = 3.0f;
   mars.satellite_of = &sun;
-  mars.create(m_program);
+  mars.create(program_body);
 
   // create Jupiter
   jupiter.name = "Jupiter";
@@ -148,7 +162,7 @@ void Window::onCreate() {
   jupiter.rotation_speed = 1.0f/0.41f;
   jupiter.orbit_radius = 5.5f;
   jupiter.satellite_of = &sun;
-  jupiter.create(m_program);
+  jupiter.create(program_body);
 
   // create Saturn
   saturn.name = "Saturn";
@@ -163,7 +177,7 @@ void Window::onCreate() {
   saturn.rotation_speed = 1.0f/0.45f;
   saturn.orbit_radius = 7.5f;
   saturn.satellite_of = &sun;
-  saturn.create(m_program);
+  saturn.create(program_body);
 
   // create Uranus
   uranus.name = "Uranus";
@@ -178,7 +192,7 @@ void Window::onCreate() {
   uranus.rotation_speed = 1.0f/0.72f;
   uranus.orbit_radius = 8.5f;
   uranus.satellite_of = &sun;
-  uranus.create(m_program);
+  uranus.create(program_body);
 
   // create Neptune
   neptune.name = "Uranus";
@@ -193,12 +207,12 @@ void Window::onCreate() {
   neptune.rotation_speed = 1.0f/0.67f;
   neptune.orbit_radius = 9.0f;
   neptune.satellite_of = &sun;
-  neptune.create(m_program);
+  neptune.create(program_body);
 
   
   // create Moon
   moon.name = "Moon";
-  moon.scale = 0.012f;
+  moon.scale = 0.0120f;
   moon.color = {1.0f,1.0f,1.0f,1.0f};
   moon.texture_path = assetsPath + "maps/moon.jpg";
   moon.m_Ka = Ka;
@@ -209,14 +223,22 @@ void Window::onCreate() {
   moon.rotation_speed = 1.0f/27.0f;
   moon.orbit_radius = 0.2f;
   moon.satellite_of = &earth;
-  moon.create(m_program);
+  moon.create(program_body);
+
+  mercury.path.create(program_path);
+  venus.path.create(program_path);
+  earth.path.create(program_path);
+  mars.path.create(program_path);
+  jupiter.path.create(program_path);
+  saturn.path.create(program_path);
+  neptune.path.create(program_path);
+  uranus.path.create(program_path);
+  moon.path.create(program_path);
+
 
   // create skydome
   skydome.texture_path = assetsPath + "maps/8k_stars_milky_way.jpg";
-  skydome.create(abcg::createOpenGLProgram({{.source = path + "skydome.vert",
-                                  .stage = abcg::ShaderStage::Vertex},
-                                 {.source = path + "skydome.frag",
-                                  .stage = abcg::ShaderStage::Fragment}}));
+  skydome.create(program_skydome);
 
 }
 
@@ -244,15 +266,25 @@ void Window::onPaint() {
 
   abcg::glViewport(0, 0, m_viewportSize.x, m_viewportSize.y);
 
-  abcg::glUseProgram(m_program);
+  abcg::glUseProgram(program_body);
 
   // Get location of uniform variables
-  auto const viewMatrixLoc{abcg::glGetUniformLocation(m_program, "viewMatrix")};
-  auto const projMatrixLoc{abcg::glGetUniformLocation(m_program, "projMatrix")};
+  auto viewMatrixLoc{abcg::glGetUniformLocation(program_body, "viewMatrix")};
+  auto projMatrixLoc{abcg::glGetUniformLocation(program_body, "projMatrix")};
 
   // Set uniform variables that have the same value for every model
   abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.getViewMatrix()[0][0]);
   abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.getProjMatrix()[0][0]);
+
+  auto const IaLoc{abcg::glGetUniformLocation(program_body, "Ia")};
+  auto const IdLoc{abcg::glGetUniformLocation(program_body, "Id")};
+  auto const IsLoc{abcg::glGetUniformLocation(program_body, "Is")};
+  auto const shininessLoc{abcg::glGetUniformLocation(program_body, "shininess")};
+
+  abcg::glUniform4fv(IaLoc, 1, &light.m_Ia.x);
+  abcg::glUniform4fv(IdLoc, 1, &light.m_Id.x);
+  abcg::glUniform4fv(IsLoc, 1, &light.m_Is.x);
+  abcg::glUniform1f(shininessLoc, m_shininess);
 
   sun.render(m_camera.getViewMatrix());
   mercury.render(m_camera.getViewMatrix());
@@ -267,6 +299,30 @@ void Window::onPaint() {
 
   abcg::glUseProgram(0);
 
+  abcg::glUseProgram(program_path);
+
+  // Get location of uniform variables
+  viewMatrixLoc = abcg::glGetUniformLocation(program_path, "viewMatrix");
+  projMatrixLoc = abcg::glGetUniformLocation(program_path, "projMatrix");
+
+  // Set uniform variables that have the same value for every model
+  abcg::glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, &m_camera.getViewMatrix()[0][0]);
+  abcg::glUniformMatrix4fv(projMatrixLoc, 1, GL_FALSE, &m_camera.getProjMatrix()[0][0]);
+
+  mercury.path.render();
+  venus.path.render();
+  earth.path.render();
+  mars.path.render();
+  jupiter.path.render();
+  saturn.path.render();
+  neptune.path.render();
+  uranus.path.render();
+  moon.path.render();
+
+
+  abcg::glUseProgram(0);
+
+
   skydome.render(m_camera.getViewMatrix(), m_camera.getProjMatrix());
 }
 
@@ -275,9 +331,9 @@ void Window::onPaintUI() {
   // Create window for slider
   {
     ImGui::SetNextWindowPos(ImVec2(5, 100));
-    ImGui::SetNextWindowSize(ImVec2(200, -1));
+    ImGui::SetNextWindowSize(ImVec2(250, -1));
   
-    ImGui::Begin("Controle de Movimentos", nullptr,ImGuiWindowFlags_NoResize);
+    ImGui::Begin("Controles de Movimento", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
     {
@@ -297,19 +353,31 @@ void Window::onPaintUI() {
     ImGui::End();
 
     ImGui::SetNextWindowPos(ImVec2(5, 200));
-    ImGui::SetNextWindowSize(ImVec2(200, -1));
+    ImGui::SetNextWindowSize(ImVec2(250, -1));
   
-    ImGui::Begin("COntrole de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
+    ImGui::Begin("Controles de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
 
     // Create a slider to control the number of rendered triangles
     {
       // Slider will fill the space of the window
-      ImGui::PushID(1);
-      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Rotation speed");
+      ImGui::PushItemWidth(-1);
+      ImGui::PushID(3);
+      ImGui::SliderFloat("", &m_Ia, 0.0f, 2.0f,"Ia: %.1f");
+      light.m_Ia = glm::vec4(m_Ia);
+      ImGui::PopID();
+
+      ImGui::PushID(4);
+      ImGui::SliderFloat("", &m_Id, 0.0f, 2.0f,"Id: %.1f");
+      light.m_Id = glm::vec4(m_Id);
+      ImGui::PopID();
+
+      ImGui::PushID(5);
+      ImGui::SliderFloat("", &m_Is, 0.0f, 2.0f,"Is: %.1f");
+      light.m_Is = glm::vec4(m_Is);
       ImGui::PopID();
       
-      ImGui::PushID(2);
-      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Translation speed");
+      ImGui::PushID(6);
+      ImGui::SliderFloat("", &m_shininess, 0.0f, 100.0f,"Shininess: %.1f");
       ImGui::PopID();
 
     }
@@ -317,7 +385,7 @@ void Window::onPaintUI() {
     ImGui::End();
   }
   
-  ImGui::SetNextWindowPos(ImVec2(5, 300));
+  ImGui::SetNextWindowPos(ImVec2(5, 400));
   ImGui::SetNextWindowSize(ImVec2(200, -1));
 
   ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
@@ -336,7 +404,7 @@ void Window::onPaintUI() {
 
   ImGui::End();
 
-  ImGui::SetNextWindowPos(ImVec2(5, 600));
+  ImGui::SetNextWindowPos(ImVec2(5, 800));
   ImGui::SetNextWindowSize(ImVec2(375, -1));
 
   ImGui::Begin("Informações", nullptr,ImGuiWindowFlags_NoResize);
@@ -481,5 +549,5 @@ void Window::onResize(glm::ivec2 const &size) {
 }
 
 void Window::onDestroy() {
-  abcg::glDeleteProgram(m_program);
+  abcg::glDeleteProgram(program_body);
 }

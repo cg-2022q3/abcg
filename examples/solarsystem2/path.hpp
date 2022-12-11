@@ -33,6 +33,8 @@ private:
   GLint m_modelMatrixLoc{};
   GLint m_colorLoc{};
 
+  GLint m_program{};
+
   
 };
 

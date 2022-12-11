@@ -33,16 +33,27 @@ public:
   
   GLuint m_program{};
 
-  std::string texture_path{""};
   glm::vec3 m_lightPos{0.0f, 0.0f, 0.0f};
   glm::vec4 m_Ia{1.0f};
   glm::vec4 m_Id{1.0f};
   glm::vec4 m_Is{1.0f};
-  glm::vec4 m_Ka{};
-  glm::vec4 m_Kd{};
-  glm::vec4 m_Ks{};
+  glm::vec4 m_Ka{1.0f};
+  glm::vec4 m_Kd{1.0f};
+  glm::vec4 m_Ks{1.0f};
   float m_shininess{};
+
+
+  std::string texture_path{""};
+  std::string normal_map_path{""};
+  std::string specular_map_path{""};
+  std::string cloud_map_path{""};
+  std::string night_map_path{""};
+
   GLuint m_diffuseTexture{};
+  GLuint m_diffuseTexture_night{};
+  GLuint m_normal_map{};
+  GLuint m_specular_map{};
+  GLuint m_clouds_map{};
 
   glm::vec4 color{};
   float scale{1.0f};
