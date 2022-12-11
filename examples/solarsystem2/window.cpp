@@ -549,7 +549,7 @@ void Window::onPaintUI() {
       m_camera.trackBody(neptune);
       break;
     }
-    case -9:{
+    case -1:{
       m_camera.isTrackingBody = false;
       break;
     }

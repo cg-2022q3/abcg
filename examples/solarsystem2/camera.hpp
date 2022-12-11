@@ -35,7 +35,7 @@ private:
   glm::vec3 m_axis{1.0f}; // axis for rotating camera when mouse is dragged
   glm::mat4 m_rotation{1.0f}; // angle for rotating camera when mouse is dragged 
 
-  glm::vec3 tracking_vector{1.0f};
+  glm::vec3 tracking_vector{2.0f};
 
   bool m_mouseTracking{};
 
