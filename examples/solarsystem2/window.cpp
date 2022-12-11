@@ -73,11 +73,9 @@ void Window::onCreate() {
                                  {.source = path + "skydome.frag",
                                   .stage = abcg::ShaderStage::Fragment}});
 
-
   // create sun
   sun.name = "Sun";
   sun.scale = 1.0f;
-  sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
   sun.texture_path = assetsPath + "maps/8k_sun.jpg";
   sun.m_Ka = glm::vec4(1.0f);
   sun.satellite_of = nullptr;
@@ -86,7 +84,6 @@ void Window::onCreate() {
   // create mercury
   mercury.name = "Mercury";
   mercury.scale = 0.1f;
-  mercury.color = {0.33f, 0.33f, 0.34f, 1.0f};
   mercury.texture_path = assetsPath + "maps/mercury.jpg";
   mercury.translation_speed = 1.0f/88.0f;
   mercury.rotation_speed = -1.0f/59.0f;
@@ -97,7 +94,6 @@ void Window::onCreate() {
   // create venus
   venus.name = "Venus";
   venus.scale = 0.1f;
-  venus.color = {0.48f, 0.38f, 0.14f, 1.0f};
   venus.texture_path = assetsPath + "maps/venus.jpg";
   venus.translation_speed = 1.0f/224.0f;
   venus.rotation_speed = 1.0f/243.0f;
@@ -108,9 +104,7 @@ void Window::onCreate() {
   // create earth
   earth.name = "Earth";
   earth.scale = 0.1f;
-  earth.color = {0.12f, 0.5f, 0.53f, 1.0f};
   earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
-  earth.normal_map_path = assetsPath + "maps/8k_earth_normal_map.tif";
   earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
   earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.tif";
   earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
@@ -123,7 +117,6 @@ void Window::onCreate() {
   // create Mars
   mars.name = "Mars";
   mars.scale = 0.05f;
-  mars.color = {0.61f, 0.18, 0.21, 1.0f};
   mars.texture_path = assetsPath + "maps/mars.jpg";
   mars.translation_speed = 1.0f/686.0f;
   mars.rotation_speed = 1.0f/1.03f;
@@ -134,7 +127,6 @@ void Window::onCreate() {
   // create Jupiter
   jupiter.name = "Jupiter";
   jupiter.scale = 0.5f;
-  jupiter.color = {0.76f, 0.70f, 0.50f, 1.0f};
   jupiter.texture_path = assetsPath + "maps/jupiter.jpg";
   jupiter.translation_speed = 1.0f/4344.0f;
   jupiter.rotation_speed = 1.0f/0.41f;
@@ -145,7 +137,6 @@ void Window::onCreate() {
   // create Saturn
   saturn.name = "Saturn";
   saturn.scale = 0.4f;
-  saturn.color = {0.38f, 0.38f, 0.25f, 1.0f};
   saturn.texture_path = assetsPath + "maps/saturn.jpg";
   saturn.translation_speed = 1.0f/10749.0f;
   saturn.rotation_speed = 1.0f/0.45f;
@@ -156,7 +147,6 @@ void Window::onCreate() {
   // create Uranus
   uranus.name = "Uranus";
   uranus.scale = 0.15f;
-  uranus.color = {0.29f, 0.35f, 0.36f, 1.0f};
   uranus.texture_path = assetsPath + "maps/uranus.jpg";
   uranus.translation_speed = 1.0f/30660.0f;
   uranus.rotation_speed = 1.0f/0.72f;
@@ -167,7 +157,6 @@ void Window::onCreate() {
   // create Neptune
   neptune.name = "Uranus";
   neptune.scale = 0.15f;
-  neptune.color = {0.16f, 0.31f, 0.53f, 1.0f};
   neptune.texture_path = assetsPath + "maps/neptune.jpg";
   neptune.translation_speed = 1.0f/60225.0f;
   neptune.rotation_speed = 1.0f/0.67f;
@@ -179,7 +168,6 @@ void Window::onCreate() {
   // create Moon
   moon.name = "Moon";
   moon.scale = 0.0120f;
-  moon.color = {1.0f,1.0f,1.0f,1.0f};
   moon.texture_path = assetsPath + "maps/moon.jpg";
   moon.translation_speed = 1.0f/27.3220f;
   moon.rotation_speed = 1.0f/27.0f;
@@ -357,8 +345,7 @@ void Window::onPaintUI() {
   ImGui::SetNextWindowBgAlpha(0.7f);
 
   ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
-  
-  static int radio_selected{-1};  
+    
   {
     ImGui::RadioButton("Câmera Livre", &radio_selected, -1);
     ImGui::RadioButton("Sol", &radio_selected, 0);
@@ -517,6 +504,56 @@ void Window::onPaintUI() {
 
   }
   ImGui::PopFont();
+
+  switch (radio_selected) 
+  {
+    case 0:{
+      m_camera.trackBody(sun);
+      break;
+    }
+    case 1:{
+      m_camera.trackBody(mercury);
+      break;
+    }
+
+    case 2:{
+      m_camera.trackBody(venus);
+      break;
+    }
+
+    case 3:{
+      m_camera.trackBody(earth);
+      break;
+    }
+
+    case 4:{
+      m_camera.trackBody(mars);
+      break;
+    }
+
+    case 5:{
+      m_camera.trackBody(jupiter);
+      break;
+    }
+
+    case 6:{
+      m_camera.trackBody(saturn);
+      break;
+    }
+
+    case 7:{
+      m_camera.trackBody(uranus);
+      break;
+    }
+    case 8:{
+      m_camera.trackBody(neptune);
+      break;
+    }
+    case -9:{
+      m_camera.isTrackingBody = false;
+      break;
+    }
+  }
 
   ImGui::End();
 

@@ -44,6 +44,8 @@ private:
   float m_Id{1.0f};
   float m_Is{1.0f};
   float m_shininess{50.0f};
+
+  int radio_selected{-1};
   
   ImFont *m_font{};
 

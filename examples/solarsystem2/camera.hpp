@@ -4,6 +4,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/vec3.hpp>
 #include "abcg.hpp"
+#include "body.hpp"
 
 class Camera {
 public:
@@ -12,6 +13,8 @@ public:
   void mouseRelease(glm::ivec2 const &position);
   void resizeViewport(glm::ivec2 const &size);
   void mouseScroll(float scroll);
+  void trackBody(Body body);
+
   // [[nodiscard]] glm::mat4 getRotation() const;
 
   void computeViewMatrix();
@@ -23,6 +26,7 @@ public:
   glm::mat4 const &getViewMatrix() const { return m_viewMatrix; }
   glm::mat4 const &getProjMatrix() const { return m_projMatrix; }
 
+  bool isTrackingBody{false};
 private:
   glm::vec3 m_eye{0.0f, 10.0f, 10.0f}; // Camera position
   glm::vec3 m_at{0.0f, 0.0f, 0.0f};  // Look-at point
@@ -31,6 +35,7 @@ private:
   glm::vec3 m_axis{1.0f}; // axis for rotating camera when mouse is dragged
   glm::mat4 m_rotation{1.0f}; // angle for rotating camera when mouse is dragged 
 
+  glm::vec3 tracking_vector{1.0f};
 
   bool m_mouseTracking{};
 

@@ -24,7 +24,11 @@ void Camera::mouseMove(glm::ivec2 const &position) {
   // Concatenate rotation: R_old = R_new * R_old
   m_rotation = glm::rotate(glm::mat4(1.0f), angle, m_axis);
 
-  m_at = (m_at - m_eye) * (glm::mat3) m_rotation + m_eye;
+  if (isTrackingBody){
+    tracking_vector = tracking_vector * (glm::mat3) m_rotation;
+  }else{
+    m_at = (m_at - m_eye) * (glm::mat3) m_rotation + m_eye;
+  }
 
   m_lastPosition = currentPosition;
 
@@ -104,12 +108,22 @@ glm::vec3 Camera::project(glm::vec2 const &position) const {
 }
 
 void Camera::mouseScroll(float scroll){
-  // Moves the camera horizontally forwards and backwards
 
-  // Compute forward vector (view direction)
-  auto const forward{glm::normalize(m_at - m_eye)};
+  if(isTrackingBody){
+    tracking_vector = tracking_vector - glm::vec3(-0.2f * scroll) * glm::normalize(tracking_vector);
+  }else {
+    // Compute forward vector (view direction)
+    auto const forward{glm::normalize(m_at - m_eye)};
 
-  m_eye += forward * scroll / 10.0f;
-  m_at  += forward * scroll / 10.0f;
+    m_eye += forward * scroll / 10.0f;
+    m_at  += forward * scroll / 10.0f;
+  }
 
+
+} 
+
+void Camera::trackBody(Body body){
+  isTrackingBody = true;
+  m_at = body.position;
+  m_eye = m_at + tracking_vector;
 } 
