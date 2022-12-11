@@ -34,9 +34,9 @@ public:
   GLuint m_program{};
 
   glm::vec3 m_lightPos{0.0f, 0.0f, 0.0f};
-  glm::vec4 m_Ka{1.0f};
-  glm::vec4 m_Kd{1.0f};
-  glm::vec4 m_Ks{1.0f};
+  glm::vec4 m_Ka{0.5f};
+  glm::vec4 m_Kd{0.5f};
+  glm::vec4 m_Ks{0.5f};
 
 
   std::string texture_path{""};

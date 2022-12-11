@@ -79,6 +79,7 @@ void Window::onCreate() {
   sun.scale = 1.0f;
   sun.color = {0.93f, 0.55f, 0.22f, 1.0f};
   sun.texture_path = assetsPath + "maps/8k_sun.jpg";
+  sun.m_Ka = glm::vec4(1.0f);
   sun.satellite_of = nullptr;
   sun.create(program_body);
 

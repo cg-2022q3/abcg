@@ -70,12 +70,13 @@ void main() {
   color = BlinnPhong(fragN, fragL, fragV, fragTexCoord);
   if (hasExtraTex){
     vec4 cloud_color = texture(cloudsTex, fragTexCoord);
-    color = mix(color,cloud_color,0.4f);
+    color = mix(color,cloud_color,cloud_color.x/2.0);
   }
 
 
   if (gl_FrontFacing) {
-    outColor = color;
+
+    outColor = vec4(color.xyz,1.0f);
   } else {
     float i = (color.r + color.g + color.b) / 3.0;
     outColor = vec4(i, i, i, 1.0);
