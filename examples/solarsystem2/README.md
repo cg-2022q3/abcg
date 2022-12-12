@@ -20,6 +20,9 @@ Na figura abaixo temos a representação do sistema solar. Nessa firura estão n
 
 **4. Informações:** Após o usuário selecionar o astro de sua escolha, será apresentada uma caixa com informações relevantes do astro, como diâmetro, velocidade de translação, temperatura, composição, entre outros.
 
+Abaixo temos um exemplo de foco no planeta Júpeter: 
+![Captura de tela de 2022-12-11 21-58-09](https://user-images.githubusercontent.com/47281465/206940352-e31109c9-d9da-4d88-adc9-958b9bcce505.png)
+
 Nesta representação o usuário poderia aproximar-se ou afastar-se dos astros utilizando o scroll do mouse, ao clicar com o botão esquerdo na tela, o usuário pode ser movimentar para cima, para baixo, para a esquerda ou para a direita através das teclas de movimentação do teclado ou as teclas w,s,a,d.
 
 
@@ -42,6 +45,14 @@ Semelhante aos main.cpp dos projetos apresentados em sala de aula, somente sofre
 Nessa classe definimos o funcionamento geral da cena e da UI.
 
 ```C++
+#ifndef WINDOW_HPP_
+#define WINDOW_HPP_
+
+#include "abcgOpenGL.hpp"
+#include "body.hpp"
+#include "camera.hpp"
+#include "skydome.hpp"
+
 class Window : public abcg::OpenGLWindow {
 protected:
   void onEvent(SDL_Event const &event) override;
@@ -59,24 +70,78 @@ private:
 
   Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;
 
+  Skydome skydome;
+
   float m_pedestalSpeed{};
   float m_truckSpeed{};
-  float speed{1.0f};
   
-  GLuint m_program{};
+  float m_rotation_speed{0.0f};
+  float m_translation_speed{0.0f};
+
+  struct Light
+  {
+    glm::vec4 m_Ia{1.0f};
+    glm::vec4 m_Id{1.0f};
+    glm::vec4 m_Is{1.0f};
+  };
+
+  Light light;
+
+  float m_Ia{1.0f};
+  float m_Id{1.0f};
+  float m_Is{1.0f};
+  float m_shininess{50.0f};
+
+  int radio_selected{-1};
+  
+  ImFont *m_font{};
+
+  GLuint program_body{}, program_path{}, program_skydome{};
 };
+
+#endif
+
 
 ```
 
+
 ##### `Window::onCreate()` 
-Temos a criação dos planetas. São passados para cada planeta, sol e lua os seguintes parametros:
+Temos a criação dos astros do sistema solar. São passados para cada astro os seguintes parametros:
 * nome;
 * escala;
 * cor;
 * velocidade de translação;
 * velocidade de rotação;
 * raio orbital;
-* referencia de translação.
+* referencia de translação;
+* textura.
+
+Conforme exemplo abaixo:
+
+
+```C++
+  // create earth
+  earth.name = "Earth";
+  earth.scale = 0.1f;
+  earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
+  earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
+  earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.tif";
+  earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
+  earth.translation_speed = 1.0f/365.0f;
+  earth.rotation_speed = 1.0f;
+  earth.orbit_radius = 2.5f;
+  earth.satellite_of = &sun;
+  earth.create(program_body);
+```
+
+Observação: Para o planeta Terra foi aplicada três texturas: a primeira textura é a representação do planeta terra, a segunda com nuvens e a terceira é aplicada somente na parte que está escura da Terra, mostrando as luzes elétricas.
+
+Aqui também é criado a doma de estrelas:
+
+```C++
+  skydome.texture_path = assetsPath + "maps/8k_stars_milky_way.jpg";
+  skydome.create(program_skydome);
+```
 
 ##### `Window::onPaintUI()`
 * São criados sliders (conforme apresentados em sala de aula) para dar a possibilidade ao usuário de aumentar ou diminuir as velocidades de translação dos planetas e o controle de luminosidade dos sistema.
@@ -205,13 +270,40 @@ mGui::SetNextWindowPos(ImVec2(m_viewportSize.x -505, 5));
     }
 ```
 
-* Para a focalização da câmera no planeta selecionado no radio button
+* Para a focalização da câmera no astro selecionado no radio button, focamos a câmera a uma certa distância do astro selecionado, com isso a câmera seguirà ele em sua trajettória (caso a velocidade de translação seja diferente de zero, caso contrario a câmera ficará parada focando o astro):
+
+
+```C++
+witch (radio_selected) 
+  {
+    case 0:{
+      m_camera.trackBody(sun);
+      break;
+    }
+    case 1:{
+      m_camera.trackBody(mercury);
+      break;
+    }
+    
+    .
+    .
+    .
+    case 8:{
+      m_camera.trackBody(neptune);
+      break;
+    }
+    case -1:{
+      m_camera.isTrackingBody = false;
+      break;
+    }
+  }
+```
 
 ##### `Window::onPaint()`
-Temos a renderização dos planetas, sol e lua. 
+Temos a renderização dos planetas, sol e lua e a aplicação da iluminação. 
 
 ##### `Window::onEvent` 
-São convertidos eventos do mouse ou teclado para ações no sistema, como as tecladas direcionais do teclado exercem uma ação no sistema, ou ao pressionar o botão do mouse acontece uma ação do sistema solar.
+São convertidos eventos do mouse ou teclado para ações no sistema, como as teclas direcionais ou as teclas w,s,a,d do teclado exercem uma ação no sistema, ou ao pressionar o botão do mouse acontece uma ação do sistema solar.
 
 ##### `Window::onResize` e `Window::onDestroy()` 
 Não temos alteração das versões apresentadas no curso.
