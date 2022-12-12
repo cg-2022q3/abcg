@@ -8,7 +8,7 @@ Renan Gonçalves Miranda - 11069212
 
 Localizado na Via Láctea, o Sistema Solar é formado por 8 planetas (Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano, Netuno) que orbitam uma estrela, o Sol, daí seu nome. Além desses 8 planetas também temos diversos corpos celestes, como satélites naturais, asteroides, cometas e meteoroides.
 
-Na figura abaixo temos a representação do sistema solar. Nessa firura estão numeradas as principais funcionalidades que o usuário poderá manipular.
+Na figura abaixo temos a representação do sistema solar. Nessa figura estão numeradas as principais funcionalidades que o usuário poderá manipular.
 
 ![sistemaSolar](https://user-images.githubusercontent.com/47281465/206933302-8e1e4739-8d20-4150-ab3f-cae58b131a66.png)
 
@@ -20,7 +20,7 @@ Na figura abaixo temos a representação do sistema solar. Nessa firura estão n
 
 **4. Informações:** Após o usuário selecionar o astro de sua escolha, será apresentada uma caixa com informações relevantes do astro, como diâmetro, velocidade de translação, temperatura, composição, entre outros.
 
-Abaixo temos um exemplo de foco no planeta Júpeter: 
+Abaixo temos um exemplo de foco no planeta Júpiter: 
 ![Captura de tela de 2022-12-11 21-58-09](https://user-images.githubusercontent.com/47281465/206940352-e31109c9-d9da-4d88-adc9-958b9bcce505.png)
 
 Nesta representação o usuário poderia aproximar-se ou afastar-se dos astros utilizando o scroll do mouse, ao clicar com o botão esquerdo na tela, o usuário pode ser movimentar para cima, para baixo, para a esquerda ou para a direita através das teclas de movimentação do teclado ou as teclas w,s,a,d.
@@ -134,7 +134,7 @@ Conforme exemplo abaixo:
   earth.create(program_body);
 ```
 
-Observação: Para o planeta Terra foi aplicada três texturas: a primeira textura é a representação do planeta terra, a segunda com nuvens e a terceira é aplicada somente na parte que está escura da Terra, mostrando as luzes elétricas.
+Observação: Para o planeta Terra foram aplicadas três texturas: a primeira textura é a representação da superfície do planeta durante o dia e a terceira é aplicada somente na parte que está escura da Terra, mostrando as luzes elétricas.
 
 Aqui também é criado a doma de estrelas:
 
@@ -270,7 +270,7 @@ mGui::SetNextWindowPos(ImVec2(m_viewportSize.x -505, 5));
     }
 ```
 
-* Para a focalização da câmera no astro selecionado no radio button, focamos a câmera a uma certa distância do astro selecionado, com isso a câmera seguirà ele em sua trajettória (caso a velocidade de translação seja diferente de zero, caso contrario a câmera ficará parada focando o astro):
+* Para a focalização da câmera no astro selecionado no radio button, focamos a câmera a uma certa distância do astro selecionado, com isso a câmera seguirá ele em sua trajettória (caso a velocidade de translação seja diferente de zero, caso contrario a câmera ficará parada focando o astro):
 
 
 ```C++
@@ -371,12 +371,12 @@ As funções e atributos dessa classe são descritos a seguir:
 - ``getViewMatrix()``: retorna a view matrix calculada;
 - ``getProjMatrix()``: retorna a matriz de projeção calculada
 - ``m_eye, m_at e m_up``: pontos e vetor utilizados para definição da camera LookAt.
-- m_mouseTracking: variável de controle da captura ou não dos movimento do mouse;
-- m_lastPosition: última posição do mouse;
-- m_viewportSize: tamanho da janela;
-- m_viewMatrix: matris de visualização definida de acordo com a posição da camêra;
-- m_projMatrix: matriz de projeção definida de acordo com o tamanho da janelta
-- project: projeta a movimentação do mouse em 2D para uma rotação em 3D a ser aplicada sobre a orientação da camêra;
+- ``m_mouseTracking``: variável de controle da captura ou não dos movimento do mouse;
+- ``m_lastPosition``: última posição do mouse;
+- ``m_viewportSize``: tamanho da janela;
+- ``m_viewMatrix``: matris de visualização definida de acordo com a posição da camêra;
+- ``m_projMatrix``: matriz de projeção definida de acordo com o tamanho da janelta
+- ``project``: projeta a movimentação do mouse em 2D para uma rotação em 3D a ser aplicada sobre a orientação da camêra;
 
 ### Body
 Essa classe representa um corpo celeste qualquer no sistema solar, com sua posição, tamanho e características de movimentação.
@@ -425,29 +425,29 @@ public:
   GLint m_colorLoc{};
 };
 ```
-- create(): cria a esfera e os buffers que resgistrarão os atributos a serem passados ao OpenGL;
-- destroy(): descarta os buffers utilizados;
-- update(): atualiza a posição do corpo de acordo com as velocidades de rotação e translação, e ainda a velocidade de execução da animação;
-- computeModelMatrix(): calcula a matriz de modelo de acordo com a translação e rotação calculados;
-- render(): desenha o corpo na cena;
-- generateUVSphere(): gera um vetor de pontos e índices que formam uma esfera utilizando o sistema de coordenadas UV;
-- name: nome do corpo celeste;
-- m_vertices: vetor dos vértices da esfera;
-- m_indices: índices que formam os triângulos que compõem a esfera;
-- m_lines_indices: índices que formam a malha de linhas da esfera;
-- m_VAO, m_VBO e m_EBO: são os buffers que representam o corpo para o OpenGL;
-- color: cor do corpo celeste;
-- scale: escala de tamanho do corpo;
-- *satellite_of: ponteiro para o corpo celeste de qual o corpo em questão é um satélite
-- path: objeto que representa a órbita que o corpo percorre;
-- position: posição do centro do corpo no espaço;
-- orbit_radius: raio da órbita do corpo ao redor do corpo do qual é um satélite;
-- translation_angle: ângulo de translação atual do corpo em sua órbita;
-- translation_speed: velocidade de translação do corpo;
-- rotation_angle: ângulo de rotação atual do corpo;
-- rotation_speed: velocidade de rotação do corpo;
-- modelMatrix: matriz de modelo calculada a partir da translação e rotação do corpo;
-- m_modelMatrixLoc e m_colorLoc: localização das variáveis passadas ao OpenGL;
+- ``create()``: cria a esfera e os buffers que resgistrarão os atributos a serem passados ao OpenGL;
+- ``destroy()``: descarta os buffers utilizados;
+- ``update()``: atualiza a posição do corpo de acordo com as velocidades de rotação e translação, e ainda a velocidade de execução da animação;
+- ``computeModelMatrix()``: calcula a matriz de modelo de acordo com a translação e rotação calculados;
+- ``render()``: desenha o corpo na cena;
+- ``generateUVSphere()``: gera um vetor de pontos e índices que formam uma esfera utilizando o sistema de coordenadas UV;
+- ``name``: nome do corpo celeste;
+- ``m_vertices``: vetor dos vértices da esfera;
+- ``m_indices``: índices que formam os triângulos que compõem a esfera;
+- ``m_lines_indices``: índices que formam a malha de linhas da esfera;
+- ``m_VAO``, ``m_VBO`` e ``m_EBO``: são os buffers que representam o corpo para o OpenGL;
+- ``color``: cor do corpo celeste;
+- ``scale``: escala de tamanho do corpo;
+- ``*satellite_of``: ponteiro para o corpo celeste de qual o corpo em questão é um satélite;
+- ``path``: objeto que representa a órbita que o corpo percorre;
+- ``position``: posição do centro do corpo no espaço;
+- ``orbit_radius``: raio da órbita do corpo ao redor do corpo do qual é um satélite;
+- ``translation_angle``: ângulo de translação atual do corpo em sua órbita;
+- ``translation_speed``: velocidade de translação do corpo;
+- ``rotation_angle``: ângulo de rotação atual do corpo;
+- ``rotation_speed``: velocidade de rotação do corpo;
+- ``modelMatrix``: matriz de modelo calculada a partir da translação e rotação do corpo;
+- ``m_modelMatrixLoc`` e ``m_colorLoc``: localização das variáveis passadas ao OpenGL;
 
 ### Path
 Representa o percurso da órbita de um corpo. Desenhado na cena na forma de uma linha tracejada.
@@ -481,17 +481,17 @@ private:
   GLint m_colorLoc{};
 };
 ```
-- create(): cria a órbita circular e os buffers que resgistrarão os atributos a serem passados ao OpenGL;
-- destroy(): descarta os buffers utilizados;
-- update(): atualiza a posição da órbita de acordo com a posição do corpo que representa;
-- computeModelMatrix(): calcula a matriz de modelo de acordo com a translação e rotação calculados;
-- render(): desenha a órbita na cena;
-- generateCircle(): gera um vetor de pontos e índices que formam uma esfera utilizando o sistema de coordenadas UV;
-- m_vertices: vetor dos vértices da circunferência;
-- m_indices: índices as linhas que compõem o círculo;
-- m_VAO, m_VBO: são os buffers que representam o trajeto para o OpenGL;
-- color: cor da linha;
-- position: posição do centro da órbita no espaço;
-- orbit_radius: raio da órbita do corpo ao redor do corpo do qual é um satélite;
-- modelMatrix: matriz de modelo calculada a partir da posição da órbita;
-- m_modelMatrixLoc e m_colorLoc: localização das variáveis passadas ao OpenGL;
+- ``create()``: cria a órbita circular e os buffers que resgistrarão os atributos a serem passados ao OpenGL;
+- ``destroy()``: descarta os buffers utilizados;
+- ``update()``: atualiza a posição da órbita de acordo com a posição do corpo que representa;
+- ``computeModelMatrix()``: calcula a matriz de modelo de acordo com a translação e rotação calculados;
+- ``render()``: desenha a órbita na cena;
+- ``generateCircle()``: gera um vetor de pontos e índices que formam uma esfera utilizando o sistema de coordenadas UV;
+- ``m_vertices``: vetor dos vértices da circunferência;
+- ``m_indices``: índices as linhas que compõem o círculo;
+- ``m_VAO``, ``m_VBO``: são os buffers que representam o trajeto para o OpenGL;
+- ``color``: cor da linha;
+- ``position``: posição do centro da órbita no espaço;
+- ``orbit_radius``: raio da órbita do corpo ao redor do corpo do qual é um satélite;
+- ``modelMatrix``: matriz de modelo calculada a partir da posição da órbita;
+- ``m_modelMatrixLoc`` e ``m_colorLoc``: localização das variáveis passadas ao OpenGL;
