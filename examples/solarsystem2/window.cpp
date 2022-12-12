@@ -167,7 +167,7 @@ void Window::onCreate() {
   
   // create Moon
   moon.name = "Moon";
-  moon.scale = 0.0120f;
+  moon.scale = 0.02f;
   moon.texture_path = assetsPath + "maps/moon.jpg";
   moon.translation_speed = 1.0f/27.3220f;
   moon.rotation_speed = 1.0f/27.0f;
