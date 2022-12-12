@@ -79,10 +79,10 @@ void Body::create(GLuint program){
     abcg::glDeleteTextures(1, &m_diffuseTexture_night);
     m_diffuseTexture_night = abcg::loadOpenGLTexture({.path = night_map_path});
   }
-  if (std::filesystem::exists(normal_map_path)){
-    abcg::glDeleteTextures(1, &m_normal_map);
-    m_normal_map = abcg::loadOpenGLTexture({.path = normal_map_path});
-  }
+  // if (std::filesystem::exists(normal_map_path)){
+  //   abcg::glDeleteTextures(1, &m_normal_map);
+  //   m_normal_map = abcg::loadOpenGLTexture({.path = normal_map_path});
+  // }
   if (std::filesystem::exists(cloud_map_path)){
     abcg::glDeleteTextures(1, &m_clouds_map);
     m_clouds_map = abcg::loadOpenGLTexture({.path = cloud_map_path});
@@ -215,7 +215,7 @@ void Body::render(glm::mat4 viewMatrix) const {
 
   auto const diffuseTexLoc{abcg::glGetUniformLocation(m_program, "diffuseTex")};
   auto const diffuseTexNightLoc{abcg::glGetUniformLocation(m_program, "diffuseTexNight")};
-  auto const normalTexLoc{abcg::glGetUniformLocation(m_program, "normalTex")};
+  // auto const normalTexLoc{abcg::glGetUniformLocation(m_program, "normalTex")};
   auto const specularTexLoc{abcg::glGetUniformLocation(m_program, "specularTex")};
   auto const cloudsTexLoc{abcg::glGetUniformLocation(m_program, "cloudsTex")};
   
@@ -224,9 +224,9 @@ void Body::render(glm::mat4 viewMatrix) const {
 
   abcg::glUniform1i(diffuseTexLoc, 0);
   abcg::glUniform1i(diffuseTexNightLoc, 1);
-  abcg::glUniform1i(normalTexLoc, 2);
-  abcg::glUniform1i(specularTexLoc, 3);
-  abcg::glUniform1i(cloudsTexLoc, 4);
+  // abcg::glUniform1i(normalTexLoc, 2);
+  abcg::glUniform1i(specularTexLoc, 2);
+  abcg::glUniform1i(cloudsTexLoc, 3);
 
   auto const modelViewMatrix{glm::mat3(viewMatrix * modelMatrix)};
   auto const normalMatrix{glm::inverseTranspose(modelViewMatrix)};
@@ -251,13 +251,13 @@ void Body::render(glm::mat4 viewMatrix) const {
     abcg::glActiveTexture(GL_TEXTURE1);
     abcg::glBindTexture(GL_TEXTURE_2D, m_diffuseTexture_night);
 
-    abcg::glActiveTexture(GL_TEXTURE2);
-    abcg::glBindTexture(GL_TEXTURE_2D, m_normal_map);
+    // abcg::glActiveTexture(GL_TEXTURE2);
+    // abcg::glBindTexture(GL_TEXTURE_2D, m_normal_map);
 
-    abcg::glActiveTexture(GL_TEXTURE3);
+    abcg::glActiveTexture(GL_TEXTURE2);
     abcg::glBindTexture(GL_TEXTURE_2D, m_specular_map);
 
-    abcg::glActiveTexture(GL_TEXTURE4);
+    abcg::glActiveTexture(GL_TEXTURE3);
     abcg::glBindTexture(GL_TEXTURE_2D, m_clouds_map);
   }
 

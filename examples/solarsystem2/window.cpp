@@ -47,7 +47,7 @@ void Window::onEvent(SDL_Event const &event) {
 void Window::onCreate() {
   auto const assetsPath{abcg::Application::getAssetsPath()};
 
-  auto const filename{assetsPath + "fonts/nasalization.otf"};
+  auto const filename{assetsPath + "fonts/nasalization.ttf"};
   m_font = ImGui::GetIO().Fonts->AddFontFromFileTTF(filename.c_str(), 20.0f);
 
   abcg::glClearColor(0, 0, 0, 1);
@@ -104,17 +104,17 @@ void Window::onCreate() {
   // create earth
   earth.name = "Earth";
   earth.scale = 0.1f;
-  earth.texture_path = assetsPath + "maps/2k_earth_daymap.jpg";
-  earth.night_map_path = assetsPath + "maps/2k_earth_nightmap.jpg";
-  earth.specular_map_path = assetsPath + "maps/2k_earth_specular_map.tif";
-  earth.cloud_map_path = assetsPath + "maps/2k_earth_clouds.jpg";
+  earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
+  earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
+  earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.jpg";
+  earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
   earth.translation_speed = 1.0f/365.0f;
   earth.rotation_speed = 1.0f;
   earth.orbit_radius = 2.5f;
   earth.satellite_of = &sun;
   earth.create(program_body);
 
-  // create Mars
+  // // create Mars
   mars.name = "Mars";
   mars.scale = 0.05f;
   mars.texture_path = assetsPath + "maps/mars.jpg";
@@ -124,7 +124,7 @@ void Window::onCreate() {
   mars.satellite_of = &sun;
   mars.create(program_body);
 
-  // create Jupiter
+  // // create Jupiter
   jupiter.name = "Jupiter";
   jupiter.scale = 0.5f;
   jupiter.texture_path = assetsPath + "maps/jupiter.jpg";
@@ -134,7 +134,7 @@ void Window::onCreate() {
   jupiter.satellite_of = &sun;
   jupiter.create(program_body);
 
-  // create Saturn
+  // // create Saturn
   saturn.name = "Saturn";
   saturn.scale = 0.4f;
   saturn.texture_path = assetsPath + "maps/saturn.jpg";
@@ -144,7 +144,7 @@ void Window::onCreate() {
   saturn.satellite_of = &sun;
   saturn.create(program_body);
 
-  // create Uranus
+  // // create Uranus
   uranus.name = "Uranus";
   uranus.scale = 0.15f;
   uranus.texture_path = assetsPath + "maps/uranus.jpg";
@@ -154,8 +154,8 @@ void Window::onCreate() {
   uranus.satellite_of = &sun;
   uranus.create(program_body);
 
-  // create Neptune
-  neptune.name = "Uranus";
+  // // create Neptune
+  neptune.name = "Neptune";
   neptune.scale = 0.15f;
   neptune.texture_path = assetsPath + "maps/neptune.jpg";
   neptune.translation_speed = 1.0f/60225.0f;
@@ -280,7 +280,7 @@ void Window::onPaint() {
 
 void Window::onPaintUI() {
   abcg::OpenGLWindow::onPaintUI();
-  // Create window for slider
+  
   {
     ImGui::PushFont(m_font);
     ImGui::SetNextWindowPos(ImVec2(5, 100));

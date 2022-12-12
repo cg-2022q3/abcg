@@ -19,7 +19,7 @@ uniform sampler2D diffuseTex;
 
 uniform bool hasExtraTex;
 uniform sampler2D diffuseTexNight;
-uniform sampler2D normalTex;
+// uniform sampler2D normalTex;
 uniform sampler2D specularTex;
 uniform sampler2D cloudsTex;
 
