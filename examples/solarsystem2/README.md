@@ -1,10 +1,26 @@
-# Solar System Improved
+# Sistema Solar
 
 Rafael Correia de Lima - 21004515 
 
 Renan Gonçalves Miranda - 11069212
 
-## Descrição
+## Funcionalidade
+
+Localizado na Via Láctea, o Sistema Solar é formado por 8 planetas (Mercúrio, Vênus, Terra, Marte, Júpiter, Saturno, Urano, Netuno) que orbitam uma estrela, o Sol, daí seu nome. Além desses 8 planetas também temos diversos corpos celestes, como satélites naturais, asteroides, cometas e meteoroides.
+
+Na figura abaixo temos a representação do sistema solar. Nessa firura estão numeradas as principais funcionalidades que o usuário poderá manipular.
+
+![sistemaSolar](https://user-images.githubusercontent.com/47281465/206933302-8e1e4739-8d20-4150-ab3f-cae58b131a66.png)
+
+**1. Controles de Movimento:** Através dos sliders o usuário conseguirá aumentar ou diminuir as velocidades de rotação e translação dos planetas (mudação de velocidade do sistema, ou seja, ao alterar o mutiplicar da velocidade, será alterado para todos os planetas). Como padrão, essas velocidades estão setadas para iniciar zeradas.
+
+**2. Controles de iluminação:** Através dos sliders o usuário conseguirá aumentar ou diminuir os fatores das componentes de reflexão, que são ambiente (Ia), difusa (Id) e especular (Is). Além disso pode também aumentar ou diminuir o expoente de brilho especular (Shineness).
+
+**3. O Sistema Solar:** Nele o usuário pode selecionar o planeta ou o sol, após a seleção será apresentado ao usuário informações do astro selecionado e o planeta entrará em foco pela câmera, caso a translação esteja ligada, a câmera acompanhará o planeta selecionado por todo o seu trajeto (presente no item 4).
+
+**4. Informações:** Após o usuário selecionar o astro de sua escolha, será apresentada uma caixa com informações relevantes do astro, como diâmetro, velocidade de translação, temperatura, composição, entre outros.
+
+Nesta representação o usuário poderia aproximar-se ou afastar-se dos astros utilizando o scroll do mouse, ao clicar com o botão esquerdo na tela, o usuário pode ser movimentar para cima, para baixo, para a esquerda ou para a direita através das teclas de movimentação do teclado ou as teclas w,s,a,d.
 
 
 ## Implementação
@@ -52,7 +68,8 @@ private:
 
 ```
 
-Em `Window::onCreate()` temos a criação dos planetas. São passados para cada planeta, sol e lua os seguintes parametros:
+##### `Window::onCreate()` 
+Temos a criação dos planetas. São passados para cada planeta, sol e lua os seguintes parametros:
 * nome;
 * escala;
 * cor;
@@ -61,13 +78,143 @@ Em `Window::onCreate()` temos a criação dos planetas. São passados para cada 
 * raio orbital;
 * referencia de translação.
 
-Em `Window::onPaintUI()` é criado um slider para dar a possibilidade ao usuário de aumentar as velocidades de translação dos planetas, levando em consideração a velocidade inicial multiplicada pelo valor do slider.
+##### `Window::onPaintUI()`
+* São criados sliders (conforme apresentados em sala de aula) para dar a possibilidade ao usuário de aumentar ou diminuir as velocidades de translação dos planetas e o controle de luminosidade dos sistema.
 
-Em `Window::onPaint()` temos a renderização dos planetas, sol e lua. 
 
-Em `Window::onEvent` são convertidos eventos do mouse ou teclado para ações no sistema, como as tecladas direcionais do teclado exercem uma ação no sistema, ou ao pressionar o botão do mouse acontece uma ação do sistema solar.
+```C++
+    ImGui::SetNextWindowBgAlpha(0.7f);
+    ImGui::Begin("Controles de Movimento", nullptr,ImGuiWindowFlags_NoResize);
 
-Em `Window::onResize` e `Window::onDestroy()` não temos alteração das versões apresentadas no curso.
+    {
+      ImGui::PushItemWidth(-1);
+      ImGui::PushID(1);
+      ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Vel. Rotação");
+      ImGui::PopID();
+      
+      ImGui::PushID(2);
+      ImGui::SliderFloat("", &m_translation_speed, 0.0f, 10.0f,"%.1fx Vel. Translação");
+      ImGui::PopID();
+      ImGui::PopItemWidth();
+      
+    }
+
+    ImGui::End();
+
+    ImGui::SetNextWindowPos(ImVec2(5, 200));
+    ImGui::SetNextWindowSize(ImVec2(300, -1));
+    ImGui::SetNextWindowBgAlpha(0.7f);
+  
+    ImGui::Begin("Controles de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
+
+    {
+      ImGui::PushItemWidth(-1);
+      ImGui::PushID(3);
+      ImGui::SliderFloat("", &m_Ia, 0.0f, 2.0f,"Ia: %.1f");
+      light.m_Ia = glm::vec4(m_Ia);
+      ImGui::PopID();
+
+      ImGui::PushID(4);
+      ImGui::SliderFloat("", &m_Id, 0.0f, 2.0f,"Id: %.1f");
+      light.m_Id = glm::vec4(m_Id);
+      ImGui::PopID();
+
+      ImGui::PushID(5);
+      ImGui::SliderFloat("", &m_Is, 0.0f, 2.0f,"Is: %.1f");
+      light.m_Is = glm::vec4(m_Is);
+      ImGui::PopID();
+      
+      ImGui::PushID(6);
+      ImGui::SliderFloat("", &m_shininess, 0.0f, 100.0f,"Shininess: %.1f");
+      ImGui::PopID();
+
+    }
+
+    ImGui::End();
+  }
+```
+
+* É criado um widget (radio button) contendo os planetas para seleção dos astros. Essa criação se tá através do `ImGui::RadioButton`, onde passamos o que estará escrito no radio button, a variaável que recebera o resultado e seu "identificador":
+
+```C++
+  ImGui::SetNextWindowPos(ImVec2(5, 400));
+  ImGui::SetNextWindowSize(ImVec2(200, -1));
+  ImGui::SetNextWindowBgAlpha(0.7f);
+
+  ImGui::Begin("O Sistema Solar", nullptr,ImGuiWindowFlags_NoResize);
+    
+  {
+    ImGui::RadioButton("Câmera Livre", &radio_selected, -1);
+    ImGui::RadioButton("Sol", &radio_selected, 0);
+    ImGui::RadioButton("Mercúrio", &radio_selected, 1);
+    ImGui::RadioButton("Vênus", &radio_selected, 2);
+    ImGui::RadioButton("Terra", &radio_selected, 3);
+    ImGui::RadioButton("Marte", &radio_selected, 4);
+    ImGui::RadioButton("Júpiter", &radio_selected, 5); 
+    ImGui::RadioButton("Saturno", &radio_selected, 6);
+    ImGui::RadioButton("Urano", &radio_selected, 7);
+    ImGui::RadioButton("Neturno", &radio_selected, 8);
+  }
+
+  ImGui::End();
+```
+* Através do valor que é setado no radio button é mostrado a informação do astro selecionado. Aqui utilizamos `ImGui::Text`para passar na tela tais informações:
+
+
+```C++
+mGui::SetNextWindowPos(ImVec2(m_viewportSize.x -505, 5));
+  ImGui::SetNextWindowSize(ImVec2(500, -1));
+    ImGui::SetNextWindowBgAlpha(0.7f);
+
+  ImGui::Begin("Informações", nullptr,ImGuiWindowFlags_NoResize);
+  switch (radio_selected) 
+  {
+    case 0:{
+      ImGui::Text("Sol");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           1.391.016 km");
+      ImGui::Text("Temperature:        5.500°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Gases hélio e hidrogênio");
+      break;
+    }
+    case 1:{
+      ImGui::Text("Mercúrio");
+      ImGui::Text("********************************************");
+      ImGui::Text("Diâmetro:           4.879,4 Km");
+      ImGui::Text("Dist. Sol:          57,9 milhões Km");
+      ImGui::Text("Vel. Translação:    47,87 km/s");
+      ImGui::Text("1 Dia:              58,6 dias terrestre");
+      ImGui::Text("1 Ano:              88 dias terrestre");
+      ImGui::Text("Temp. Dia:          430°C");
+      ImGui::Text("Temp. Noite:        -170°C");
+      ImGui::Text("Composição:");
+      ImGui::Text("   * Atomos de argônio, neônio e hélio");
+      break;
+    }
+    
+    .
+    .
+    .
+    
+    case -1:{
+      ImGui::Text("Olá, seja bem vindo ao Modelo Sistema Solar!");
+      ImGui::Text("Selecione um planeta e veja suas informações");
+      ImGui::Text("Divirta-se navegando e explorando o no sistema.");
+      break;
+    }
+```
+
+* Para a focalização da câmera no planeta selecionado no radio button
+
+##### `Window::onPaint()`
+Temos a renderização dos planetas, sol e lua. 
+
+##### `Window::onEvent` 
+São convertidos eventos do mouse ou teclado para ações no sistema, como as tecladas direcionais do teclado exercem uma ação no sistema, ou ao pressionar o botão do mouse acontece uma ação do sistema solar.
+
+##### `Window::onResize` e `Window::onDestroy()` 
+Não temos alteração das versões apresentadas no curso.
 
 ``Body sun, mercury, venus, earth, mars, jupiter, saturn, neptune, uranus, moon;``: representação dos corpos celestes a serem simulados na cena; 
 
@@ -266,9 +413,3 @@ Além de aplicação dos conteúdos de iluminação e textura que são esperados
 * Realizar a movimentação dos planetas de acordo com os ângulos reais de inclinação, e não apenas no plano XZ;
 * Aprimorar as proporções de tamanho, distância, e velocidade de movimentação entre os planetas, prezando não pela proximidade com a realizade, mas um melhor resultado visual;
 * Adicionar mais opções de interação na interface gráfica para controle de aspectos da cena.
-
-## Referências
-* https://planetario.ufsc.br/o-sistema-solar/
-* https://www.tecmundo.com.br/ciencia/243351-velocidade-planetas-sistema-solar-veja-animacao.htm
-* https://www.infoescola.com/astronomia/planetas-do-sistema-solar/
-* https://mundoeducacao.uol.com.br/geografia/sistema-solar.htm
