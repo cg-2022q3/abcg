@@ -289,9 +289,7 @@ void Window::onPaintUI() {
     ImGui::SetNextWindowBgAlpha(0.7f);
     ImGui::Begin("Controles de Movimento", nullptr,ImGuiWindowFlags_NoResize);
 
-    // Create a slider to control the number of rendered triangles
     {
-      // Slider will fill the space of the window
       ImGui::PushItemWidth(-1);
       ImGui::PushID(1);
       ImGui::SliderFloat("", &m_rotation_speed, 0.0f, 10.0f,"%.1fx Vel. Rotação");
@@ -312,9 +310,7 @@ void Window::onPaintUI() {
   
     ImGui::Begin("Controles de Iluminação", nullptr,ImGuiWindowFlags_NoResize);
 
-    // Create a slider to control the number of rendered triangles
     {
-      // Slider will fill the space of the window
       ImGui::PushItemWidth(-1);
       ImGui::PushID(3);
       ImGui::SliderFloat("", &m_Ia, 0.0f, 2.0f,"Ia: %.1f");

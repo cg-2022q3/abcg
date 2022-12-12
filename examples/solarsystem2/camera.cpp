@@ -21,7 +21,6 @@ void Camera::mouseMove(glm::ivec2 const &position) {
 
   m_axis = glm::normalize(m_axis);
 
-  // Concatenate rotation: R_old = R_new * R_old
   m_rotation = glm::rotate(glm::mat4(1.0f), angle, m_axis);
 
   if (isTrackingBody){
