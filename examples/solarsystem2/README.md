@@ -25,6 +25,15 @@ Abaixo temos um exemplo de foco no planeta Júpiter:
 
 Nesta representação o usuário poderia aproximar-se ou afastar-se dos astros utilizando o scroll do mouse, ao clicar com o botão esquerdo na tela, o usuário pode ser movimentar para cima, para baixo, para a esquerda ou para a direita através das teclas de movimentação do teclado ou as teclas w,s,a,d.
 
+## Aspectos Gerais
+
+### Iluminação
+
+Para iluminação foi utilizado o modelo de Blinn-Phong, considerando uma fonte de luz pontual localizada na origem
+
+### Texturização
+
+As texturas utilizadas foram obtidas [neste site](https://www.solarsystemscope.com/textures/). Para cada corpo foi usada a textura difusa representando as cores da sua superfície. No caso da Terra, foram aplicadas ainda a textura que representa a sua superfície durante a noite (na face oposta ao Sol), a textura de reflexão especular, que delimita o brilho especular apenas à região dos oceanos, e a textura que representa nuvens em sua atmosfera. 
 
 ## Implementação
 
@@ -495,3 +504,7 @@ private:
 - ``orbit_radius``: raio da órbita do corpo ao redor do corpo do qual é um satélite;
 - ``modelMatrix``: matriz de modelo calculada a partir da posição da órbita;
 - ``m_modelMatrixLoc`` e ``m_colorLoc``: localização das variáveis passadas ao OpenGL;
+
+
+### Skydome
+Muito semelhante à classe Body, representa uma esfera com a textura das estrelas e Via Láctea aplicadas em sua parte interna.

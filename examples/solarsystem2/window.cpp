@@ -104,10 +104,10 @@ void Window::onCreate() {
   // create earth
   earth.name = "Earth";
   earth.scale = 0.1f;
-  earth.texture_path = assetsPath + "maps/8k_earth_daymap.jpg";
-  earth.night_map_path = assetsPath + "maps/8k_earth_nightmap.jpg";
-  earth.specular_map_path = assetsPath + "maps/8k_earth_specular_map.tif";
-  earth.cloud_map_path = assetsPath + "maps/8k_earth_clouds.jpg";
+  earth.texture_path = assetsPath + "maps/2k_earth_daymap.jpg";
+  earth.night_map_path = assetsPath + "maps/2k_earth_nightmap.jpg";
+  earth.specular_map_path = assetsPath + "maps/2k_earth_specular_map.tif";
+  earth.cloud_map_path = assetsPath + "maps/2k_earth_clouds.jpg";
   earth.translation_speed = 1.0f/365.0f;
   earth.rotation_speed = 1.0f;
   earth.orbit_radius = 2.5f;
